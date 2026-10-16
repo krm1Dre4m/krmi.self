@@ -21,8 +21,7 @@ Then visit http://localhost:8000.
 Open `data/posts.js` and add a new object at the top of `window.posts`. Copy an existing post and change:
 
 - `slug`: URL-safe unique ID
-- `title`, `excerpt`, `date`, `label`, `readTime`
-- `accent`: `blue`, `yellow`, `pink`, or `green`
+- `title`, `excerpt`, `date` (dd-mm-yyyy), `label`
 - `body`: an array of paragraphs
 
 The homepage and archive update automatically. No database or CMS is needed for the starter version.

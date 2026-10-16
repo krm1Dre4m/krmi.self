@@ -14,12 +14,31 @@
   const formStatus = document.querySelector('#form-status');
   let activeFilter = 'All notes';
 
-  const formatDate = (value) => new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(`${value}T12:00:00`));
+  // Accepts dd-mm-yyyy (preferred) or yyyy-mm-dd. Returns {iso, display}.
+  const parseDate = (value) => {
+    const parts = String(value).trim().split('-');
+    let year, month, day;
+    if (parts.length === 3 && parts[0].length === 4) {
+      [year, month, day] = parts; // yyyy-mm-dd
+    } else if (parts.length === 3) {
+      [day, month, year] = parts; // dd-mm-yyyy
+    } else {
+      return { iso: '', display: String(value) };
+    }
+    const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const date = new Date(`${iso}T12:00:00`);
+    const display = Number.isNaN(date.getTime())
+      ? String(value)
+      : new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
+    return { iso, display };
+  };
+  const formatDate = (value) => parseDate(value).display;
+  const isoDate = (value) => parseDate(value).iso;
   const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
 
   function postCard(post, isLead) {
-    return `<article class="post-card accent-${escapeHtml(post.accent)}${isLead ? ' lead' : ''}">
-      <div class="post-meta"><span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time></div>
+    return `<article class="post-card${isLead ? ' lead' : ''}">
+      <div class="post-meta"><span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(isoDate(post.date))}">${formatDate(post.date)}</time></div>
       <h3>${escapeHtml(post.title)}</h3>
       <p>${escapeHtml(post.excerpt)}</p>
       <a class="card-link" href="#note/${encodeURIComponent(post.slug)}" data-post="${escapeHtml(post.slug)}">Read note <span aria-hidden="true">↗</span></a>
@@ -28,9 +47,8 @@
 
   function archiveRow(post) {
     return `<a class="archive-row" href="#note/${encodeURIComponent(post.slug)}" data-post="${escapeHtml(post.slug)}">
-      <time class="archive-date" datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+      <time class="archive-date" datetime="${escapeHtml(isoDate(post.date))}">${formatDate(post.date)}</time>
       <span class="archive-title">${escapeHtml(post.title)}</span>
-      <span class="archive-read">${escapeHtml(post.readTime)}</span>
       <span class="archive-arrow" aria-hidden="true">↗</span>
     </a>`;
   }
@@ -56,7 +74,7 @@
   function openPost(slug) {
     const post = posts.find((item) => item.slug === slug);
     if (!post) return;
-    articleMeta.innerHTML = `<span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(post.date)}">${formatDate(post.date)} · ${escapeHtml(post.readTime)}</time>`;
+    articleMeta.innerHTML = `<span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(isoDate(post.date))}">${formatDate(post.date)}</time>`;
     articleTitle.textContent = post.title;
     articleBody.innerHTML = post.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
     modal.hidden = false;
