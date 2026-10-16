@@ -10,6 +10,7 @@
 **Generated:** 2026-09-22 08:49:29
 **Category:** Portfolio/Personal
 **Design Dials:** Variance 8/10 (Bold / Asymmetric) | Motion 4/10 (Standard) | Density 4/10 (Standard)
+**Theme:** Dark-first, matched to the laptop's Analog Violet palette (`/home/krmii/.config/analog-violet/theme.json`)
 
 ---
 
@@ -17,26 +18,27 @@
 
 ### Color Palette
 
+*Dark-first. Sourced from the Analog Violet laptop theme. A light mode exists only as an opt-in `body.light-mode` toggle.*
+
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#18181B` | `--color-primary` |
-| On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#3F3F46` | `--color-secondary` |
-| On Secondary | `#FFFFFF` | `--color-on-secondary` |
-| Accent/CTA | `#2563EB` | `--color-accent` |
-| On Accent/CTA | `#FFFFFF` | `--color-on-accent` |
-| Background | `#FAFAFA` | `--color-background` |
-| Foreground | `#09090B` | `--color-foreground` |
-| Card | `#FFFFFF` | `--color-card` |
-| Card Foreground | `#09090B` | `--color-card-foreground` |
-| Muted | `#E8ECF0` | `--color-muted` |
-| Muted Foreground | `#475569` | `--color-muted-foreground` |
-| Border | `#E4E4E7` | `--color-border` |
-| Destructive | `#DC2626` | `--color-destructive` |
-| On Destructive | `#FFFFFF` | `--color-on-destructive` |
-| Ring | `#18181B` | `--color-ring` |
+| Background | `#1A1020` | `--bg` |
+| Background (deep) | `#161419` | `--bg-deep` |
+| Surface / Card | `#211B2A` | `--surface` |
+| Surface (raised) | `#2B2238` | `--surface-raised` |
+| Deep Purple | `#36204D` | `--deep-purple` |
+| Primary Purple | `#59326F` | `--primary-purple` |
+| Lavender | `#9A7AAE` | `--lavender` |
+| Lilac | `#B9A4D6` | `--lilac` |
+| Accent / CTA | `#C56A22` | `--accent` (burnt orange) |
+| Accent (dark) | `#8D461B` | `--dark-orange` |
+| Foreground / Ink | `#EEE9F2` | `--ink` |
+| Ink (soft) | `#A99DB8` | `--ink-soft` |
+| Ink (dim) | `#8B818E` | `--ink-dim` |
+| Border | `#3A3142` | `--line` |
+| Destructive | `#A51620` | `--recording-red` |
 
-**Color Notes:** Monochrome + blue accent
+**Color Notes:** Dark violet shell with a single burnt-orange accent and lavender/lilac secondaries. Per-topic card accents map onto the palette: Making = burnt orange, Learning = lilac, Noticing = lavender, Process = primary purple.
 
 ### Typography
 

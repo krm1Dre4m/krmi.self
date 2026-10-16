@@ -17,8 +17,8 @@
   const formatDate = (value) => new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(`${value}T12:00:00`));
   const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
 
-  function postCard(post) {
-    return `<article class="post-card accent-${escapeHtml(post.accent)}">
+  function postCard(post, isLead) {
+    return `<article class="post-card accent-${escapeHtml(post.accent)}${isLead ? ' lead' : ''}">
       <div class="post-meta"><span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time></div>
       <h3>${escapeHtml(post.title)}</h3>
       <p>${escapeHtml(post.excerpt)}</p>
@@ -35,7 +35,7 @@
     </a>`;
   }
 
-  function renderLatest() { latestPosts.innerHTML = posts.slice(0, 3).map(postCard).join(''); }
+  function renderLatest() { latestPosts.innerHTML = posts.slice(0, 3).map((post, index) => postCard(post, index === 0)).join(''); }
 
   function renderFilters() {
     const labels = ['All notes', ...new Set(posts.map((post) => post.label))];
@@ -75,8 +75,8 @@
   }
 
   function setTheme(isDark) {
-    document.body.classList.toggle('dark-mode', isDark);
-    themeToggle.setAttribute('aria-pressed', String(isDark));
+    document.body.classList.toggle('light-mode', !isDark);
+    themeToggle.setAttribute('aria-pressed', String(!isDark));
     themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     themeToggle.querySelector('.theme-label').textContent = isDark ? 'Dark' : 'Light';
     themeToggle.querySelector('.theme-icon').textContent = isDark ? '☾' : '☼';
@@ -96,12 +96,12 @@
   document.addEventListener('click', (event) => { if (event.target.matches('[data-close-modal]')) closePost(); });
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !modal.hidden) closePost(); });
   window.addEventListener('hashchange', syncHash);
-  themeToggle.addEventListener('click', () => setTheme(!document.body.classList.contains('dark-mode')));
+  themeToggle.addEventListener('click', () => setTheme(document.body.classList.contains('light-mode')));
   form.addEventListener('submit', (event) => { event.preventDefault(); formStatus.textContent = 'Thanks — the first note will arrive soon.'; form.reset(); });
 
   renderLatest();
   renderFilters();
   renderArchive();
-  setTheme(localStorage.getItem('krmii-theme') === 'dark');
+  setTheme(localStorage.getItem('krmii-theme') !== 'light');
   syncHash();
 })();
