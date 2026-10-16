@@ -9,7 +9,7 @@ window.posts = [
     body: [
       "I don't know what I'm coding for, I don't know if I'll end up where I'll needa be.",
       "But right now things are within orbit, and I'm glad that I'm living such life.",
-      {image: "asserts/1.png", alt: "happy"}
+      {image: "assets/1.png", alt: "happy"}
     ]
   },
 ];
