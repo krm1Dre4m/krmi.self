@@ -26,6 +26,27 @@ Open `data/posts.js` and add a new object at the top of `window.posts`. Copy an 
 
 The homepage and archive update automatically. No database or CMS is needed for the starter version.
 
+## Add images to a note
+
+Images live in the `assets/` folder. Drop your file there, then reference it from a post's `body` array using an object instead of a plain string.
+
+1. Save the image into `assets/`, e.g. `assets/sunset.jpg`. Use web-friendly formats (`.jpg`, `.png`, `.webp`) and keep files reasonably small.
+2. In `data/posts.js`, mix image objects into the `body` array wherever you want them to appear:
+
+```js
+body: [
+  "A paragraph of text comes through as a plain string.",
+  { image: "assets/sunset.jpg", alt: "The view from the window", caption: "Optional caption under the image" },
+  "Another paragraph after the image."
+]
+```
+
+- `image`: path relative to the site root (keep the `assets/` prefix).
+- `alt`: short description for screen readers — always include it.
+- `caption`: optional text shown beneath the image; omit the key to skip it.
+
+Images load lazily and scale to the note width automatically. Plain-string paragraphs keep working exactly as before, so old posts need no changes.
+
 ## Customize the site
 
 - Main content and page structure: `index.html`
@@ -33,5 +54,3 @@ The homepage and archive update automatically. No database or CMS is needed for 
 - Filtering, search, article modal, theme toggle: `app.js`
 - Font choice: Google Fonts are loaded in `index.html` and `styles.css`
 - Design tokens source: `design-system/krmii-sketchbook/MASTER.md`
-
-For GitHub setup and publishing instructions, see `GITHUB-SETUP.md`.

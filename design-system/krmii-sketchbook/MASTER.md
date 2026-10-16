@@ -38,7 +38,7 @@
 | Border | `#3A3142` | `--line` |
 | Destructive | `#A51620` | `--recording-red` |
 
-**Color Notes:** Dark violet shell with a single burnt-orange accent and lavender/lilac secondaries. Per-topic card accents map onto the palette: Making = burnt orange, Learning = lilac, Noticing = lavender, Process = primary purple.
+**Color Notes:** Dark violet shell with a single burnt-orange accent and lavender/lilac secondaries. Every note card uses the same burnt-orange top bar; there are no per-post accent colors.
 
 ### Typography
 

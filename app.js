@@ -76,7 +76,14 @@
     if (!post) return;
     articleMeta.innerHTML = `<span class="post-label">${escapeHtml(post.label)}</span><time datetime="${escapeHtml(isoDate(post.date))}">${formatDate(post.date)}</time>`;
     articleTitle.textContent = post.title;
-    articleBody.innerHTML = post.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
+    articleBody.innerHTML = post.body.map((block) => {
+      if (block && typeof block === 'object' && block.image) {
+        const alt = block.alt ? escapeHtml(block.alt) : '';
+        const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
+        return `<figure class="article-image"><img src="${escapeHtml(block.image)}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+      }
+      return `<p>${escapeHtml(block)}</p>`;
+    }).join('');
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     modal.querySelector('.modal-close').focus();
