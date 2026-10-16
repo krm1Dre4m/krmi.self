@@ -256,8 +256,8 @@ h2 { font-size: clamp(38px, 5vw, 62px); letter-spacing: -.02em; margin-bottom: 0
 .article-body p { margin-bottom: 1.3em; }
 
 
-.article-image { margin: 0 0 1.4em; }
-.article-image img { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+.article-image { margin: 0 0 1.4em; text-align: center; }
+.article-image img { display: block; width: auto; max-width: min(420px, 100%); height: auto; margin: 0 auto; border-radius: var(--radius); border: 1px solid var(--line); }
 .article-image figcaption { margin-top: 10px; font-size: 13px; color: var(--ink-dim); }
 
 /* ---- Responsive ---- */
