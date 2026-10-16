@@ -47,6 +47,30 @@ body: [
 
 Images load lazily and scale to the note width automatically. Plain-string paragraphs keep working exactly as before, so old posts need no changes.
 
+## Resize an image before adding it
+
+Big image files make the page load slowly. For a note, a width of **1200px** is plenty, and most files should land **under ~300 KB**. Your screen never needs the full camera-size image.
+
+You have ImageMagick installed (`magick`), so resize from this folder like this:
+
+```bash
+# Resize to 1200px wide (height scales automatically), save as a new file
+magick assets/original.png -resize 1200x assets/sunset.jpg
+
+# Same, but also compress a bit to shrink the file (quality 82 is a good web default)
+magick assets/original.png -resize 1200x -quality 82 assets/sunset.jpg
+```
+
+- `-resize 1200x` sets the width to 1200px and keeps the aspect ratio. The image is only ever shrunk, never blown up past its original size.
+- Converting a `.png` photo to `.jpg` (just change the output extension) usually shrinks the file a lot. Keep `.png` for screenshots or anything with sharp text/lines.
+- Check the result afterwards:
+
+```bash
+magick identify -format "%wx%h %b\n" assets/sunset.jpg
+```
+
+That prints the new dimensions and file size so you can confirm it slimmed down before you reference it in a post.
+
 ## Customize the site
 
 - Main content and page structure: `index.html`
