@@ -12,4 +12,14 @@ window.posts = [
       {image: "assets/1.png", alt: "happy"}
     ]
   },
+  {
+    slug: "smth smth",
+    title: "What a Tuesday",
+    excerpt: "truly tiring",
+    date: "20-10-2026",
+    label: "Trying",
+    body: [
+      "sick aasf rn, but I'm making my attendance regardless, how rare of me, haha"
+    ]
+  },
 ];
