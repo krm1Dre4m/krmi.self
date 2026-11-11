@@ -3,6 +3,7 @@
   const title = document.getElementById('entry-title');
   const dateNode = document.getElementById('entry-date');
   const body = document.getElementById('entry-body');
+  const labelsNode = document.getElementById('entry-labels');
   const older = document.getElementById('older-link');
   const newer = document.getElementById('newer-link');
   const sidebar = document.getElementById('sidebar');
@@ -19,6 +20,9 @@
   };
   const longDate = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long', day:'numeric', year:'numeric'}).format(d);
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
+  const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
+    .filter(label => typeof label === 'string' && label.trim())
+    .map(label => label.trim());
   const posts = (Array.isArray(window.posts) ? window.posts : [])
     .map((post, index) => ({...post, parsedDate:parseDate(post.date), originalIndex:index}))
     .filter(post => post.parsedDate && typeof post.slug === 'string')
@@ -73,6 +77,8 @@
       selectedSlug = null;
       dateNode.textContent = '';
       title.textContent = 'Nothing here yet.';
+      labelsNode.hidden = true;
+      labelsNode.replaceChildren();
       body.textContent = 'Add your first entry in data/posts.js.';
       older.hidden = newer.hidden = true;
       renderTree();
@@ -84,6 +90,9 @@
     dateNode.textContent = longDate(post.parsedDate);
     dateNode.dateTime = post.parsedDate.toISOString().slice(0,10);
     title.textContent = post.title;
+    const labels = [...new Set(getLabels(post))];
+    labelsNode.hidden = labels.length === 0;
+    labelsNode.innerHTML = labels.map(label => `<span class="entry-label">${escapeHtml(label)}</span>`).join('');
     body.innerHTML = (Array.isArray(post.body) ? post.body : []).map(block => {
       if (block && typeof block === 'object' && block.image) {
         const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
