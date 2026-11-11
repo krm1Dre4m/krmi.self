@@ -12,6 +12,48 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Decorative sky chart: fixed behind the journal, never interactive. -->
+  <svg class="sky-map" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="sky-fade">
+        <stop offset="0" stop-color="white" stop-opacity="0.85"/>
+        <stop offset="0.65" stop-color="white" stop-opacity="0.48"/>
+        <stop offset="1" stop-color="white" stop-opacity="0"/>
+      </radialGradient>
+      <mask id="sky-mask"><rect width="1440" height="900" fill="url(#sky-fade)"/></mask>
+    </defs>
+    <g mask="url(#sky-mask)">
+      <g class="sky-lines">
+        <path d="M645 142 L755 101 L827 195 L967 157 L1064 238 L1180 201"/>
+        <path d="M827 195 L862 312 L992 356 L1064 238"/>
+        <path d="M1089 446 L1188 393 L1289 477 L1354 410"/>
+        <path d="M1188 393 L1170 555 L1298 602 L1354 410"/>
+        <path d="M679 587 L764 530 L864 631 L967 588 L1057 697"/>
+        <path d="M764 530 L792 699 L875 761"/>
+      </g>
+      <g class="sky-stars">
+        <circle cx="645" cy="142" r="2.3"/><circle cx="755" cy="101" r="3.1" class="twinkle t1"/>
+        <circle cx="827" cy="195" r="2.8"/><circle cx="967" cy="157" r="2.5" class="twinkle t2"/>
+        <circle cx="1064" cy="238" r="3"/><circle cx="1180" cy="201" r="2.1"/>
+        <circle cx="862" cy="312" r="2"/><circle cx="992" cy="356" r="2.3" class="twinkle t3"/>
+        <circle cx="1089" cy="446" r="2.4"/><circle cx="1188" cy="393" r="2.9" class="twinkle t4"/>
+        <circle cx="1289" cy="477" r="2.4"/><circle cx="1354" cy="410" r="2.2"/>
+        <circle cx="1170" cy="555" r="2.8"/><circle cx="1298" cy="602" r="2.1" class="twinkle t1"/>
+        <circle cx="679" cy="587" r="2.2"/><circle cx="764" cy="530" r="3.1" class="twinkle t3"/>
+        <circle cx="864" cy="631" r="2.1"/><circle cx="967" cy="588" r="2.8"/>
+        <circle cx="1057" cy="697" r="2.4" class="twinkle t2"/><circle cx="792" cy="699" r="2.6"/>
+        <circle cx="875" cy="761" r="2.3"/>
+      </g>
+      <g class="sky-dust">
+        <circle cx="703" cy="260" r="1"/><circle cx="778" cy="397" r="1.2"/>
+        <circle cx="924" cy="76" r="1.1"/><circle cx="1119" cy="119" r="1"/>
+        <circle cx="1224" cy="297" r="1.1"/><circle cx="1312" cy="283" r="1.3"/>
+        <circle cx="1037" cy="504" r="1"/><circle cx="1354" cy="683" r="1.2"/>
+        <circle cx="1126" cy="752" r="1.1"/><circle cx="699" cy="760" r="1"/>
+        <circle cx="948" cy="820" r="1.1"/><circle cx="613" cy="435" r="1"/>
+      </g>
+    </g>
+  </svg>
   <a class="skip-link" href="#entry">Skip to entry</a>
   <div class="layout">
     <header class="site-header">
