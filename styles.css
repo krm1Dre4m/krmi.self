@@ -16,33 +16,48 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font:15px/1.65 var(--font)}
 button,a{font:inherit} button{cursor:pointer} a{color:inherit}
 
-/* Atmospheric celestial chart: a quiet layer behind the reader, not a navigation UI.
-   A single SVG keeps layout stable and avoids JavaScript/particle rendering. */
-body{background-image:radial-gradient(ellipse at 81% 14%,rgba(111,77,130,.105),transparent 58%);}
-body.light-mode{background-image:radial-gradient(ellipse at 82% 12%,rgba(160,127,179,.07),transparent 60%);}
+/* Faint atmospheric sky chart. One SVG; no timers or particle engine. */
+body{background-image:radial-gradient(ellipse at 81% 14%,rgba(111,77,130,.065),transparent 58%);}
+body.light-mode{background-image:radial-gradient(ellipse at 82% 12%,rgba(160,127,179,.043),transparent 60%);}
 .sky-map{
+  --sky-opacity:.245;
   position:fixed;inset:0;width:100%;height:100dvh;
   z-index:0;pointer-events:none;user-select:none;
-  color:#bba1ce;opacity:.38;
+  color:#bba1ce;opacity:var(--sky-opacity);
+  animation:sky-arrive 4.5s ease-out both,sky-float 56s ease-in-out 4.5s infinite alternate;
 }
-.sky-lines{fill:none;stroke:currentColor;stroke-width:.85;stroke-linejoin:round;stroke-linecap:round;opacity:.50}
-.sky-stars{fill:#e4c6f4;opacity:.80}
-.sky-dust{fill:#dec0ea;opacity:.43}
-.sky-stars .twinkle{animation:sky-breathe 9s ease-in-out infinite}
-.sky-stars .t2{animation-delay:-2.3s;animation-duration:11s}
-.sky-stars .t3{animation-delay:-5.6s;animation-duration:13s}
-.sky-stars .t4{animation-delay:-3.1s;animation-duration:10s}
-@keyframes sky-breathe{0%,100%{opacity:.5}50%{opacity:1}}
-body.light-mode .sky-map{color:#9d7cae;opacity:.25}
+.sky-lines{fill:none;stroke:currentColor;stroke-width:.75;stroke-linejoin:round;stroke-linecap:round;opacity:.43}
+.sky-lines path{
+  stroke-dasharray:1;
+  stroke-dashoffset:0;
+  animation:sky-trace 8s cubic-bezier(.22,1,.36,1) both;
+}
+.sky-drift-a .sky-lines path:nth-child(2n){animation-delay:1.3s}
+.sky-drift-a .sky-lines path:nth-child(3n){animation-delay:2.6s}
+.sky-drift-b .sky-lines path{animation-delay:2.2s}
+.sky-drift-b .sky-lines path:nth-child(2n){animation-delay:3.6s}
+.sky-drift-b .sky-lines path:nth-child(3n){animation-delay:4.4s}
+.sky-stars{fill:#e4c6f4;opacity:.67}
+.sky-dust{fill:#dec0ea;opacity:.33}
+.sky-stars .twinkle{animation:sky-breathe 15s ease-in-out infinite}
+.sky-stars .t2{animation-delay:-3.7s;animation-duration:18s}
+.sky-stars .t3{animation-delay:-8s;animation-duration:21s}
+.sky-stars .t4{animation-delay:-5s;animation-duration:17s}
+@keyframes sky-arrive{from{opacity:0}to{opacity:var(--sky-opacity)}}
+@keyframes sky-float{from{transform:translate3d(0,0,0)}to{transform:translate3d(3px,-4px,0)}}
+@keyframes sky-trace{from{stroke-dashoffset:1;opacity:.12}to{stroke-dashoffset:0;opacity:1}}
+@keyframes sky-breathe{0%,100%{opacity:.42}50%{opacity:.9}}
+body.light-mode .sky-map{--sky-opacity:.14;color:#9d7cae}
 body.light-mode .sky-stars{fill:#8e69a4}
 body.light-mode .sky-dust{fill:#9d7cae}
 .layout{position:relative;z-index:1}
 @media(max-width:680px){
-  .sky-map{opacity:.22}
-  body.light-mode .sky-map{opacity:.12}
+  .sky-map{--sky-opacity:.16}
+  body.light-mode .sky-map{--sky-opacity:.085}
 }
 @media(prefers-reduced-motion:reduce){
-  .sky-stars .twinkle{animation:none!important}
+  .sky-map,.sky-lines path,.sky-stars .twinkle{animation:none!important}
+  .sky-lines path{stroke-dashoffset:0}
 }
 
 /* Animate only actual theme changes, not the initial theme restored at load. */
