@@ -17,7 +17,7 @@ window.posts = [
     date: "20-10-2026",
     labels: ["Trying"],
     body: [
-      "sick aasf rn, but I'm making my attendance regardless, how rare of me, haha"
+      "sick asf rn, but I'm making my attendance regardless, how rare of me, haha..."
     ]
   },
 ];
