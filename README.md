@@ -8,6 +8,21 @@ The journal uses a full-width, borderless personal-wiki layout with the editoria
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
+## Random entry and music player
+
+Use **Surprise me** in the header to open a random journal entry other than the ID `0` introduction. When possible it chooses an entry different from the one currently open.
+
+The **Music** button at the bottom-right opens a floating jukebox:
+
+1. Paste a public, embeddable YouTube video URL and click **Load**.
+2. Press play in the official YouTube player. Its native controls provide playback, seeking, volume, and video attribution.
+3. The small decorative bars animate only when YouTube reports playback; they are not a true frequency analyzer.
+4. Closing the jukebox pauses playback. It does not autoplay on page load.
+
+No audio files, API key, or YouTube audio downloads are required. Your browser remembers the last video's link locally. Some videos block embedding or may require signing in to YouTube; the player reports those errors.
+
+YouTube requires embedded video to stay visible at a suitable size, so this deliberately isn't an audio-only player. You still need to respect creators' licenses when reusing their music beyond embedding.
+
 ## Run locally
 
 Run `python3 -m http.server 8000` in this directory, then open http://localhost:8000. It can also run on GitHub Pages or another static host.
