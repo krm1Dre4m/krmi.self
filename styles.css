@@ -113,8 +113,10 @@ body.light-mode .theme-toggle{transform:rotate(180deg)}
   overscroll-behavior-y:contain;
   padding:28px 23px 50px 0;
   border-right:1px solid var(--line);
-  background:var(--sidebar-bg);
+  /* Let the shared sky extend behind navigation instead of stopping at the sidebar. */
+  background:rgba(27,22,28,.30);
 }
+body.light-mode .sidebar{background:rgba(245,239,245,.38)}
 .sidebar-heading{margin:0 0 16px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.11em}
 details summary{cursor:pointer;list-style:none}
 details summary::-webkit-details-marker{display:none}
@@ -286,4 +288,9 @@ body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 @media(prefers-reduced-motion:reduce){
   .music-widget,.music-reveal,.music-panel,.music-chevron{transition:none!important}
   .music-bars.is-playing i{animation:none;height:9px}
+}
+
+/* The mobile archive is a drawer, so it keeps a solid backdrop for legibility. */
+@media(max-width:680px){
+  .sidebar,body.light-mode .sidebar{background:var(--sidebar-bg)}
 }
