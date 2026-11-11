@@ -1,7 +1,7 @@
 // Add new posts to the top of this array. The site updates automatically.
 window.posts = [
   {
-    slug: "1",
+    id: 1,
     title: "Trying my best",
     date: "16-10-2026",
     labels: ["Grinding"],
@@ -12,7 +12,7 @@ window.posts = [
     ]
   },
   {
-    slug: "2",
+    id: 2,
     title: "What a Tuesday",
     date: "20-10-2026",
     labels: ["Trying"],
@@ -21,7 +21,7 @@ window.posts = [
     ]
   },
   {
-    slug: "3",
+    id: 3,
     title: "When I think about it...",
     date: "12-11-2026",
     labels: ["Overthinking"],
