@@ -169,39 +169,49 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 /* Tarot-backed photography. Single backings inherit each image's natural
    dimensions while the original pixels are never stretched or cropped. */
 .entry-body figure{margin:38px auto 54px;max-width:100%}
-.entry-body .journal-photo{width:min(100%,var(--photo-width,576px));position:relative}
-.photo-mat{
+.entry-body .journal-photo{
+  width:min(calc(100% - 26px),var(--photo-width,576px));
   position:relative;isolation:isolate;
-  padding:8px;background:var(--active);border:1px solid var(--line);border-radius:12px;
+  /* Keep the offset card inside the reading column on narrow screens. */
 }
-.photo-mat img{display:block;width:100%;height:auto;border-radius:7px;position:relative;z-index:1}
-.photo-mat::before{
-  content:'';position:absolute;z-index:-1;pointer-events:none;
-  inset:10px -13px -14px 13px;border-radius:12px;
+.photo-mat{
+  position:relative;z-index:1;
+  padding:8px;background:var(--active);border:1px solid var(--line);
+  border-radius:12px;
+}
+.photo-mat img{display:block;width:100%;height:auto;border-radius:7px}
+/* The back belongs to the whole photo, NOT inside the front mat's stacking
+   context. A real rounded card now peeks out on the bottom/right, without
+   its top corner or inner frame getting cut by the front border. */
+.journal-photo::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;
+  inset:8px -14px -14px 14px;border-radius:15px;
   border:1px solid var(--tarot-edge);
-  box-shadow:inset 0 0 0 5px var(--tarot-fill),inset 0 0 0 6px var(--tarot-rule),
-    0 8px 24px rgba(0,0,0,.14);
   background:
     radial-gradient(ellipse at 52% 54%,var(--tarot-glow),transparent 66%),
     linear-gradient(140deg,var(--tarot-fill),var(--tarot-shade));
-  transform:rotate(1.6deg);transform-origin:center;
+  box-shadow:
+    inset 0 0 0 5px var(--tarot-fill),
+    inset 0 0 0 6px var(--tarot-rule),
+    0 8px 24px rgba(0,0,0,.14);
+  transform:rotate(.7deg);transform-origin:center;
 }
-.photo-mat::after{
-  content:'✧';position:absolute;right:-11px;bottom:-14px;
-  z-index:-1;pointer-events:none;font:15px/1 Georgia,serif;
-  color:var(--tarot-ornament);transform:rotate(1.6deg);
+.journal-photo::after{
+  content:'✧';position:absolute;right:-10px;bottom:-12px;
+  z-index:2;pointer-events:none;font:13px/1 Georgia,serif;
+  color:var(--tarot-ornament);opacity:.75;
 }
-.journal-photo[data-photo-shape="portrait"] .photo-mat::before{
-  inset:9px -12px -15px 12px;transform:rotate(2deg)
+.journal-photo[data-photo-shape="portrait"]::before{
+  inset:9px -13px -16px 13px;transform:rotate(.9deg);
 }
-.journal-photo[data-photo-shape="landscape"] .photo-mat::before{
-  inset:8px -16px -12px 16px;transform:rotate(1.1deg)
+.journal-photo[data-photo-shape="landscape"]::before{
+  inset:7px -16px -13px 16px;transform:rotate(.55deg);
 }
-.journal-photo[data-photo-shape="panorama"] .photo-mat::before{
-  inset:5px -12px -10px 12px;transform:rotate(.8deg)
+.journal-photo[data-photo-shape="panorama"]::before{
+  inset:5px -13px -11px 13px;transform:rotate(.35deg);
 }
-.journal-photo[data-photo-shape="square"] .photo-mat::before{
-  inset:10px -14px -14px 14px;transform:rotate(1.8deg)
+.journal-photo[data-photo-shape="square"]::before{
+  inset:9px -14px -15px 14px;transform:rotate(.75deg);
 }
 .entry-body figcaption{margin:14px 8px 4px;text-align:center;color:var(--muted);font-size:12px}
 
