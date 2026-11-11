@@ -126,7 +126,9 @@
   });
   function imageFigure(photo) {
     const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : '';
-    return `<figure class="journal-photo"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy">${caption}</figure>`;
+    // The mat follows the image's intrinsic ratio; its tarot back lives behind
+    // the mat rather than behind the caption or an arbitrarily sized figure.
+    return `<figure class="journal-photo"><div class="photo-mat"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy"></div>${caption}</figure>`;
   }
 
   function initPhotoStacks() {
@@ -307,7 +309,15 @@
     // instead of measuring the unclamped image and leaving an empty strip.
     for (const image of body.querySelectorAll('.journal-photo img')) {
       const sizeFrame = () => {
-        if (image.naturalWidth) image.closest('.journal-photo').style.setProperty('--photo-width', Math.min(image.naturalWidth, 560) + 18 + 'px');
+        if (!image.naturalWidth || !image.naturalHeight) return;
+        const frame = image.closest('.journal-photo');
+        frame.style.setProperty('--photo-width', Math.min(image.naturalWidth, 560) + 18 + 'px');
+        // Adapt the decorative tarot plate to portrait, square and wide photos
+        // without stretching or cropping the source image.
+        const ratio = image.naturalWidth / image.naturalHeight;
+        frame.dataset.photoShape = ratio > 2.05 ? 'panorama'
+          : ratio > 1.15 ? 'landscape'
+          : ratio < .82 ? 'portrait' : 'square';
       };
       if (image.complete) sizeFrame();
       else image.addEventListener('load', sizeFrame, { once: true });
