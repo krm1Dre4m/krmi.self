@@ -294,3 +294,38 @@ body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 @media(max-width:680px){
   .sidebar,body.light-mode .sidebar{background:var(--sidebar-bg)}
 }
+
+
+/* Celestial icon language — small, quiet details, not extra background particles.
+   All affordances retain their original labels, sizing and keyboard behavior. */
+.brand-star{position:relative;display:inline-grid;place-items:center;width:25px;height:29px;font-size:29px;line-height:1;color:var(--accent);font-weight:400}
+.brand-star::after{content:'✦';position:absolute;right:-5px;top:-2px;font-size:8px;opacity:.64}
+.site-brand:hover .brand-star{filter:drop-shadow(0 0 5px rgba(198,169,206,.34))}
+.random-entry .random-star{display:inline-block;position:relative;font-size:21px;line-height:1;color:var(--accent);transform-origin:center}
+.random-star::after{content:'·';position:absolute;top:-7px;right:-5px;font-size:14px;opacity:.7}
+.random-entry:hover .random-star{transform:rotate(24deg) scale(1.06)}
+.theme-toggle{position:relative;isolation:isolate}
+.theme-symbol{display:inline-block;font-size:24px;line-height:1}
+.theme-toggle::after{content:'✦';position:absolute;right:5px;top:5px;font-size:9px;color:var(--accent);opacity:.85;pointer-events:none}
+body.light-mode .theme-toggle::after{top:7px;right:3px;opacity:.65}
+.menu-star{color:var(--accent);font-size:20px;line-height:1}
+.year>summary::before{content:'✦';font-size:11px;color:var(--accent);opacity:.8;transform-origin:50% 50%;margin-right:10px}
+.year[open]>summary::before{transform:rotate(45deg)}
+.month>summary::before{content:'✧';font-size:14px;color:var(--muted);transform-origin:50% 50%}
+.month[open]>summary::before{transform:rotate(45deg);color:var(--accent)}
+.post-links a::before{content:'✧';font-size:11px;color:var(--accent);opacity:.58;margin-right:9px}
+.post-links a[aria-current=page]::before{content:'✦';opacity:.95}
+.breadcrumbs span{font-size:0;opacity:.65}
+.breadcrumbs span::before{content:'✧';font-size:12px;color:var(--accent)}
+.soundtrack-star,.music-launch-star{color:var(--accent);font-size:17px;line-height:1}
+.music-launch-star{font-size:19px;position:relative}
+.music-launch-star::after{content:'·';position:absolute;right:-5px;top:-6px;color:var(--accent);font-size:12px}
+.music-launch:hover .music-launch-star{transform:rotate(20deg)}
+.music-play:hover:not(:disabled){box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 14%,transparent)}
+body.theme-ready .brand-star,body.theme-ready .random-star,body.theme-ready .music-launch-star{transition:transform 300ms ease,filter 300ms ease}
+@media(max-width:680px){
+  .random-entry .random-star{display:inline-block}
+}
+@media(prefers-reduced-motion:reduce){
+  .brand-star,.random-star,.music-launch-star{transition:none!important}
+}
