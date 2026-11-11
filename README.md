@@ -20,7 +20,7 @@ music: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
 
 The site-wide fallback lives at the top of `data/posts.js` as `window.defaultMusicUrl`. Entries without a `music` field inherit that URL. Changing posts cues the matching soundtrack **without autoplaying**; the visitor presses Play in the YouTube player. An explicitly specified URL overrides the default.
 
-The compact floating YouTube player is visible by default at the bottom-right. The **Music** button opens it again after it has been closed while paused. Visitors cannot enter or choose their own YouTube links: the current blog's `music` field (or `window.defaultMusicUrl`) decides the soundtrack.
+The minimal floating YouTube dock is visible by default at the bottom-right. It uses a 200 × 200px embedded video, a small caption row, and a compact volume slider without a separate large card or extra controls. The **Music** button opens it again after it has been closed while paused. Visitors cannot enter or choose their own YouTube links: the current blog's `music` field (or `window.defaultMusicUrl`) decides the soundtrack.
 
 - YouTube's official embedded player provides visible playback, volume, seeking, and attribution controls.
 - Playback starts only when the visitor presses Play; switching blogs cues the new song without autoplay.
