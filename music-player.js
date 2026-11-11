@@ -26,6 +26,8 @@
   let pendingVideo = null;
   let apiPromise = null;
   let loadingPlayer = false;
+  let playing = false;
+  let cuedVideo = null;
 
   function parseYouTubeId(raw) {
     let url;
@@ -43,9 +45,11 @@
     return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
   }
 
-  function setPlaying(playing) {
-    bars.classList.toggle('is-playing', playing);
-    if (playing) status.textContent = 'Playing';
+  function setPlaying(isPlaying) {
+    playing = isPlaying;
+    bars.classList.toggle('is-playing', isPlaying);
+    launch.setAttribute('aria-label', isPlaying ? 'Music playing — open player' : 'Open journal music player');
+    if (isPlaying) status.textContent = 'Playing';
     else if (selectedVideo) status.textContent = 'Ready to play';
   }
 
@@ -80,8 +84,10 @@
   async function ensurePlayer() {
     if (!selectedVideo || panel.hidden) return;
     if (player && ready) {
-      player.cueVideoById(pendingVideo);
-      status.textContent = 'Press play above';
+      if (cuedVideo !== pendingVideo) {
+        player.cueVideoById(pendingVideo);
+        cuedVideo = pendingVideo;
+      }
       return;
     }
     if (player || loadingPlayer) return;
@@ -97,7 +103,7 @@
           onReady: event => {
             ready = true;
             event.target.setVolume(volumeLevel);
-            if (pendingVideo) event.target.cueVideoById(pendingVideo);
+            if (pendingVideo) { event.target.cueVideoById(pendingVideo); cuedVideo = pendingVideo; }
             if (panel.hidden) event.target.pauseVideo();
             status.textContent = panel.hidden ? 'Ready to listen' : 'Press play above';
           },
@@ -138,7 +144,12 @@
   }
 
   function showPanel(open) {
-    if (!open && ready && player?.pauseVideo) player.pauseVideo();
+    // The official YouTube video must remain visible while it plays.
+    // Visitors can pause inside the player and then close this panel.
+    if (!open && playing) {
+      status.textContent = 'Pause the video before closing';
+      return;
+    }
     panel.hidden = !open;
     launch.setAttribute('aria-expanded', String(open));
     if (open) ensurePlayer();
@@ -152,4 +163,5 @@
   });
   window.addEventListener('journal:entrychange', event => updateMusic(event.detail?.music));
   updateMusic(window.currentJournalMusicUrl || window.defaultMusicUrl);
+  ensurePlayer(); // Show the selected soundtrack by default; no autoplay.
 })();
