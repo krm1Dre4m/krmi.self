@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="KRMII's little corner of the internet — a personal journal.">
+  <meta name="description" content="KRMII's personal journal — thoughts and other things.">
   <meta name="color-scheme" content="dark light">
   <title>KRMII — Journal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,26 +14,28 @@
 <body>
   <a class="skip-link" href="#entry">Skip to entry</a>
   <div class="layout">
+    <header class="site-header">
+      <a href="#" class="site-brand" aria-label="Journal home"><span aria-hidden="true">✿</span> krmii / journal</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☾</button>
+    </header>
     <aside class="sidebar" id="sidebar" aria-label="Journal navigation">
-      <div class="brand">
-        <a href="#" class="brand-name"><svg class="brand-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2.5-2-5.5-2.5-9-2v14c3.5-.5 6.5 0 9 2 2.5-2 5.5-2.5 9-2V4c-3.5-.5-6.5 0-9 2Z"/><path d="M12 6v14"/></svg><span>krmii's journal</span></a>
-        <p>thoughts &amp; other things.</p>
-      </div>
       <nav aria-label="Archive">
-        <h2 class="sidebar-heading">Archive</h2>
+        <h2 class="sidebar-heading">Pages</h2>
         <div id="archive-tree"></div>
       </nav>
-      <div class="sidebar-bottom">a little corner of the internet <span aria-hidden="true">✳</span></div>
     </aside>
     <div class="content-shell">
-      <header class="topbar">
-        <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open archive">☰ <span>Archive</span></button>
-        <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☾</button>
+      <header class="mobile-toolbar">
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open archive">☰ <span>Pages</span></button>
       </header>
       <main id="entry" tabindex="-1">
         <article class="entry" aria-live="polite">
-          <time class="entry-date" id="entry-date"></time>
+          <nav class="breadcrumbs" id="breadcrumbs" aria-label="Breadcrumb"></nav>
           <h1 id="entry-title"></h1>
+          <div class="entry-info">
+            <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>
+            <time class="entry-date" id="entry-date"></time>
+          </div>
           <div class="entry-labels" id="entry-labels" aria-label="Entry labels" hidden></div>
           <div class="entry-body" id="entry-body"></div>
           <nav class="entry-pager" aria-label="Other entries">
