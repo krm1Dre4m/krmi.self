@@ -2,13 +2,15 @@
 window.posts = [
   {
     id: 0,
-    title: "Welcome to MySelf",
+    title: "Welcome!",
     date: "22-09-2026",
     labels: ["Introduction"],
     body: [
       "Hi, welcome to my little corner of the internet.",
       "This is where I leave bits and pieces of my life: thoughts, memories, random moments, and whatever else I feel like writing down.",
-      "Nothing too serious. Just a place to look back on, someday."
+      "Nothing too serious. Just a place to look back on, someday.",
+      "below is a piece I drew, enjoy your stay!",
+      {image: "assets/0.png", alt: "happy", caption: "it's Lingsha!"}
     ]
   },
   {
