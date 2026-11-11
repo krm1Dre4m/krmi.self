@@ -9,6 +9,7 @@
   const newer = document.getElementById('newer-link');
   const sidebar = document.getElementById('sidebar');
   const menu = document.getElementById('menu-toggle');
+  const sidebarClose = document.getElementById('sidebar-close');
   const backdrop = document.getElementById('mobile-backdrop');
   const theme = document.querySelector('.theme-toggle');
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -292,6 +293,10 @@
     try { localStorage.setItem('krmii-theme', light ? 'light' : 'dark'); } catch (_) {}
   }
   menu.addEventListener('click', () => sidebar.classList.contains('is-open') ? closeMenu() : openMenu());
+  sidebarClose.addEventListener('click', () => {
+    closeMenu();
+    menu.focus({ preventScroll: true });
+  });
   backdrop.addEventListener('click', closeMenu);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
   const randomButton = document.querySelector('.random-entry');
