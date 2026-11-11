@@ -180,8 +180,14 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 }
 .photo-mat{
   position:relative;z-index:1;
-  padding:8px;background:var(--active);border:1px solid var(--line);
+  padding:8px;
+  background:var(--tarot-fill);
+  border:1px solid var(--tarot-edge);
   border-radius:12px;
+  /* Match the back card's fine double tarot outline without covering the photo. */
+  box-shadow:
+    inset 0 0 0 5px var(--tarot-fill),
+    inset 0 0 0 6px var(--tarot-rule);
 }
 .photo-mat img{display:block;width:100%;height:auto;border-radius:7px}
 /* Exactly the same box as the front photo. Offsetting/rotating the entire
