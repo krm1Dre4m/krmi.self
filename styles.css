@@ -2,7 +2,7 @@
   color-scheme: dark;
   --bg:#18141c; --side:#1c1721; --surface:#302737; --line:#38303e;
   --ink:#eee7ef; --soft:#c9bbcf; --muted:#9e90a5; --accent:#c9addb;
-  --serif:'Newsreader', Georgia, serif; --sans:'DM Sans', system-ui, sans-serif;
+  --serif:'Lora', Georgia, serif; --sans:'Nunito Sans', system-ui, sans-serif;
 }
 body.light-mode {
   color-scheme:light;
