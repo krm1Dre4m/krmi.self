@@ -1,166 +1,135 @@
-/* Optional YouTube jukebox: no downloaded audio, no API key, no autoplay.
- * The YouTube iframe stays visible while playing, with its native controls.
- * The little bars react to playback state, not actual audio frequencies. */
+/* Read-only journal soundtrack powered by YouTube's official embedded player.
+ * Songs are selected by each entry (or the site fallback), never by visitors.
+ * No autoplay: playback requires interacting with YouTube's visible controls.
+ * Bars indicate playing state, not actual audio frequencies. */
 (() => {
   const launch = document.getElementById('music-launch');
   const panel = document.getElementById('music-panel');
   const close = document.getElementById('music-close');
-  const form = document.getElementById('music-form');
-  const input = document.getElementById('music-url');
-  const video = document.getElementById('music-video');
   const bars = document.getElementById('music-bars');
   const status = document.getElementById('music-status');
   const watch = document.getElementById('music-watch');
-  if (!launch || !panel || !form) return;
+  if (!launch || !panel) return;
 
   let player = null;
   let ready = false;
   let selectedVideo = null;
-  let playerApiPromise = null;
   let pendingVideo = null;
+  let apiPromise = null;
+  let loadingPlayer = false;
 
   function parseYouTubeId(raw) {
     let url;
-    try { url = new URL(raw.trim()); } catch (_) { return null; }
+    try { url = new URL(String(raw || '').trim()); } catch (_) { return null; }
     if (!['http:', 'https:'].includes(url.protocol)) return null;
     const host = url.hostname.toLowerCase();
     const segments = url.pathname.split('/').filter(Boolean);
-    let id;
+    let id = null;
     if (host === 'youtu.be' || host === 'www.youtu.be') id = segments[0];
-    else if (['youtube.com','www.youtube.com','m.youtube.com','music.youtube.com','www.youtube-nocookie.com','youtube-nocookie.com'].includes(host)) {
+    else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com',
+      'youtube-nocookie.com', 'www.youtube-nocookie.com'].includes(host)) {
       if (segments[0] === 'watch') id = url.searchParams.get('v');
-      else if (['shorts','live','embed','v'].includes(segments[0])) id = segments[1];
+      else if (['shorts', 'live', 'embed', 'v'].includes(segments[0])) id = segments[1];
     }
     return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
   }
 
   function setPlaying(playing) {
     bars.classList.toggle('is-playing', playing);
-    if (playing) status.textContent = 'Playing on YouTube';
-    else if (selectedVideo) status.textContent = 'Paused / ready to play';
+    if (playing) status.textContent = 'Playing';
+    else if (selectedVideo) status.textContent = 'Ready to play';
   }
 
-  function showPanel(show) {
-    if (!show && player && ready && typeof player.pauseVideo === 'function') player.pauseVideo();
-    panel.hidden = !show;
-    launch.setAttribute('aria-expanded', String(show));
-    if (show && selectedVideo && !player) selectVideo(selectedVideo);
-    if (show && !selectedVideo) input.focus();
-  }
-
-  function loadPlayerApi() {
-    if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
-    if (playerApiPromise) return playerApiPromise;
-    playerApiPromise = new Promise((resolve, reject) => {
-      const oldCallback = window.onYouTubeIframeAPIReady;
+  function loadApi() {
+    if (window.YT?.Player) return Promise.resolve(window.YT);
+    if (apiPromise) return apiPromise;
+    apiPromise = new Promise((resolve, reject) => {
+      const previous = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = () => {
-        if (typeof oldCallback === 'function') oldCallback();
+        if (typeof previous === 'function') previous();
         resolve(window.YT);
       };
       const script = document.createElement('script');
       script.src = 'https://www.youtube.com/iframe_api';
       script.async = true;
-      script.onerror = () => reject(new Error('Could not load the YouTube player API.'));
+      script.onerror = () => reject(new Error('Could not load YouTube iframe API'));
       document.head.append(script);
-    }).catch(error => {
-      playerApiPromise = null;
-      throw error;
-    });
-    return playerApiPromise;
+    }).catch(error => { apiPromise = null; throw error; });
+    return apiPromise;
   }
 
-  async function selectVideo(id) {
-    selectedVideo = id;
-    pendingVideo = id;
-    video.hidden = false;
-    watch.hidden = false;
-    watch.href = 'https://www.youtube.com/watch?v=' + id;
-    input.value = watch.href;
-    setPlaying(false);
-    status.textContent = 'Loading YouTube player…';
-    try { localStorage.setItem('krmi-youtube-video', id); } catch (_) {}
+  async function ensurePlayer() {
+    if (!selectedVideo || panel.hidden) return;
+    if (player && ready) {
+      player.cueVideoById(pendingVideo);
+      status.textContent = 'Press play above';
+      return;
+    }
+    if (player || loadingPlayer) return;
+    loadingPlayer = true;
+    status.textContent = 'Loading…';
     try {
-      const YT = await loadPlayerApi();
-      if (player && ready) {
-        player.cueVideoById(pendingVideo);
-        status.textContent = 'Press play in the YouTube player';
-        return;
-      }
-      if (player) return; // onReady will cue the latest requested ID
+      const YT = await loadApi();
+      if (panel.hidden) return;
       player = new YT.Player('youtube-player', {
-        width: '320', height: '200', videoId: pendingVideo,
+        width: '240', height: '200', videoId: pendingVideo,
         playerVars: { controls: 1, playsinline: 1, rel: 0 },
         events: {
           onReady: event => {
             ready = true;
             if (pendingVideo) event.target.cueVideoById(pendingVideo);
-            status.textContent = 'Press play in the YouTube player';
+            if (panel.hidden) event.target.pauseVideo();
+            status.textContent = panel.hidden ? 'Ready to listen' : 'Press play above';
           },
           onStateChange: event => {
-            if (event.data === YT.PlayerState.PLAYING) setPlaying(true);
-            else if (event.data === YT.PlayerState.ENDED) {
+            if (event.data === YT.PlayerState.PLAYING) {
+              if (panel.hidden) { event.target.pauseVideo(); return; }
+              setPlaying(true);
+            } else if (event.data === YT.PlayerState.ENDED) {
               setPlaying(false);
-              status.textContent = 'Finished playing';
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.CUED) setPlaying(false);
+              status.textContent = 'Finished';
+            } else if ([YT.PlayerState.PAUSED, YT.PlayerState.CUED].includes(event.data)) {
+              setPlaying(false);
+            }
           },
-          onError: () => { setPlaying(false); status.textContent = 'Video unavailable or embedding disabled'; }
+          onError: () => {
+            setPlaying(false);
+            status.textContent = 'Video unavailable';
+          }
         }
       });
     } catch (error) {
-      status.textContent = 'YouTube could not load. Try again later.';
-      video.hidden = true;
+      status.textContent = 'Could not load YouTube';
       console.warn(error);
+    } finally {
+      loadingPlayer = false;
     }
   }
 
-  // Blog-level soundtrack changes select a video without triggering autoplay.
-  // The default song is configured in data/posts.js.
-  function applyEntryMusic(raw) {
-    const id = parseYouTubeId(raw || '');
-    if (!id) return;
-    if (selectedVideo === id) return;
-    selectedVideo = id;
-    pendingVideo = id;
-    input.value = 'https://www.youtube.com/watch?v=' + id;
-    watch.href = input.value;
+  function updateMusic(raw) {
+    const id = parseYouTubeId(raw);
+    if (!id || selectedVideo === id) return;
+    selectedVideo = pendingVideo = id;
     watch.hidden = false;
+    watch.href = 'https://www.youtube.com/watch?v=' + id;
     setPlaying(false);
-    status.textContent = 'Journal soundtrack ready — open player to listen';
-    if (player && ready) {
-      video.hidden = false;
-      player.cueVideoById(id);
-      status.textContent = 'Press play in the YouTube player';
-    } else if (!panel.hidden) {
-      selectVideo(id);
-    }
+    status.textContent = 'Ready to listen';
+    if (!panel.hidden) ensurePlayer();
   }
 
-  window.addEventListener('journal:entrychange', event => applyEntryMusic(event.detail?.music));
+  function showPanel(open) {
+    if (!open && ready && player?.pauseVideo) player.pauseVideo();
+    panel.hidden = !open;
+    launch.setAttribute('aria-expanded', String(open));
+    if (open) ensurePlayer();
+    else setPlaying(false);
+  }
+
   launch.addEventListener('click', () => showPanel(panel.hidden));
   close.addEventListener('click', () => { showPanel(false); launch.focus(); });
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const id = parseYouTubeId(input.value);
-    if (!id) {
-      input.setCustomValidity('Enter a valid YouTube video link.');
-      input.reportValidity();
-      input.setCustomValidity('');
-      return;
-    }
-    selectVideo(id);
-  });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !panel.hidden) { showPanel(false); launch.focus(); }
   });
-  if (window.currentJournalMusicUrl) {
-    applyEntryMusic(window.currentJournalMusicUrl);
-  } else {
-    try {
-      const saved = localStorage.getItem('krmi-youtube-video');
-      if (saved && /^[A-Za-z0-9_-]{11}$/.test(saved)) {
-        input.value = 'https://www.youtube.com/watch?v=' + saved;
-        status.textContent = 'Previous video ready — press Load';
-      }
-    } catch (_) {}
-  }
+  window.addEventListener('journal:entrychange', event => updateMusic(event.detail?.music));
+  updateMusic(window.currentJournalMusicUrl || window.defaultMusicUrl);
 })();
