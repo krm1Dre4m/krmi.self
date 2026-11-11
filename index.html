@@ -23,13 +23,24 @@
       <mask id="sky-mask"><rect width="1440" height="900" fill="url(#sky-fade)"/></mask>
     </defs>
     <g mask="url(#sky-mask)">
-      <g class="sky-lines">
-        <path d="M645 142 L755 101 L827 195 L967 157 L1064 238 L1180 201"/>
-        <path d="M827 195 L862 312 L992 356 L1064 238"/>
-        <path d="M1089 446 L1188 393 L1289 477 L1354 410"/>
-        <path d="M1188 393 L1170 555 L1298 602 L1354 410"/>
-        <path d="M679 587 L764 530 L864 631 L967 588 L1057 697"/>
-        <path d="M764 530 L792 699 L875 761"/>
+      <g class="sky-drift sky-drift-a">
+        <g class="sky-lines">
+          <path pathLength="1" d="M645 142 L755 101 L827 195 L967 157 L1064 238 L1180 201"/>
+          <path pathLength="1" d="M827 195 L862 312 L992 356 L1064 238"/>
+          <path pathLength="1" d="M590 335 L650 383 L716 349 L771 414 L850 405"/>
+          <path pathLength="1" d="M650 383 L629 458 L706 485"/>
+        </g>
+      </g>
+      <g class="sky-drift sky-drift-b">
+        <g class="sky-lines">
+          <path pathLength="1" d="M1089 446 L1188 393 L1289 477 L1354 410"/>
+          <path pathLength="1" d="M1188 393 L1170 555 L1298 602 L1354 410"/>
+          <path pathLength="1" d="M679 587 L764 530 L864 631 L967 588 L1057 697"/>
+          <path pathLength="1" d="M764 530 L792 699 L875 761"/>
+          <path pathLength="1" d="M1077 86 L1156 55 L1246 107 L1322 81 L1396 151"/>
+          <path pathLength="1" d="M1246 107 L1212 168 L1293 226"/>
+          <path pathLength="1" d="M1017 738 L1116 790 L1201 749 L1284 819 L1375 778"/>
+        </g>
       </g>
       <g class="sky-stars">
         <circle cx="645" cy="142" r="2.3"/><circle cx="755" cy="101" r="3.1" class="twinkle t1"/>
@@ -43,6 +54,17 @@
         <circle cx="864" cy="631" r="2.1"/><circle cx="967" cy="588" r="2.8"/>
         <circle cx="1057" cy="697" r="2.4" class="twinkle t2"/><circle cx="792" cy="699" r="2.6"/>
         <circle cx="875" cy="761" r="2.3"/>
+        <circle cx="590" cy="335" r="1.9"/><circle cx="650" cy="383" r="2.4" class="twinkle t4"/>
+        <circle cx="716" cy="349" r="2"/><circle cx="771" cy="414" r="2.6"/>
+        <circle cx="850" cy="405" r="2.1"/><circle cx="629" cy="458" r="1.8"/>
+        <circle cx="706" cy="485" r="2.3" class="twinkle t2"/>
+        <circle cx="1077" cy="86" r="2.2"/><circle cx="1156" cy="55" r="2.3" class="twinkle t3"/>
+        <circle cx="1246" cy="107" r="2.9"/><circle cx="1322" cy="81" r="2"/>
+        <circle cx="1396" cy="151" r="2.4"/><circle cx="1212" cy="168" r="1.8"/>
+        <circle cx="1293" cy="226" r="2.3" class="twinkle t1"/>
+        <circle cx="1017" cy="738" r="2.1"/><circle cx="1116" cy="790" r="2.5"/>
+        <circle cx="1201" cy="749" r="2.4" class="twinkle t4"/>
+        <circle cx="1284" cy="819" r="2.7"/><circle cx="1375" cy="778" r="2"/>
       </g>
       <g class="sky-dust">
         <circle cx="703" cy="260" r="1"/><circle cx="778" cy="397" r="1.2"/>
@@ -51,6 +73,11 @@
         <circle cx="1037" cy="504" r="1"/><circle cx="1354" cy="683" r="1.2"/>
         <circle cx="1126" cy="752" r="1.1"/><circle cx="699" cy="760" r="1"/>
         <circle cx="948" cy="820" r="1.1"/><circle cx="613" cy="435" r="1"/>
+        <circle cx="560" cy="225" r="1"/><circle cx="731" cy="226" r=".9"/>
+        <circle cx="1048" cy="614" r="1.2"/><circle cx="1370" cy="326" r=".9"/>
+        <circle cx="1184" cy="692" r="1"/><circle cx="877" cy="503" r=".8"/>
+        <circle cx="1350" cy="52" r=".9"/><circle cx="582" cy="668" r="1.1"/>
+        <circle cx="989" cy="259" r=".9"/><circle cx="1138" cy="293" r="1.1"/>
       </g>
     </g>
   </svg>
