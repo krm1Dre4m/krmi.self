@@ -8,6 +8,10 @@ The journal uses a full-width, borderless personal-wiki layout with the editoria
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
+## Layered entry transitions
+
+Opening or revisiting a journal entry unveils its content in reading order: breadcrumbs, title, date and labels, then paragraphs or photo stacks, then navigation and social links. Each layer gently fades upward; later paragraphs are staggered with a capped delay so long entries do not take excessively long to appear. Rapid navigation cancels the previous animations, and reduced-motion preferences skip the effect entirely. The sidebar, floating soundtrack and star map remain uninterrupted.
+
 ## Atmospheric constellation theme
 
 The entire website shares a quiet, purely decorative star-map backdrop: constellation groups span the header, left archive, and reading area, with scattered stars and very slow twinkling. The desktop sidebar uses a translucent background so the shared sky remains visible, while the mobile archive drawer stays opaque for legibility. The sky is dimmer than the original version, fades in on load, draws its constellation lines in a staggered reveal, and drifts only a few pixels over nearly a minute. It uses a single inline SVG plus CSS — no particle engine, extra requests, or scrolling script. The existing archive remains a normal tree; stars are not links or interactive elements.
