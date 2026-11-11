@@ -15,6 +15,28 @@ body.light-mode {
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font:15px/1.65 var(--font)}
 button,a{font:inherit} button{cursor:pointer} a{color:inherit}
+/* Animate only actual theme changes, not the initial theme restored at load. */
+body.theme-ready,
+body.theme-ready .layout,
+body.theme-ready .site-header,
+body.theme-ready .sidebar,
+body.theme-ready .year>summary,
+body.theme-ready .month>summary,
+body.theme-ready .post-links a,
+body.theme-ready .theme-toggle,
+body.theme-ready .entry-body,
+body.theme-ready .entry-label,
+body.theme-ready .journal-photo,
+body.theme-ready .photo-stack,
+body.theme-ready .stack-card,
+body.theme-ready .stack-next {
+  transition-property:background-color,color,border-color,box-shadow;
+  transition-duration:350ms;
+  transition-timing-function:ease;
+}
+body.theme-ready .theme-toggle{transition:background-color 350ms ease,color 350ms ease,transform 350ms ease}
+body.light-mode .theme-toggle{transform:rotate(180deg)}
+
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .skip-link{position:fixed;z-index:90;top:-100px;left:12px;background:var(--accent);color:var(--page);padding:8px 14px}
 .skip-link:focus{top:12px}
@@ -53,6 +75,8 @@ details summary{cursor:pointer;list-style:none}
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:'›';display:inline-block;margin-right:9px;transition:transform .15s ease;font-size:17px;line-height:1}
 details[open]>summary::before{transform:rotate(90deg)}
+/* JS animates the section height; keep children clipped during the motion. */
+.archive-animating>.months,.archive-animating>.post-links{overflow:hidden}
 .year>summary{padding:10px 12px;border-radius:8px;color:var(--text);font-size:15px}
 .year[open]>summary{background:var(--active);color:var(--ink)}
 .months{padding:6px 0 8px 17px}
