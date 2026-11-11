@@ -161,13 +161,13 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .random-entry:active{transform:scale(.97)}
 body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 
-/* A tiny editorial dock: YouTube's player remains visible at 200 x 200. */
+/* Compact iframe inspired by QioCas's 250x80 embed (not YouTube's recommended size). */
 .music-widget{
   position:fixed;right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);
   z-index:35;display:flex;flex-direction:column;align-items:flex-end;font-family:var(--font);
 }
 .music-panel{
-  width:224px;max-width:calc(100vw - 24px);
+  width:274px;max-width:calc(100vw - 24px);
   max-height:calc(100dvh - 80px);overflow:auto;
   background:var(--page);border:1px solid var(--line);
   border-radius:12px;padding:10px;
@@ -185,8 +185,8 @@ body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 .music-heading-actions a:hover{color:var(--accent)}
 .music-close{display:grid;place-items:center;background:transparent;border:0;color:var(--muted);font-size:19px;line-height:1;width:23px;height:23px;padding:0;border-radius:5px}
 .music-close:hover{background:var(--active);color:var(--ink)}
-.music-video{width:200px;max-width:100%;margin:0}
-.music-video iframe{display:block;width:200px;height:200px;min-width:200px;min-height:200px;border:0;border-radius:6px}
+.music-video{width:250px;max-width:100%;margin:0}
+.music-video iframe{display:block;width:250px;height:80px;max-width:100%;border:0;border-radius:6px}
 .music-volume{display:flex;align-items:center;gap:7px;margin-top:9px;color:var(--muted);font-size:11px}
 .music-volume label{color:var(--accent);font-size:15px;line-height:1}
 .music-volume input{min-width:0;flex:1;margin:0;accent-color:var(--accent);cursor:pointer}
