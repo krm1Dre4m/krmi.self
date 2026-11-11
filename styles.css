@@ -50,7 +50,9 @@ body.light-mode{background-image:radial-gradient(ellipse at 82% 12%,rgba(160,127
 body.light-mode .sky-map{--sky-opacity:.14;color:#9d7cae}
 body.light-mode .sky-stars{fill:#8e69a4}
 body.light-mode .sky-dust{fill:#9d7cae}
-.layout{position:relative;z-index:1}
+/* Keep the layout out of a stacking context: on mobile, the fixed archive drawer
+   must stack above the backdrop (z-index:60 vs 50), not be trapped below it. */
+.layout{position:relative;z-index:auto}
 @media(max-width:680px){
   .sky-map{--sky-opacity:.16}
   body.light-mode .sky-map{--sky-opacity:.085}
