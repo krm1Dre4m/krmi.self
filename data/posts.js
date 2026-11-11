@@ -36,12 +36,22 @@ window.posts = [
   {
     id: 3,
     title: "When I think about it...",
-    date: "12-11-2026",
+    date: "11-11-2026",
     labels: ["Overthinking"],
     body: [
       "I used to believe that I'm sentimental, I thought I helped a lot of people, I thought I understood their problems..",
       "But in the end, I realize I don't really hold any empathy.",
       "... And it disgusts me."
+    ]
+  },
+  {
+    id: 4,
+    title: "An overhaul",
+    date: "12-11-2026",
+    labels: ["Coding"],
+    body: [
+      "Sau một hồi mày mò thì K đã quyết với kiểu thiết kế này: đơn điệu, một màu, thanh nhã, đúng với mong muốn của bản thân, hehe",
+      "(Chắc chắn là đã không thức đến 5h sáng chỉ để làm lại cái web này...)",
     ]
   },
 ];
