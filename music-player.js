@@ -97,7 +97,7 @@
       const YT = await loadApi();
       if (panel.hidden) return;
       player = new YT.Player('youtube-player', {
-        width: '240', height: '200', videoId: pendingVideo,
+        width: '250', height: '80', videoId: pendingVideo,
         playerVars: { controls: 1, playsinline: 1, rel: 0 },
         events: {
           onReady: event => {
