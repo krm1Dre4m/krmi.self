@@ -8,6 +8,12 @@ The journal uses a full-width, borderless personal-wiki layout with the editoria
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
+## Atmospheric constellation theme
+
+The journal has a quiet, purely decorative star-map backdrop: three connected constellations, scattered stars, and very slow twinkling. It uses a single inline SVG plus CSS — no particle engine, extra requests, or scrolling script. The existing archive remains a normal tree; stars are not links or interactive elements.
+
+Dark mode uses muted lavender against plum, light mode shows a much fainter chart, and small screens reduce its visibility. Motion is disabled by the visitor's reduced-motion preference. Edit the `.sky-map` SVG in `index.html` to change star positions and `.sky-*` rules in `styles.css` to adjust the intensity.
+
 ## Random entry and music player
 
 Use **Surprise me** in the header to open a random journal entry other than the ID `0` introduction. When possible it chooses an entry different from the one currently open.
