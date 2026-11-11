@@ -32,7 +32,31 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 
 - `slug` must be unique and URL-safe; use lowercase words separated by hyphens.
 - `date` accepts `dd-mm-yyyy` or `yyyy-mm-dd`.
-- `body` supports plain text paragraphs and image blocks.
+- `body` supports plain text paragraphs, individual images, and optional interactive photo stacks.
+- Standalone images appear in a subtle centered plum frame, up to 560px wide.
+
+### Stack several photos
+
+Put a `stack` block among your paragraphs to create a small pile of photographs:
+
+```js
+body: [
+  "A few moments from today.",
+  {
+    stack: [
+      { image: "assets/first.jpg", alt: "A rainy street" },
+      { image: "assets/second.jpg", alt: "The café window" },
+      { image: "assets/third.jpg", alt: "A sleepy cat" }
+    ],
+    caption: "little pieces of my day" // optional
+  },
+  "And that's about it."
+]
+```
+
+Drag or flick the top photo sideways (mouse or touch) to send it to the back and reveal the next photo. The **Next photo** button also cycles through the stack, including for keyboard users. The count shows the current photo. Reduced-motion settings disable the throw animation. Each photo keeps its original aspect ratio and colors; the stack's viewing area does not crop it.
+
+If a stack contains only one valid image, it is displayed as a normal framed photo. The `stack` block is optional; existing posts do not need to change.
 - Add images to `assets/` and reference them from the entry.
 - Entries and archive groups are **sorted automatically by date** regardless of array order.
 - `labels` is an optional array of strings shown as subtle tags beneath the title. Use `labels: []` (or omit it) for an unlabelled entry.
