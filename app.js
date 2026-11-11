@@ -1,6 +1,7 @@
 (() => {
   const root = document.getElementById('archive-tree');
   const title = document.getElementById('entry-title');
+  const breadcrumbs = document.getElementById('breadcrumbs');
   const dateNode = document.getElementById('entry-date');
   const body = document.getElementById('entry-body');
   const labelsNode = document.getElementById('entry-labels');
@@ -80,6 +81,7 @@
     if (!post) {
       selectedSlug = null;
       dateNode.textContent = '';
+      breadcrumbs.innerHTML = '<span>Journal</span>';
       title.textContent = 'Nothing here yet.';
       labelsNode.hidden = true;
       labelsNode.replaceChildren();
@@ -94,6 +96,9 @@
     dateNode.textContent = longDate(post.parsedDate);
     dateNode.dateTime = post.parsedDate.toISOString().slice(0,10);
     title.textContent = post.title;
+    const year = String(post.parsedDate.getUTCFullYear());
+    const month = monthName(post.parsedDate);
+    breadcrumbs.innerHTML = `<a href="#" aria-label="Journal home">Journal</a><span aria-hidden="true">/</span><span>${escapeHtml(year)}</span><span aria-hidden="true">/</span><span>${escapeHtml(month)}</span>`;
     const labels = [...new Set(getLabels(post))];
     labelsNode.hidden = labels.length === 0;
     labelsNode.innerHTML = labels.map(label => `<span class="entry-label">${escapeHtml(label)}</span>`).join('');
@@ -112,7 +117,7 @@
     if (next) { newer.href = '#note/' + encodeURIComponent(next.slug); newer.textContent = 'Newer entry →'; }
     renderTree();
     closeMenu();
-    window.scrollTo({top:0, behavior:'instant'});
+    window.scrollTo(0, 0);
   }
   function setTheme(light) {
     document.body.classList.toggle('light-mode', light);
