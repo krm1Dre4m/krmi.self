@@ -39,6 +39,7 @@
   let selectedSlug = null;
   function renderTree() {
     // Keep manually opened archive groups open when changing entries.
+    const archiveScrollTop = sidebar.scrollTop;
     const expandedYears = new Set([...root.querySelectorAll('.year[open]')].map(node => node.dataset.year));
     const expandedMonths = new Set([...root.querySelectorAll('.month[open]')].map(node => node.dataset.month));
     const hadTree = root.children.length > 0;
@@ -55,6 +56,7 @@
         }).join('')}</div>
       </details>`;
     }).join('') || '<p class="empty">No entries yet.</p>';
+    sidebar.scrollTop = archiveScrollTop;
   }
   function closeMenu() {
     sidebar.classList.remove('is-open');
@@ -201,6 +203,15 @@
       return `<p>${escapeHtml(block)}</p>`;
     }).join('');
     initPhotoStacks();
+    // Set the mat from each image's intrinsic width, capped at 560px,
+    // instead of measuring the unclamped image and leaving an empty strip.
+    for (const image of body.querySelectorAll('.journal-photo img')) {
+      const sizeFrame = () => {
+        if (image.naturalWidth) image.closest('.journal-photo').style.setProperty('--photo-width', Math.min(image.naturalWidth, 560) + 18 + 'px');
+      };
+      if (image.complete) sizeFrame();
+      else image.addEventListener('load', sizeFrame, { once: true });
+    }
     const previous = posts[index + 1];
     const next = posts[index - 1];
     older.hidden = !previous;
