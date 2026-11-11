@@ -50,34 +50,37 @@
     </div>
   </div>
   <div class="mobile-backdrop" id="mobile-backdrop" hidden></div>
-  <section class="music-widget" aria-label="Journal soundtrack">
-    <div class="music-panel" id="music-panel">
-      <div class="music-heading">
-        <strong><span aria-hidden="true">♫</span> soundtrack</strong>
-        <div class="music-heading-actions">
-          <a id="music-watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden aria-label="Open current song on YouTube" title="View on YouTube">↗</a>
-          <button class="music-close" id="music-close" type="button" aria-label="Minimize paused music player">−</button>
+  <section class="music-widget" id="music-widget" aria-label="Journal soundtrack">
+    <div class="music-reveal" id="music-reveal">
+      <div class="music-panel" id="music-panel">
+        <div class="music-heading">
+          <strong><span aria-hidden="true">♫</span> soundtrack</strong>
+          <div class="music-heading-actions">
+            <a id="music-watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden aria-label="Open current song on YouTube" title="View on YouTube">↗</a>
+            <button class="music-close" id="music-close" type="button" aria-label="Minimize paused music player">−</button>
+          </div>
         </div>
-      </div>
-      <div class="music-video" id="music-video">
-        <div id="youtube-player"></div>
-      </div>
-      <div class="music-controls">
-        <button id="music-play" class="music-play" type="button" aria-label="Play soundtrack" title="Play soundtrack" disabled>
-          <span class="music-play-icon" aria-hidden="true">▶</span>
-        </button>
-        <div class="music-volume">
-          <label for="music-volume" aria-label="Volume">♫</label>
-        <input id="music-volume" type="range" min="0" max="100" value="65" step="1" aria-label="Music volume">
-          <output id="music-volume-value" for="music-volume">65%</output>
+        <div class="music-video" id="music-video">
+          <div id="youtube-player"></div>
         </div>
+        <div class="music-controls">
+          <button id="music-play" class="music-play" type="button" aria-label="Play soundtrack" title="Play soundtrack" disabled>
+            <span class="music-play-icon" aria-hidden="true">▶</span>
+          </button>
+          <div class="music-volume">
+            <label for="music-volume" aria-label="Volume">♫</label>
+            <input id="music-volume" type="range" min="0" max="100" value="65" step="1" aria-label="Music volume">
+            <output id="music-volume-value" for="music-volume">65%</output>
+          </div>
+        </div>
+        <span id="music-status" class="music-status" role="status" aria-live="polite">Ready to listen</span>
       </div>
-      <span id="music-status" class="music-status" role="status" aria-live="polite">Ready to listen</span>
     </div>
-    <button class="music-launch" id="music-launch" type="button" aria-controls="music-panel" aria-expanded="true" title="Journal music player">
+    <button class="music-launch" id="music-launch" type="button" aria-controls="music-panel" aria-expanded="true" title="Minimize music widget">
       <span aria-hidden="true">♫</span>
       <span class="music-launch-label">Music</span>
       <span class="music-bars" id="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="music-chevron" aria-hidden="true">⌄</span>
     </button>
   </section>
   <script src="data/posts.js"></script>
