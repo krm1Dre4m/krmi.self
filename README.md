@@ -16,6 +16,10 @@ Dark mode uses muted lavender against plum, light mode shows a much fainter char
 
 The main controls also use a restrained celestial icon language: a constellation-inspired brand star, a small shooting-star accent for **Surprise me**, moon/sun theme symbols with star detail, star-shaped archive disclosures and active-entry markers, and a matching music-dock icon. These are still ordinary accessible buttons and links, with no icon library or new runtime dependency.
 
+## Social links
+
+Each journal entry ends with a centered, constellation-styled row linking to **X, Reddit, Pixiv, Facebook, YouTube, GitHub, and LinkedIn**. All currently point to their platforms' **homepages**, not personal accounts. To change them later, edit the `href` attributes in the `.social-footer` section of `index.html`. Icons are locally inlined SVGs that follow the site's dark/light theme; they require no icon-font or external scripts.
+
 ## Random entry and music player
 
 Use **Surprise me** in the header to open a random journal entry other than the ID `0` introduction. When possible it chooses an entry different from the one currently open.
