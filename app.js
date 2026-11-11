@@ -276,6 +276,13 @@
   menu.addEventListener('click', () => sidebar.classList.contains('is-open') ? closeMenu() : openMenu());
   backdrop.addEventListener('click', closeMenu);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  const randomButton = document.querySelector('.random-entry');
+  randomButton.addEventListener('click', () => {
+    const candidates = posts.filter(post => post.id !== 0 && (posts.length <= 2 || post.id !== selectedId));
+    if (!candidates.length) return;
+    const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    location.hash = '#note/' + chosen.id;
+  });
   theme.addEventListener('click', () => setTheme(!document.body.classList.contains('light-mode')));
   window.addEventListener('hashchange', renderPost);
   // The archive is navigable by native details/summary controls, without JS state for expanded groups.
