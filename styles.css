@@ -87,7 +87,6 @@ details[open]>summary::before{transform:rotate(90deg)}
 .post-links a::before{content:'•';margin-right:7px;color:var(--muted)}
 .post-links a:hover{color:var(--ink);background:var(--active)}
 .post-links a[aria-current=page]{color:var(--ink);font-weight:700}
-.count{float:right;color:var(--muted);font-size:11px;opacity:.75}
 .content-shell{min-width:0;display:flex;flex-direction:column}
 .mobile-toolbar{display:none}
 main{flex:1;min-width:0;padding:36px clamp(28px,5vw,86px) 70px clamp(32px,4vw,68px)}
