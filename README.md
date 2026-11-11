@@ -4,7 +4,7 @@ A tiny, dependency-free personal journal. Built with plain HTML, CSS, and JavaSc
 
 ## Reading
 
-The journal uses a full-width, borderless personal-wiki layout with the editorial plum-and-mauve palette. The header holds the journal identity and theme control; a compact page tree on the left groups entries by **year → month → post**, newest first. Breadcrumbs above each entry show its year and month. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/2` that can be shared or bookmarked.
+The journal uses a full-width, borderless personal-wiki layout with the editorial plum-and-mauve palette. The header holds the journal identity and theme control; a compact page tree on the left groups entries by **year → month → post**, newest first. Breadcrumbs above each entry show its year and month. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/2` that can be shared or bookmarked. Visiting the site without a post URL opens the **September 22, 2026 introduction** (ID `0`), which is also directly accessible at `#note/0`.
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
@@ -18,7 +18,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 
 ```js
 {
-  id: 3,
+  id: 4,
   title: "A quiet Sunday",
   date: "12-11-2026",
   labels: ["Life", "Coding"], // optional; use as many as you like
@@ -30,7 +30,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 }
 ```
 
-- `id` must be a unique positive integer (1, 2, 3, ...). Give every new entry a new number, even if you reorder entries or edit their titles later. **Do not renumber old entries:** their IDs are permanent links.
+- `id` must be a unique non-negative integer. **ID `0` is reserved for the introductory page.** Give every new entry a new number (4, 5, 6, ...), even if you reorder entries or edit their titles later. **Do not renumber old entries:** their IDs are permanent links.
 - `date` accepts `dd-mm-yyyy` or `yyyy-mm-dd`.
 - `body` supports plain text paragraphs, individual images, and optional interactive photo stacks.
 - Standalone images appear in a subtle centered plum frame, up to 560px wide.
