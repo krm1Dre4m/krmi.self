@@ -1,80 +1,48 @@
 # KRMII Sketchbook
 
-A personal sketchbook-style blog built as a dependency-free static site. It can be opened locally, hosted from GitHub Pages, or moved to another static host without a build step.
+A tiny, dependency-free personal journal. Built with plain HTML, CSS, and JavaScript; no build step, database, or CMS.
 
-The site is **dark-first** and follows the **Analog Violet** desktop palette: deep violet-plum backgrounds (`#1A1020`), lavender and lilac type, and burnt-orange accents (`#C56A22`). A light theme is available through the header toggle.
+## Reading
 
-The homepage leads with the notes: a short intro strip, then the latest posts, the searchable archive, about, and newsletter.
+The left sidebar groups entries by **year → month → post**, newest first. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/my-entry` that can be shared or bookmarked.
 
-## Run it locally
+On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
-Open `index.html` in a browser. If your browser blocks local scripts, run a tiny local server from this folder:
+## Run locally
 
-```bash
-python3 -m http.server 8000
-```
+Run `python3 -m http.server 8000` in this directory, then open http://localhost:8000. It can also run on GitHub Pages or another static host.
 
-Then visit http://localhost:8000.
+## Write an entry
 
-## Add a blog post
-
-Open `data/posts.js` and add a new object at the top of `window.posts`. Copy an existing post and change:
-
-- `slug`: URL-safe unique ID
-- `title`, `excerpt`, `date` (dd-mm-yyyy), `label`
-- `body`: an array of paragraphs
-
-The homepage and archive update automatically. No database or CMS is needed for the starter version.
-
-## Add images to a note
-
-Images live in the `assets/` folder. Drop your file there, then reference it from a post's `body` array using an object instead of a plain string.
-
-1. Save the image into `assets/`, e.g. `assets/sunset.jpg`. Use web-friendly formats (`.jpg`, `.png`, `.webp`) and keep files reasonably small.
-2. In `data/posts.js`, mix image objects into the `body` array wherever you want them to appear:
+Edit `data/posts.js` and append or prepend an object to `window.posts`:
 
 ```js
-body: [
-  "A paragraph of text comes through as a plain string.",
-  { image: "assets/sunset.jpg", alt: "The view from the window", caption: "Optional caption under the image" },
-  "Another paragraph after the image."
-]
+{
+  slug: "a-quiet-sunday",
+  title: "A quiet Sunday",
+  date: "12-11-2026",
+  excerpt: "Optional; retained for compatibility.",
+  label: "Optional; retained for compatibility.",
+  body: [
+    "A paragraph of text.",
+    { image: "assets/sunset.jpg", alt: "Sunset outside", caption: "Optional caption" },
+    "Another paragraph."
+  ]
+}
 ```
 
-- `image`: path relative to the site root (keep the `assets/` prefix).
-- `alt`: short description for screen readers — always include it.
-- `caption`: optional text shown beneath the image; omit the key to skip it.
+- `slug` must be unique and URL-safe; use lowercase words separated by hyphens.
+- `date` accepts `dd-mm-yyyy` or `yyyy-mm-dd`.
+- `body` supports plain text paragraphs and image blocks.
+- Add images to `assets/` and reference them from the entry.
+- Entries and archive groups are **sorted automatically by date** regardless of array order.
+- `excerpt` and `label` can stay in existing data but are not shown in the simplified journal.
 
-Images load lazily and scale to the note width automatically. Plain-string paragraphs keep working exactly as before, so old posts need no changes.
+## Files
 
-## Resize an image before adding it
+- `index.html`: reader and archive structure.
+- `styles.css`: responsive layout and color tokens.
+- `app.js`: archive grouping, entry routing, theme, and mobile drawer.
+- `data/posts.js`: journal content.
 
-Big image files make the page load slowly. For a note, a width of **1200px** is plenty, and most files should land **under ~300 KB**. Your screen never needs the full camera-size image.
-
-You have ImageMagick installed (`magick`), so resize from this folder like this:
-
-```bash
-# Resize to 1200px wide (height scales automatically), save as a new file
-magick assets/original.png -resize 1200x assets/sunset.jpg
-
-# Same, but also compress a bit to shrink the file (quality 82 is a good web default)
-magick assets/original.png -resize 1200x -quality 82 assets/sunset.jpg
-```
-
-- `-resize 1200x` sets the width to 1200px and keeps the aspect ratio. The image is only ever shrunk, never blown up past its original size.
-- Converting a `.png` photo to `.jpg` (just change the output extension) usually shrinks the file a lot. Keep `.png` for screenshots or anything with sharp text/lines.
-- Check the result afterwards:
-
-```bash
-magick identify -format "%wx%h %b\n" assets/sunset.jpg
-```
-
-That prints the new dimensions and file size so you can confirm it slimmed down before you reference it in a post.
-
-## Customize the site
-
-- Main content and page structure: `index.html`
-- Colors, typography, responsive layout: `styles.css`
-- Filtering, search, article modal, theme toggle: `app.js`
-- Font choice: Google Fonts are loaded in `index.html` and `styles.css`
-- Design tokens source: `design-system/krmii-sketchbook/MASTER.md`
+The default theme is a muted violet dark theme, with an optional light mode. All existing entries and image paths were preserved during the redesign.
