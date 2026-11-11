@@ -7,6 +7,8 @@
   const panel = document.getElementById('music-panel');
   const close = document.getElementById('music-close');
   const bars = document.getElementById('music-bars');
+  const playButton = document.getElementById('music-play');
+  const playIcon = playButton.querySelector('.music-play-icon');
   const volume = document.getElementById('music-volume');
   const volumeValue = document.getElementById('music-volume-value');
   let volumeLevel = 65;
@@ -48,6 +50,11 @@
   function setPlaying(isPlaying) {
     playing = isPlaying;
     bars.classList.toggle('is-playing', isPlaying);
+    playButton.disabled = !ready || !selectedVideo;
+    playIcon.textContent = isPlaying ? 'Ⅱ' : '▶';
+    playButton.setAttribute('aria-label', isPlaying ? 'Pause soundtrack' : 'Play soundtrack');
+    playButton.title = isPlaying ? 'Pause soundtrack' : 'Play soundtrack';
+    playButton.setAttribute('aria-pressed', String(isPlaying));
     launch.setAttribute('aria-label', isPlaying ? 'Music playing — open player' : 'Open journal music player');
     if (isPlaying) status.textContent = 'Playing';
     else if (selectedVideo) status.textContent = 'Ready to play';
@@ -102,6 +109,7 @@
         events: {
           onReady: event => {
             ready = true;
+            playButton.disabled = false;
             event.target.setVolume(volumeLevel);
             if (pendingVideo) { event.target.cueVideoById(pendingVideo); cuedVideo = pendingVideo; }
             if (panel.hidden) event.target.pauseVideo();
@@ -114,12 +122,13 @@
             } else if (event.data === YT.PlayerState.ENDED) {
               setPlaying(false);
               status.textContent = 'Finished';
-            } else if ([YT.PlayerState.PAUSED, YT.PlayerState.CUED].includes(event.data)) {
+            } else if ([YT.PlayerState.PAUSED, YT.PlayerState.CUED, YT.PlayerState.UNSTARTED].includes(event.data)) {
               setPlaying(false);
             }
           },
           onError: () => {
             setPlaying(false);
+            playButton.disabled = true;
             status.textContent = 'Video unavailable';
           }
         }
@@ -142,6 +151,15 @@
     status.textContent = 'Ready to listen';
     if (!panel.hidden) ensurePlayer();
   }
+
+  playButton.addEventListener('click', () => {
+    if (!ready || !player || !selectedVideo) return;
+    if (playing || player.getPlayerState?.() === window.YT?.PlayerState?.PLAYING) {
+      player.pauseVideo();
+    } else {
+      player.playVideo(); // Direct click gesture; never autoplay on load or post change.
+    }
+  });
 
   function showPanel(open) {
     // The official YouTube video must remain visible while it plays.
