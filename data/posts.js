@@ -6,7 +6,7 @@ window.posts = [
     date: "22-09-2026",
     labels: ["Introduction"],
     body: [
-      "Hi, welcome to my little corner of the internet.",
+      "Hi, welcome to my little corner of the internet, I'll regard myself as 'K' throughout my blogs.",
       "This is where I leave bits and pieces of my life: thoughts, memories, random moments, and whatever else I feel like writing down.",
       "Nothing too serious. Just a place to look back on, someday.",
       "below is a piece I drew, enjoy your stay!",
