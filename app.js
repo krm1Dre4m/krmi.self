@@ -171,7 +171,7 @@
     if (hash.startsWith('#note/')) {
       try { token = decodeURIComponent(hash.slice(6)); } catch (_) { token = null; }
     }
-    const numericId = token && /^[1-9]\\d*$/.test(token) ? Number(token) : null;
+    const numericId = token && /^[1-9]\d*$/.test(token) ? Number(token) : null;
     const targetId = token === null ? posts[0]?.id : (legacyIds[token] ?? numericId);
     const foundIndex = posts.findIndex(p => p.id === targetId);
     const index = foundIndex;
