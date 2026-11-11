@@ -70,6 +70,85 @@
     backdrop.hidden = false;
     document.body.classList.add('menu-open');
   }
+  function imageFigure(photo) {
+    const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : '';
+    return `<figure class="journal-photo"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy">${caption}</figure>`;
+  }
+
+  function initPhotoStacks() {
+    for (const figure of body.querySelectorAll('.photo-stack')) {
+      const stage = figure.querySelector('.stack-stage');
+      const count = figure.querySelector('.stack-count');
+      const next = figure.querySelector('.stack-next');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let moving = false;
+      let gesture = null;
+      function refresh() {
+        [...stage.children].forEach((card, index) => {
+          card.dataset.depth = String(index);
+          card.style.setProperty('--depth', String(Math.min(index, 3)));
+          card.setAttribute('aria-hidden', String(index !== 0));
+          card.style.removeProperty('transform');
+          card.style.removeProperty('transition');
+          card.style.removeProperty('z-index');
+        });
+        const photos = stage.children.length;
+        const current = Number(figure.dataset.current || 0);
+        count.textContent = `${current + 1} / ${photos}`;
+      }
+      function throwTop(direction = 1, startX = 0, startY = 0) {
+        if (moving) return;
+        const top = stage.firstElementChild;
+        if (!top) return;
+        moving = true;
+        next.disabled = true;
+        const finish = () => {
+          stage.appendChild(top);
+          figure.dataset.current = String((Number(figure.dataset.current || 0) + 1) % stage.children.length);
+          moving = false;
+          next.disabled = false;
+          refresh();
+        };
+        if (reducedMotion || !top.animate) { finish(); return; }
+        const distance = Math.max(360, stage.clientWidth + 160);
+        const animation = top.animate([
+          { transform: `translate(${startX}px, ${startY}px) rotate(${startX * .045 - 2}deg)`, opacity: 1 },
+          { transform: `translate(${direction * distance}px, ${startY + 36}px) rotate(${direction * 28}deg)`, opacity: .1 }
+        ], { duration: 310, easing: 'cubic-bezier(.25,.8,.3,1)' });
+        animation.finished.then(finish, finish);
+      }
+      next.addEventListener('click', () => throwTop());
+      stage.addEventListener('pointerdown', event => {
+        if (moving || !event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+        gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, dy: 0 };
+        stage.setPointerCapture(event.pointerId);
+        stage.classList.add('is-dragging');
+      });
+      stage.addEventListener('pointermove', event => {
+        if (!gesture || gesture.id !== event.pointerId) return;
+        gesture.dx = event.clientX - gesture.x;
+        gesture.dy = event.clientY - gesture.y;
+        const top = stage.firstElementChild;
+        top.style.transform = `translate(${gesture.dx}px, ${gesture.dy * .35}px) rotate(${gesture.dx * .045 - 2}deg)`;
+      });
+      const endDrag = (event, cancelled = false) => {
+        if (!gesture || gesture.id !== event.pointerId) return;
+        const {dx, dy} = gesture;
+        gesture = null;
+        stage.classList.remove('is-dragging');
+        if (!cancelled && Math.abs(dx) > 55) {
+          throwTop(Math.sign(dx), dx, dy * .35);
+        } else {
+          stage.firstElementChild.style.removeProperty('transform');
+        }
+      };
+      stage.addEventListener('pointerup', event => endDrag(event));
+      stage.addEventListener('pointercancel', event => endDrag(event, true));
+      stage.addEventListener('lostpointercapture', event => endDrag(event, true));
+      refresh();
+    }
+  }
+
   function renderPost() {
     const hash = location.hash;
     let slug = null;
@@ -102,13 +181,26 @@
     const labels = [...new Set(getLabels(post))];
     labelsNode.hidden = labels.length === 0;
     labelsNode.innerHTML = labels.map(label => `<span class="entry-label">${escapeHtml(label)}</span>`).join('');
-    body.innerHTML = (Array.isArray(post.body) ? post.body : []).map(block => {
-      if (block && typeof block === 'object' && block.image) {
+    body.innerHTML = (Array.isArray(post.body) ? post.body : []).map((block, blockIndex) => {
+      if (block && typeof block === 'object' && Array.isArray(block.stack)) {
+        const photos = block.stack.filter(photo => photo && typeof photo.image === 'string' && photo.image.trim());
+        if (!photos.length) return '';
+        if (photos.length === 1) return imageFigure(photos[0]);
+        const cards = photos.map((photo, i) => `<div class="stack-card" data-depth="${i}" aria-hidden="${i !== 0}" style="--depth:${Math.min(i, 3)}">
+          <img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" draggable="false" loading="lazy">
+        </div>`).join('');
         const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
-        return `<figure><img src="${escapeHtml(block.image)}" alt="${escapeHtml(block.alt || '')}" loading="lazy">${caption}</figure>`;
+        return `<figure class="photo-stack" data-stack-id="${blockIndex}">
+          <div class="stack-stage" aria-label="A stack of ${photos.length} photos. Drag the top photo sideways to move it to the back.">${cards}</div>
+          <div class="stack-toolbar"><span class="stack-count" role="status" aria-live="polite">1 / ${photos.length}</span>
+            <button class="stack-next" type="button" aria-label="Move top photo to the back">Next photo ↗</button></div>
+          ${caption}
+        </figure>`;
       }
+      if (block && typeof block === 'object' && block.image) return imageFigure(block);
       return `<p>${escapeHtml(block)}</p>`;
     }).join('');
+    initPhotoStacks();
     const previous = posts[index + 1];
     const next = posts[index - 1];
     older.hidden = !previous;
