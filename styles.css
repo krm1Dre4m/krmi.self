@@ -15,6 +15,36 @@ body.light-mode {
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font:15px/1.65 var(--font)}
 button,a{font:inherit} button{cursor:pointer} a{color:inherit}
+
+/* Atmospheric celestial chart: a quiet layer behind the reader, not a navigation UI.
+   A single SVG keeps layout stable and avoids JavaScript/particle rendering. */
+body{background-image:radial-gradient(ellipse at 81% 14%,rgba(111,77,130,.105),transparent 58%);}
+body.light-mode{background-image:radial-gradient(ellipse at 82% 12%,rgba(160,127,179,.07),transparent 60%);}
+.sky-map{
+  position:fixed;inset:0;width:100%;height:100dvh;
+  z-index:0;pointer-events:none;user-select:none;
+  color:#bba1ce;opacity:.38;
+}
+.sky-lines{fill:none;stroke:currentColor;stroke-width:.85;stroke-linejoin:round;stroke-linecap:round;opacity:.50}
+.sky-stars{fill:#e4c6f4;opacity:.80}
+.sky-dust{fill:#dec0ea;opacity:.43}
+.sky-stars .twinkle{animation:sky-breathe 9s ease-in-out infinite}
+.sky-stars .t2{animation-delay:-2.3s;animation-duration:11s}
+.sky-stars .t3{animation-delay:-5.6s;animation-duration:13s}
+.sky-stars .t4{animation-delay:-3.1s;animation-duration:10s}
+@keyframes sky-breathe{0%,100%{opacity:.5}50%{opacity:1}}
+body.light-mode .sky-map{color:#9d7cae;opacity:.25}
+body.light-mode .sky-stars{fill:#8e69a4}
+body.light-mode .sky-dust{fill:#9d7cae}
+.layout{position:relative;z-index:1}
+@media(max-width:680px){
+  .sky-map{opacity:.22}
+  body.light-mode .sky-map{opacity:.12}
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-stars .twinkle{animation:none!important}
+}
+
 /* Animate only actual theme changes, not the initial theme restored at load. */
 body.theme-ready,
 body.theme-ready .layout,
