@@ -14,6 +14,8 @@ The entire website shares a quiet, purely decorative star-map backdrop: constell
 
 Dark mode uses muted lavender against plum, light mode shows a much fainter chart, and small screens reduce its visibility. Motion is disabled by the visitor's reduced-motion preference. Edit the `.sky-map` SVG in `index.html` to change star positions and `.sky-*` rules in `styles.css` to adjust the intensity.
 
+The main controls also use a restrained celestial icon language: a constellation-inspired brand star, a small shooting-star accent for **Surprise me**, moon/sun theme symbols with star detail, star-shaped archive disclosures and active-entry markers, and a matching music-dock icon. These are still ordinary accessible buttons and links, with no icon library or new runtime dependency.
+
 ## Random entry and music player
 
 Use **Surprise me** in the header to open a random journal entry other than the ID `0` introduction. When possible it chooses an entry different from the one currently open.
