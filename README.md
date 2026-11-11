@@ -12,6 +12,14 @@ On smaller screens, use the **Archive** button to open the drawer. The light/dar
 
 Use **Surprise me** in the header to open a random journal entry other than the ID `0` introduction. When possible it chooses an entry different from the one currently open.
 
+Every journal entry can optionally define a soundtrack using one line:
+
+```js
+music: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+```
+
+The site-wide fallback lives at the top of `data/posts.js` as `window.defaultMusicUrl`. Entries without a `music` field inherit that URL. Changing posts cues the matching soundtrack **without autoplaying**; the visitor presses Play in the YouTube player. An explicitly specified URL overrides the default.
+
 The **Music** button at the bottom-right opens a floating jukebox:
 
 1. Paste a public, embeddable YouTube video URL and click **Load**.
@@ -37,6 +45,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
   title: "A quiet Sunday",
   date: "12-11-2026",
   labels: ["Life", "Coding"], // optional; use as many as you like
+  music: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID", // optional
   body: [
     "A paragraph of text.",
     { image: "assets/sunset.jpg", alt: "Sunset outside", caption: "Optional caption" },
@@ -47,6 +56,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 
 - `id` must be a unique non-negative integer. **ID `0` is reserved for the introductory page.** Give every new entry a new number (4, 5, 6, ...), even if you reorder entries or edit their titles later. **Do not renumber old entries:** their IDs are permanent links.
 - `date` accepts `dd-mm-yyyy` or `yyyy-mm-dd`.
+- `music` is optional. Omit it to use the global YouTube default, or provide a link to use a different song for this entry.
 - `body` supports plain text paragraphs, individual images, and optional interactive photo stacks.
 - Standalone images appear in a subtle centered plum frame, up to 560px wide.
 
