@@ -126,9 +126,9 @@
   });
   function imageFigure(photo) {
     const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : '';
-    // The mat follows the image's intrinsic ratio; its tarot back lives behind
-    // the mat rather than behind the caption or an arbitrarily sized figure.
-    return `<figure class="journal-photo"><div class="photo-mat"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy"></div>${caption}</figure>`;
+    // Both cards share the exact same photo-frame box. The caption stays
+    // outside it, so it cannot accidentally stretch the tarot back.
+    return `<figure class="journal-photo"><div class="photo-frame"><div class="photo-mat"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy"></div></div>${caption}</figure>`;
   }
 
   function initPhotoStacks() {
