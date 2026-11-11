@@ -35,6 +35,7 @@ The minimal floating YouTube dock is visible by default at the bottom-right. It 
 - Playback starts only when the visitor presses Play; switching blogs cues the new song without autoplay.
 - To minimize the panel, pause the video first; the panel cannot hide an actively playing YouTube embed. The frequency-style bars on the Music button animate during playback but do not analyze audio frequencies.
 - The custom volume slider adjusts the YouTube player's volume and remembers the setting locally.
+- The page automatically reserves scroll space equal to the floating player's height and bottom offset, so the last paragraph and entry links can scroll completely above it. The space shrinks when the player collapses.
 - The small external-link icon opens the selected video directly on YouTube.
 - Some creators disable embedding or restrict playback. No audio files, API key, or downloaded music are needed.
 
