@@ -4,7 +4,7 @@ A tiny, dependency-free personal journal. Built with plain HTML, CSS, and JavaSc
 
 ## Reading
 
-The journal uses a full-width, borderless personal-wiki layout with the editorial plum-and-mauve palette. The header holds the journal identity and theme control; a compact page tree on the left groups entries by **year → month → post**, newest first. Breadcrumbs above each entry show its year and month. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/my-entry` that can be shared or bookmarked.
+The journal uses a full-width, borderless personal-wiki layout with the editorial plum-and-mauve palette. The header holds the journal identity and theme control; a compact page tree on the left groups entries by **year → month → post**, newest first. Breadcrumbs above each entry show its year and month. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/2` that can be shared or bookmarked.
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
@@ -18,7 +18,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 
 ```js
 {
-  slug: "a-quiet-sunday",
+  id: 3,
   title: "A quiet Sunday",
   date: "12-11-2026",
   labels: ["Life", "Coding"], // optional; use as many as you like
@@ -30,7 +30,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 }
 ```
 
-- `slug` must be unique and URL-safe; use lowercase words separated by hyphens.
+- `id` must be a unique positive integer (1, 2, 3, ...). Give every new entry a new number, even if you reorder entries or edit their titles later. **Do not renumber old entries:** their IDs are permanent links.
 - `date` accepts `dd-mm-yyyy` or `yyyy-mm-dd`.
 - `body` supports plain text paragraphs, individual images, and optional interactive photo stacks.
 - Standalone images appear in a subtle centered plum frame, up to 560px wide.
@@ -58,7 +58,8 @@ Drag or flick the top photo sideways (mouse or touch) to send it to the back and
 
 If a stack contains only one valid image, it is displayed as a normal framed photo. The `stack` block is optional; existing posts do not need to change.
 - Add images to `assets/` and reference them from the entry.
-- Entries and archive groups are **sorted automatically by date** regardless of array order.
+- Entries and archive groups are **sorted automatically by date** regardless of array order. The numeric ID is independent of the display order.
+- Previously shared slug and date-title links to the first two entries continue working for compatibility; all new links are numeric.
 - `labels` is an optional array of strings shown as subtle tags beneath the title. Use `labels: []` (or omit it) for an unlabelled entry.
 - No `excerpt` is needed. Older entries using a single `label` string still render, though `labels` is the preferred format.
 
