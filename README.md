@@ -21,8 +21,7 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
   slug: "a-quiet-sunday",
   title: "A quiet Sunday",
   date: "12-11-2026",
-  excerpt: "Optional; retained for compatibility.",
-  label: "Optional; retained for compatibility.",
+  labels: ["Life", "Coding"], // optional; use as many as you like
   body: [
     "A paragraph of text.",
     { image: "assets/sunset.jpg", alt: "Sunset outside", caption: "Optional caption" },
@@ -36,7 +35,8 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 - `body` supports plain text paragraphs and image blocks.
 - Add images to `assets/` and reference them from the entry.
 - Entries and archive groups are **sorted automatically by date** regardless of array order.
-- `excerpt` and `label` can stay in existing data but are not shown in the simplified journal.
+- `labels` is an optional array of strings shown as subtle tags beneath the title. Use `labels: []` (or omit it) for an unlabelled entry.
+- No `excerpt` is needed. Older entries using a single `label` string still render, though `labels` is the preferred format.
 
 ## Files
 
