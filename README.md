@@ -10,7 +10,7 @@ On smaller screens, use the **Archive** button to open the drawer. The light/dar
 
 ## Tarot-backed journal photography
 
-Single photos sit on an adaptive, slightly offset celestial tarot backing. The existing photograph keeps its native shape and aspect ratio; `app.js` classifies the loaded photo as portrait, square, landscape, or panorama and CSS adjusts the backing's offset and rotation. The decoration sits behind the photo mat, not its caption, so no image pixels are cropped.
+Single photos sit on an adaptive, slightly offset celestial tarot backing. The existing photograph keeps its native shape and aspect ratio; `app.js` classifies the loaded photo as portrait, square, landscape, or panorama and CSS adjusts the backing's offset and rotation. The backing is now attached to the outer figure and layered beneath the front photo mat, so its rounded corners and inset ornamental border remain intact instead of being clipped by the mat. A small right margin prevents the offset backing from being cut by narrow viewports; image pixels are not cropped.
 
 Draggable photo stacks receive **two crossed portrait-format tarot cards** behind the entire stack, independent of the dimensions of its individual pictures. Their ornaments and borders follow the dark/light plum palette. Backings use CSS only, do not intercept clicks or drags, and need no extra image downloads.
 
