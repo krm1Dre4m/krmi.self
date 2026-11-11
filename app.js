@@ -276,7 +276,7 @@
   }
   function setTheme(light) {
     document.body.classList.toggle('light-mode', light);
-    theme.textContent = light ? '☼' : '☾';
+    theme.querySelector('.theme-symbol').textContent = light ? '☼' : '☾';
     theme.setAttribute('aria-pressed', String(light));
     theme.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
     try { localStorage.setItem('krmii-theme', light ? 'light' : 'dark'); } catch (_) {}
