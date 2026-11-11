@@ -1,6 +1,17 @@
 // Add new posts to the top of this array. The site updates automatically.
 window.posts = [
   {
+    id: 0,
+    title: "Welcome to MySelf",
+    date: "22-09-2026",
+    labels: ["Introduction"],
+    body: [
+      "Hi, welcome to my little corner of the internet.",
+      "This is where I leave bits and pieces of my life: thoughts, memories, random moments, and whatever else I feel like writing down.",
+      "Nothing too serious. Just a place to look back on, someday."
+    ]
+  },
+  {
     id: 1,
     title: "Trying my best",
     date: "16-10-2026",
