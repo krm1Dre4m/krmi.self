@@ -111,7 +111,12 @@
     </header>
     <aside class="sidebar" id="sidebar" aria-label="Journal navigation">
       <nav aria-label="Archive">
-        <h2 class="sidebar-heading">Pages</h2>
+        <div class="sidebar-topbar">
+          <h2 class="sidebar-heading">Pages</h2>
+          <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Hide Pages sidebar" title="Hide Pages">
+            <span aria-hidden="true">✧</span><span>Hide</span>
+          </button>
+        </div>
         <div id="archive-tree"></div>
       </nav>
     </aside>
