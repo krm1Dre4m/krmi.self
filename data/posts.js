@@ -1,4 +1,6 @@
 // Add new posts to the top of this array. The site updates automatically.
+// Site-wide fallback YouTube song. Individual entries may override it with music: "...".
+window.defaultMusicUrl = "https://www.youtube.com/watch?v=jfKfPfyJRdk";
 window.posts = [
   {
     id: 0,
