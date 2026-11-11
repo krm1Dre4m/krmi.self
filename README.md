@@ -20,11 +20,12 @@ music: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
 
 The site-wide fallback lives at the top of `data/posts.js` as `window.defaultMusicUrl`. Entries without a `music` field inherit that URL. Changing posts cues the matching soundtrack **without autoplaying**; the visitor presses Play in the YouTube player. An explicitly specified URL overrides the default.
 
-The **Music** button opens a compact floating player at the bottom-right. Visitors cannot enter or choose their own YouTube links: the current blog's `music` field (or `window.defaultMusicUrl`) decides the soundtrack.
+The compact floating YouTube player is visible by default at the bottom-right. The **Music** button opens it again after it has been closed while paused. Visitors cannot enter or choose their own YouTube links: the current blog's `music` field (or `window.defaultMusicUrl`) decides the soundtrack.
 
 - YouTube's official embedded player provides visible playback, volume, seeking, and attribution controls.
 - Playback starts only when the visitor presses Play; switching blogs cues the new song without autoplay.
-- Closing the player pauses it. The decorative bars animate during playback, but do not analyze audio frequencies.
+- To minimize the panel, pause the video first; the panel cannot hide an actively playing YouTube embed. The frequency-style bars on the Music button animate during playback but do not analyze audio frequencies.
+- The custom volume slider adjusts the YouTube player's volume and remembers the setting locally.
 - The small external-link icon opens the selected video directly on YouTube.
 - Some creators disable embedding or restrict playback. No audio files, API key, or downloaded music are needed.
 
