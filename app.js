@@ -24,26 +24,23 @@
   const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
     .filter(label => typeof label === 'string' && label.trim())
     .map(label => label.trim());
-  const urlTitle = title => String(title || '')
-    .normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '')
-    .toLowerCase().replace(/đ/g, 'd')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'entry';
-  const usedIds = new Set();
+  // IDs are explicit positive integers, not positional indices. Reordering posts
+  // or editing a title/date will therefore never change the permalink.
   const posts = (Array.isArray(window.posts) ? window.posts : [])
     .map((post, index) => ({...post, parsedDate:parseDate(post.date), originalIndex:index}))
-    .filter(post => post.parsedDate && typeof post.title === 'string')
-    .sort((a,b) => b.parsedDate - a.parsedDate || a.originalIndex - b.originalIndex)
-    .map(post => {
-      const base = post.parsedDate.toISOString().slice(0,10) + '-' + urlTitle(post.title);
-      let id = base, suffix = 2;
-      while (usedIds.has(id)) id = base + '-' + suffix++;
-      usedIds.add(id);
-      return {...post, id};
-    });
-  // Existing bookmarks from before the automatic-ID migration still open.
+    .filter(post => post.parsedDate && typeof post.title === 'string' && Number.isSafeInteger(post.id) && post.id > 0)
+    .sort((a,b) => b.parsedDate - a.parsedDate || a.originalIndex - b.originalIndex);
+  const seenIds = new Set();
+  for (const post of posts) {
+    if (seenIds.has(post.id)) console.warn('Duplicate journal ID:', post.id);
+    seenIds.add(post.id);
+  }
+  // Preserve links from both previous routing schemes.
   const legacyIds = {
-    'life-is-going-well-i-guess': '2026-10-16-trying-my-best',
-    'smth smth': '2026-10-20-what-a-tuesday'
+    'life-is-going-well-i-guess': 1,
+    'smth smth': 2,
+    '2026-10-16-trying-my-best': 1,
+    '2026-10-20-what-a-tuesday': 2
   };
   const years = new Map();
   for (const post of posts) {
@@ -68,7 +65,7 @@
           const active = items.some(p => p.id === selectedId);
           return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(active || (hadTree && expandedMonths.has(year + '-' + month))) ? 'open' : ''}>
             <summary>${escapeHtml(monthName(items[0].parsedDate))} <span class="count">${items.length}</span></summary>
-            <div class="post-links">${items.map(p => `<a href="#note/${encodeURIComponent(p.id)}" ${p.id === selectedId ? 'aria-current="page"' : ''}>${escapeHtml(p.title)}</a>`).join('')}</div>
+            <div class="post-links">${items.map(p => `<a href="#note/${p.id}" ${p.id === selectedId ? 'aria-current="page"' : ''}>${escapeHtml(p.title)}</a>`).join('')}</div>
           </details>`;
         }).join('')}</div>
       </details>`;
@@ -170,21 +167,23 @@
 
   function renderPost() {
     const hash = location.hash;
-    let slug = null;
+    let token = null;
     if (hash.startsWith('#note/')) {
-      try { slug = decodeURIComponent(hash.slice(6)); } catch (_) { slug = null; }
+      try { token = decodeURIComponent(hash.slice(6)); } catch (_) { token = null; }
     }
-    const targetId = legacyIds[slug] || slug;
-    const index = Math.max(0, posts.findIndex(p => p.id === targetId));
+    const numericId = token && /^[1-9]\\d*$/.test(token) ? Number(token) : null;
+    const targetId = token === null ? posts[0]?.id : (legacyIds[token] ?? numericId);
+    const foundIndex = posts.findIndex(p => p.id === targetId);
+    const index = foundIndex;
     const post = posts[index];
     if (!post) {
       selectedId = null;
       dateNode.textContent = '';
       breadcrumbs.innerHTML = '<span>Journal</span>';
-      title.textContent = 'Nothing here yet.';
+      title.textContent = posts.length ? 'Entry not found.' : 'Nothing here yet.';
       labelsNode.hidden = true;
       labelsNode.replaceChildren();
-      body.textContent = 'Add your first entry in data/posts.js.';
+      body.textContent = posts.length ? 'Choose an entry from the archive.' : 'Add your first entry in data/posts.js.';
       older.hidden = newer.hidden = true;
       renderTree();
       closeMenu();
@@ -234,8 +233,8 @@
     const next = posts[index - 1];
     older.hidden = !previous;
     newer.hidden = !next;
-    if (previous) { older.href = '#note/' + encodeURIComponent(previous.id); older.textContent = '← Older entry'; }
-    if (next) { newer.href = '#note/' + encodeURIComponent(next.id); newer.textContent = 'Newer entry →'; }
+    if (previous) { older.href = '#note/' + previous.id; older.textContent = '← Older entry'; }
+    if (next) { newer.href = '#note/' + next.id; newer.textContent = 'Newer entry →'; }
     renderTree();
     closeMenu();
     window.scrollTo(0, 0);
