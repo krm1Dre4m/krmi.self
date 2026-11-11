@@ -15,16 +15,21 @@
   <!-- Decorative sky chart: fixed behind the journal, never interactive. -->
   <svg class="sky-map" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
     <defs>
-      <radialGradient id="sky-fade">
-        <stop offset="0" stop-color="white" stop-opacity="0.85"/>
-        <stop offset="0.65" stop-color="white" stop-opacity="0.48"/>
-        <stop offset="1" stop-color="white" stop-opacity="0"/>
+      <radialGradient id="sky-fade" cx="50%" cy="48%" r="76%">
+        <stop offset="0" stop-color="white" stop-opacity=".82"/>
+        <stop offset=".68" stop-color="white" stop-opacity=".72"/>
+        <stop offset="1" stop-color="white" stop-opacity=".45"/>
       </radialGradient>
       <mask id="sky-mask"><rect width="1440" height="900" fill="url(#sky-fade)"/></mask>
     </defs>
     <g mask="url(#sky-mask)">
       <g class="sky-drift sky-drift-a">
         <g class="sky-lines">
+          <path pathLength="1" d="M74 128 L160 93 L239 171 L320 120 L410 188"/>
+          <path pathLength="1" d="M160 93 L128 263 L218 306 L320 120"/>
+          <path pathLength="1" d="M52 560 L132 509 L233 578 L312 527 L411 609"/>
+          <path pathLength="1" d="M233 578 L205 715 L321 774"/>
+          <path pathLength="1" d="M388 309 L463 266 L540 326 L588 276"/>
           <path pathLength="1" d="M645 142 L755 101 L827 195 L967 157 L1064 238 L1180 201"/>
           <path pathLength="1" d="M827 195 L862 312 L992 356 L1064 238"/>
           <path pathLength="1" d="M590 335 L650 383 L716 349 L771 414 L850 405"/>
@@ -43,6 +48,16 @@
         </g>
       </g>
       <g class="sky-stars">
+        <circle cx="74" cy="128" r="2.2"/><circle cx="160" cy="93" r="2.8" class="twinkle t2"/>
+        <circle cx="239" cy="171" r="2"/><circle cx="320" cy="120" r="2.6"/>
+        <circle cx="410" cy="188" r="2.1"/><circle cx="128" cy="263" r="2.2"/>
+        <circle cx="218" cy="306" r="2.6" class="twinkle t3"/>
+        <circle cx="52" cy="560" r="1.9"/><circle cx="132" cy="509" r="2.5"/>
+        <circle cx="233" cy="578" r="2.9" class="twinkle t4"/>
+        <circle cx="312" cy="527" r="2.1"/><circle cx="411" cy="609" r="2.3"/>
+        <circle cx="205" cy="715" r="2"/><circle cx="321" cy="774" r="2.5"/>
+        <circle cx="388" cy="309" r="2.2"/><circle cx="463" cy="266" r="2.6"/>
+        <circle cx="540" cy="326" r="2.1" class="twinkle t1"/><circle cx="588" cy="276" r="1.9"/>
         <circle cx="645" cy="142" r="2.3"/><circle cx="755" cy="101" r="3.1" class="twinkle t1"/>
         <circle cx="827" cy="195" r="2.8"/><circle cx="967" cy="157" r="2.5" class="twinkle t2"/>
         <circle cx="1064" cy="238" r="3"/><circle cx="1180" cy="201" r="2.1"/>
@@ -67,6 +82,10 @@
         <circle cx="1284" cy="819" r="2.7"/><circle cx="1375" cy="778" r="2"/>
       </g>
       <g class="sky-dust">
+        <circle cx="48" cy="353" r=".9"/><circle cx="287" cy="69" r="1.1"/>
+        <circle cx="426" cy="60" r="1"/><circle cx="350" cy="433" r="1"/>
+        <circle cx="100" cy="658" r=".9"/><circle cx="456" cy="710" r="1.1"/>
+        <circle cx="510" cy="530" r=".9"/><circle cx="260" cy="824" r="1"/>
         <circle cx="703" cy="260" r="1"/><circle cx="778" cy="397" r="1.2"/>
         <circle cx="924" cy="76" r="1.1"/><circle cx="1119" cy="119" r="1"/>
         <circle cx="1224" cy="297" r="1.1"/><circle cx="1312" cy="283" r="1.3"/>
