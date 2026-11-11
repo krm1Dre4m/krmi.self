@@ -187,6 +187,50 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-pager a{color:var(--muted);text-decoration:none;font-size:12px}
 .entry-pager a:hover{color:var(--accent)}
 .entry-pager a[hidden]{display:none}
+
+/* Shared social constellation: each entry ends with the same quiet, centered row.
+   The icons are self-contained SVGs and intentionally inherit the theme palette. */
+.social-footer{
+  margin:48px auto 0;
+  padding:0 0 8px;
+  width:100%;
+  text-align:center;
+}
+.social-separator{
+  display:flex;align-items:center;justify-content:center;gap:15px;
+  color:var(--accent);opacity:.6;font-size:17px;line-height:1;
+  margin:0 auto 20px;
+  max-width:235px;
+}
+.social-separator::before,.social-separator::after{
+  content:'';height:1px;flex:1;background:var(--line);
+}
+.social-links{
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(7px,1.25vw,15px);flex-wrap:wrap;
+}
+.social-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  position:relative;width:40px;height:40px;border-radius:50%;
+  color:var(--muted);text-decoration:none;
+  transition:color 220ms ease,background-color 220ms ease,transform 220ms ease;
+}
+.social-link svg{display:block;width:19px;height:19px;fill:currentColor}
+.social-link:hover,.social-link:focus-visible{
+  color:var(--accent);background:var(--active);transform:translateY(-2px);
+}
+.social-link:active{transform:translateY(0)}
+@media(max-width:480px){
+  .social-footer{margin-top:38px}
+  .social-links{gap:5px}
+  .social-link{width:37px;height:39px}
+  .social-link svg{width:18px;height:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .social-link{transition:none}
+  .social-link:hover,.social-link:focus-visible,.social-link:active{transform:none}
+}
+
 .mobile-backdrop[hidden]{display:none}
 @media(max-width:850px){
   .layout{grid-template-columns:235px minmax(0,1fr);padding:0 24px}
