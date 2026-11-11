@@ -7,6 +7,26 @@
   const widget = document.getElementById('music-widget');
   const panel = document.getElementById('music-panel');
   const isOpen = () => !widget.classList.contains('is-collapsed');
+
+  // The floating dock must never obscure the last paragraphs or pager links.
+  // Keep the journal's trailing scroll space aligned to the dock's *visible*
+  // height, including its bottom offset. ResizeObserver follows morph animations.
+  const journal = document.querySelector('main');
+  function updateScrollClearance() {
+    if (!journal || !widget) return;
+    const rect = widget.getBoundingClientRect();
+    const clearance = Math.max(70, Math.ceil(window.innerHeight - rect.top + 28));
+    journal.style.setProperty('--music-scroll-clearance', clearance + 'px');
+  }
+  if (journal && widget) {
+    updateScrollClearance();
+    if ('ResizeObserver' in window) {
+      const observer = new ResizeObserver(updateScrollClearance);
+      observer.observe(widget);
+    }
+    window.addEventListener('resize', updateScrollClearance, { passive: true });
+    widget.addEventListener('transitionend', updateScrollClearance);
+  }
   const close = document.getElementById('music-close');
   const bars = document.getElementById('music-bars');
   const playButton = document.getElementById('music-play');
