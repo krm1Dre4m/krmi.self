@@ -53,21 +53,21 @@
   <section class="music-widget" aria-label="Journal soundtrack">
     <div class="music-panel" id="music-panel">
       <div class="music-heading">
-        <strong>♫ &nbsp; Journal soundtrack</strong>
-        <button class="music-close" id="music-close" type="button" aria-label="Close music player">×</button>
+        <strong><span aria-hidden="true">♫</span> soundtrack</strong>
+        <div class="music-heading-actions">
+          <a id="music-watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden aria-label="Open current song on YouTube" title="View on YouTube">↗</a>
+          <button class="music-close" id="music-close" type="button" aria-label="Minimize paused music player">−</button>
+        </div>
       </div>
       <div class="music-video" id="music-video">
         <div id="youtube-player"></div>
       </div>
       <div class="music-volume">
-        <label for="music-volume">Volume</label>
+        <label for="music-volume" aria-label="Volume">♫</label>
         <input id="music-volume" type="range" min="0" max="100" value="65" step="1" aria-label="Music volume">
         <output id="music-volume-value" for="music-volume">65%</output>
       </div>
-      <div class="music-bottom">
-        <span id="music-status" role="status" aria-live="polite">Open to listen</span>
-        <a id="music-watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden title="Watch on YouTube">↗</a>
-      </div>
+      <span id="music-status" class="music-status" role="status" aria-live="polite">Ready to listen</span>
     </div>
     <button class="music-launch" id="music-launch" type="button" aria-controls="music-panel" aria-expanded="true" title="Journal music player">
       <span aria-hidden="true">♫</span>
