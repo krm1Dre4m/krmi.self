@@ -121,9 +121,13 @@ body.light-mode .theme-toggle{transform:rotate(180deg)}
 body.light-mode .sidebar{background:rgba(245,239,245,.38)}
 .sidebar-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 .sidebar-heading{margin:0;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.11em}
-.sidebar-close{display:none;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:var(--active);color:var(--text);padding:7px 12px;font-size:12px;line-height:1.2}
-.sidebar-close:hover{color:var(--ink);border-color:var(--accent)}
-.sidebar-close span:first-child{color:var(--accent);font-size:16px;line-height:1}
+/* The closing affordance is a faint celestial edge-mark, not a labeled pill. */
+.sidebar-close{display:none;position:relative;align-items:center;justify-content:center;flex:0 0 36px;width:36px;height:40px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--muted)}
+.sidebar-close span{font-size:32px;font-weight:300;line-height:1;transform:translateY(-2px);transition:transform 250ms ease,color 250ms ease}
+.sidebar-close::after{content:'✧';position:absolute;right:4px;top:3px;font-size:10px;color:var(--accent);opacity:.62;pointer-events:none}
+.sidebar-close:hover,.sidebar-close:focus-visible{color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.sidebar-close:hover span{transform:translate(-3px,-2px)}
+@media(prefers-reduced-motion:reduce){.sidebar-close span{transition:none!important}}
 details summary{cursor:pointer;list-style:none}
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:'›';display:inline-block;margin-right:9px;transition:transform .15s ease;font-size:17px;line-height:1}
@@ -197,7 +201,7 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
   /* The theme selector is more specific than .sidebar, so explicitly retain transform here. */
   body.theme-ready .sidebar{transition:transform 340ms cubic-bezier(.22,1,.36,1),background-color 350ms ease,border-color 350ms ease}
   .sidebar.is-open{transform:translate3d(0,0,0)}
-  .sidebar-close{display:inline-flex;min-height:36px}
+  .sidebar-close{display:inline-flex}
   .mobile-backdrop:not([hidden]){position:fixed;z-index:50;inset:0;background:rgba(0,0,0,.56);opacity:0;pointer-events:none;transition:opacity 300ms ease}
   .mobile-backdrop.is-visible:not([hidden]){opacity:1;pointer-events:auto}
   body.menu-open{overflow:hidden}
