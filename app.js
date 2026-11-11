@@ -37,13 +37,17 @@
   }
   let selectedSlug = null;
   function renderTree() {
+    // Keep manually opened archive groups open when changing entries.
+    const expandedYears = new Set([...root.querySelectorAll('.year[open]')].map(node => node.dataset.year));
+    const expandedMonths = new Set([...root.querySelectorAll('.month[open]')].map(node => node.dataset.month));
+    const hadTree = root.children.length > 0;
     root.innerHTML = Array.from(years, ([year, months]) => {
       const containsSelected = [...months.values()].some(items => items.some(p => p.slug === selectedSlug));
-      return `<details class="year" ${containsSelected ? 'open' : ''}>
+      return `<details class="year" data-year="${escapeHtml(year)}" ${(containsSelected || (hadTree && expandedYears.has(year))) ? 'open' : ''}>
         <summary>${escapeHtml(year)}</summary>
         <div class="months">${Array.from(months, ([month, items]) => {
           const active = items.some(p => p.slug === selectedSlug);
-          return `<details class="month" ${active ? 'open' : ''}>
+          return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(active || (hadTree && expandedMonths.has(year + '-' + month))) ? 'open' : ''}>
             <summary>${escapeHtml(monthName(items[0].parsedDate))} <span class="count">${items.length}</span></summary>
             <div class="post-links">${items.map(p => `<a href="#note/${encodeURIComponent(p.slug)}" ${p.slug === selectedSlug ? 'aria-current="page"' : ''}>${escapeHtml(p.title)}</a>`).join('')}</div>
           </details>`;
