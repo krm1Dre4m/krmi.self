@@ -72,6 +72,33 @@
     }).join('') || '<p class="empty">No entries yet.</p>';
     sidebar.scrollTop = archiveScrollTop;
   }
+  // Native details remain keyboard accessible; enhance their open/close motion
+  // without adding a framework or animating on initial render.
+  root.addEventListener('click', event => {
+    const summary = event.target.closest('summary');
+    if (!summary || !root.contains(summary)) return;
+    const details = summary.parentElement;
+    const content = details.classList.contains('year')
+      ? details.querySelector(':scope > .months')
+      : details.querySelector(':scope > .post-links');
+    if (!content || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !content.animate) return;
+    event.preventDefault();
+    if (details.classList.contains('archive-animating')) return;
+    const opening = !details.open;
+    if (opening) details.open = true;
+    const height = content.scrollHeight;
+    details.classList.add('archive-animating');
+    const animation = content.animate([
+      { height: opening ? '0px' : height + 'px', opacity: opening ? 0 : 1 },
+      { height: opening ? height + 'px' : '0px', opacity: opening ? 1 : 0 }
+    ], { duration: 240, easing: 'cubic-bezier(.2,.7,.25,1)' });
+    const finish = () => {
+      if (!opening) details.open = false;
+      details.classList.remove('archive-animating');
+    };
+    animation.finished.then(finish, finish);
+  });
+
   function closeMenu() {
     sidebar.classList.remove('is-open');
     menu.setAttribute('aria-expanded','false');
@@ -253,5 +280,6 @@
   window.addEventListener('hashchange', renderPost);
   // The archive is navigable by native details/summary controls, without JS state for expanded groups.
   try { setTheme(localStorage.getItem('krmii-theme') === 'light'); } catch (_) { setTheme(false); }
+  document.body.classList.add('theme-ready');
   renderPost();
 })();
