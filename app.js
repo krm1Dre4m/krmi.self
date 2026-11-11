@@ -203,7 +203,44 @@
     }
   }
 
+  // Animate only the newly rendered article, never the persistent sidebar or music player.
+  // Separate layers reveal in reading order, with capped delays even on long entries.
+  let entryAnimations = [];
+  function clearEntryAnimations() {
+    for (const animation of entryAnimations) animation.cancel();
+    entryAnimations = [];
+  }
+  function revealEntry() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        !Element.prototype.animate) return;
+
+    const layers = [
+      [breadcrumbs, 0],
+      [title, 75],
+      [dateNode.closest('.entry-info'), 135],
+      ...(!labelsNode.hidden ? [[labelsNode, 190]] : []),
+      ...[...body.children].map((node, index) => [node, 220 + Math.min(index, 10) * 55]),
+      [older.closest('.entry-pager'), 360 + Math.min(body.children.length, 10) * 55],
+      [document.querySelector('.social-footer'), 430 + Math.min(body.children.length, 10) * 55]
+    ];
+    for (const [element, delay] of layers) {
+      if (!element) continue;
+      const animation = element.animate([
+        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], {
+        duration: 460,
+        delay,
+        easing: 'cubic-bezier(.22,1,.36,1)',
+        fill: 'both'
+      });
+      entryAnimations.push(animation);
+      animation.onfinish = () => animation.cancel();
+    }
+  }
+
   function renderPost() {
+    clearEntryAnimations();
     const hash = location.hash;
     let token = null;
     if (hash.startsWith('#note/')) {
@@ -284,6 +321,7 @@
     renderTree();
     closeMenu();
     window.scrollTo(0, 0);
+    revealEntry();
   }
   function setTheme(light) {
     document.body.classList.toggle('light-mode', light);
