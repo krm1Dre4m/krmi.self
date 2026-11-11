@@ -10,7 +10,7 @@ On smaller screens, use the **Archive** button to open the drawer. The light/dar
 
 ## Atmospheric constellation theme
 
-The journal has a quiet, purely decorative star-map backdrop: six connected constellation groups, scattered stars, and very slow twinkling. The sky is dimmer than the original version, fades in on load, draws its constellation lines in a staggered reveal, and drifts only a few pixels over nearly a minute. It uses a single inline SVG plus CSS — no particle engine, extra requests, or scrolling script. The existing archive remains a normal tree; stars are not links or interactive elements.
+The entire website shares a quiet, purely decorative star-map backdrop: constellation groups span the header, left archive, and reading area, with scattered stars and very slow twinkling. The desktop sidebar uses a translucent background so the shared sky remains visible, while the mobile archive drawer stays opaque for legibility. The sky is dimmer than the original version, fades in on load, draws its constellation lines in a staggered reveal, and drifts only a few pixels over nearly a minute. It uses a single inline SVG plus CSS — no particle engine, extra requests, or scrolling script. The existing archive remains a normal tree; stars are not links or interactive elements.
 
 Dark mode uses muted lavender against plum, light mode shows a much fainter chart, and small screens reduce its visibility. Motion is disabled by the visitor's reduced-motion preference. Edit the `.sky-map` SVG in `index.html` to change star positions and `.sky-*` rules in `styles.css` to adjust the intensity.
 
