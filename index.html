@@ -62,10 +62,15 @@
       <div class="music-video" id="music-video">
         <div id="youtube-player"></div>
       </div>
-      <div class="music-volume">
-        <label for="music-volume" aria-label="Volume">♫</label>
+      <div class="music-controls">
+        <button id="music-play" class="music-play" type="button" aria-label="Play soundtrack" title="Play soundtrack" disabled>
+          <span class="music-play-icon" aria-hidden="true">▶</span>
+        </button>
+        <div class="music-volume">
+          <label for="music-volume" aria-label="Volume">♫</label>
         <input id="music-volume" type="range" min="0" max="100" value="65" step="1" aria-label="Music volume">
-        <output id="music-volume-value" for="music-volume">65%</output>
+          <output id="music-volume-value" for="music-volume">65%</output>
+        </div>
       </div>
       <span id="music-status" class="music-status" role="status" aria-live="polite">Ready to listen</span>
     </div>
