@@ -99,11 +99,14 @@
     animation.finished.then(finish, finish);
   });
 
+  const reducedDrawerMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function closeMenu() {
     sidebar.classList.remove('is-open');
     menu.setAttribute('aria-expanded','false');
     menu.setAttribute('aria-label','Open archive');
-    backdrop.hidden = true;
+    backdrop.classList.remove('is-visible');
+    // Leave the backdrop mounted until its fade-out completes.
+    if (reducedDrawerMotion() || window.matchMedia('(min-width: 681px)').matches) backdrop.hidden = true;
     document.body.classList.remove('menu-open');
   }
   function openMenu() {
@@ -111,8 +114,15 @@
     menu.setAttribute('aria-expanded','true');
     menu.setAttribute('aria-label','Close archive');
     backdrop.hidden = false;
+    // Flush the initial transparent state so a new opening also fades smoothly.
+    if (!backdrop.classList.contains('is-visible')) void backdrop.offsetWidth;
+    backdrop.classList.add('is-visible');
     document.body.classList.add('menu-open');
   }
+  backdrop.addEventListener('transitionend', event => {
+    if (event.target === backdrop && event.propertyName === 'opacity' &&
+        !backdrop.classList.contains('is-visible')) backdrop.hidden = true;
+  });
   function imageFigure(photo) {
     const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : '';
     return `<figure class="journal-photo"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy">${caption}</figure>`;
