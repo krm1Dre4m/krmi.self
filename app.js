@@ -64,7 +64,7 @@
         <div class="months">${Array.from(months, ([month, items]) => {
           const active = items.some(p => p.id === selectedId);
           return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(active || (hadTree && expandedMonths.has(year + '-' + month))) ? 'open' : ''}>
-            <summary>${escapeHtml(monthName(items[0].parsedDate))} <span class="count">${items.length}</span></summary>
+            <summary>${escapeHtml(monthName(items[0].parsedDate))}</summary>
             <div class="post-links">${items.map(p => `<a href="#note/${p.id}" ${p.id === selectedId ? 'aria-current="page"' : ''}>${escapeHtml(p.title)}</a>`).join('')}</div>
           </details>`;
         }).join('')}</div>
