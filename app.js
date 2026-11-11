@@ -217,6 +217,14 @@
       return;
     }
     selectedId = post.id;
+    // Share the post's optional soundtrack with the floating music player.
+    // An omitted music field inherits the site-wide YouTube default.
+    window.currentJournalMusicUrl = typeof post.music === 'string' && post.music.trim()
+      ? post.music.trim()
+      : (window.defaultMusicUrl || '');
+    window.dispatchEvent(new CustomEvent('journal:entrychange', {
+      detail: { music: window.currentJournalMusicUrl, entryId: post.id }
+    }));
     document.title = `${post.title} — KRMII's Journal`;
     dateNode.textContent = longDate(post.parsedDate);
     dateNode.dateTime = post.parsedDate.toISOString().slice(0,10);
