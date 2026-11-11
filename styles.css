@@ -197,7 +197,7 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
     inset 0 0 0 5px var(--tarot-fill),
     inset 0 0 0 6px var(--tarot-rule),
     0 8px 24px rgba(0,0,0,.14);
-  transform:translate(13px,12px) rotate(3deg);
+  transform:translate(15px,13px) rotate(5deg);
   transform-origin:center;
 }
 .photo-frame::after{
@@ -208,16 +208,16 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 /* Same-sized back in every shape; only tilt is adjusted to keep very tall
    portraits and ultrawide photos within the reading column. */
 .journal-photo[data-photo-shape="portrait"] .photo-frame::before{
-  transform:translate(12px,12px) rotate(2.5deg);
+  transform:translate(14px,13px) rotate(4.5deg);
 }
 .journal-photo[data-photo-shape="landscape"] .photo-frame::before{
-  transform:translate(13px,12px) rotate(3.5deg);
+  transform:translate(15px,13px) rotate(5.5deg);
 }
 .journal-photo[data-photo-shape="panorama"] .photo-frame::before{
-  transform:translate(12px,10px) rotate(3deg);
+  transform:translate(14px,11px) rotate(4deg);
 }
 .journal-photo[data-photo-shape="square"] .photo-frame::before{
-  transform:translate(13px,12px) rotate(3deg);
+  transform:translate(15px,13px) rotate(5deg);
 }
 .entry-body figcaption{margin:14px 8px 4px;text-align:center;color:var(--muted);font-size:12px}
 
