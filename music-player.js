@@ -7,6 +7,15 @@
   const panel = document.getElementById('music-panel');
   const close = document.getElementById('music-close');
   const bars = document.getElementById('music-bars');
+  const volume = document.getElementById('music-volume');
+  const volumeValue = document.getElementById('music-volume-value');
+  let volumeLevel = 65;
+  try {
+    const saved = Number(localStorage.getItem('krmi-music-volume'));
+    if (localStorage.getItem('krmi-music-volume') !== null && Number.isFinite(saved)) volumeLevel = Math.max(0, Math.min(100, saved));
+  } catch (_) {}
+  volume.value = String(volumeLevel);
+  volumeValue.textContent = volumeLevel + '%';
   const status = document.getElementById('music-status');
   const watch = document.getElementById('music-watch');
   if (!launch || !panel) return;
@@ -39,6 +48,16 @@
     if (playing) status.textContent = 'Playing';
     else if (selectedVideo) status.textContent = 'Ready to play';
   }
+
+  function applyVolume(value) {
+    volumeLevel = Math.max(0, Math.min(100, Number(value) || 0));
+    volume.value = String(volumeLevel);
+    volumeValue.textContent = volumeLevel + '%';
+    if (ready && player?.setVolume) player.setVolume(volumeLevel);
+    try { localStorage.setItem('krmi-music-volume', String(volumeLevel)); } catch (_) {}
+  }
+
+  volume.addEventListener('input', () => applyVolume(volume.value));
 
   function loadApi() {
     if (window.YT?.Player) return Promise.resolve(window.YT);
@@ -77,6 +96,7 @@
         events: {
           onReady: event => {
             ready = true;
+            event.target.setVolume(volumeLevel);
             if (pendingVideo) event.target.cueVideoById(pendingVideo);
             if (panel.hidden) event.target.pauseVideo();
             status.textContent = panel.hidden ? 'Ready to listen' : 'Press play above';
