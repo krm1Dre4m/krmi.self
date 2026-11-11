@@ -50,7 +50,7 @@ window.posts = [
     date: "12-11-2026",
     labels: ["Coding"],
     body: [
-      "Sau một hồi mày mò thì K đã quyết với kiểu thiết kế này: đơn điệu, một màu, thanh nhã, đúng với mong muốn của bản thân, hehe",
+      "Sau một hồi mày mò thì K đã quyết với kiểu thiết kế này: đơn điệu, một màu, thanh nhã, đúng với mong muốn của bản thân, heh.",
       "(Chắc chắn là đã không thức đến 5h sáng chỉ để làm lại cái web này...)",
     ]
   },
