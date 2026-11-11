@@ -75,7 +75,7 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-body{padding-top:30px;border-top:1px solid var(--line);color:var(--text);font-size:17px;line-height:1.85;overflow-wrap:anywhere}
 .entry-body p{margin:0 0 1.55em}
 .entry-body figure{margin:28px 0}
-.entry-body img{display:block;max-width:100%;height:auto;border-radius:8px}
+.entry-body img{display:block;width:auto;max-width:min(100%,560px);height:auto;margin-inline:auto;border-radius:8px}
 .entry-body figcaption{margin-top:9px;text-align:center;color:var(--muted);font-size:12px}
 .entry-pager{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:19px;margin-top:56px}
 .entry-pager a{color:var(--muted);text-decoration:none;font-size:12px}
