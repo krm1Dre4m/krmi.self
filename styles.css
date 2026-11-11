@@ -49,6 +49,9 @@ main {flex:1;width:100%;padding:clamp(28px,7vw,96px) 26px 75px}
 .entry {max-width:720px;margin:0 auto;min-height:40vh}
 .entry-date {font-size:11px;color:var(--accent);letter-spacing:.13em;text-transform:uppercase;font-weight:700}
 h1 {font:500 clamp(42px,6vw,68px)/1.1 var(--serif);letter-spacing:-.035em;margin:22px 0 31px;overflow-wrap:anywhere}
+.entry-labels {display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 30px}
+.entry-labels[hidden] {display:none}
+.entry-label {font:500 11px/1.4 var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
 .entry-body {border-top:1px solid var(--line);padding-top:36px;font:400 21px/1.8 var(--serif);color:var(--soft);overflow-wrap:anywhere}
 .entry-body p {margin:0 0 1.4em}
 .entry-body figure {margin:30px 0}
