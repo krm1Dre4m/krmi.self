@@ -44,6 +44,7 @@
     if (!show && player && ready && typeof player.pauseVideo === 'function') player.pauseVideo();
     panel.hidden = !show;
     launch.setAttribute('aria-expanded', String(show));
+    if (show && selectedVideo && !player) selectVideo(selectedVideo);
     if (show && !selectedVideo) input.focus();
   }
 
@@ -112,6 +113,29 @@
     }
   }
 
+  // Blog-level soundtrack changes select a video without triggering autoplay.
+  // The default song is configured in data/posts.js.
+  function applyEntryMusic(raw) {
+    const id = parseYouTubeId(raw || '');
+    if (!id) return;
+    if (selectedVideo === id) return;
+    selectedVideo = id;
+    pendingVideo = id;
+    input.value = 'https://www.youtube.com/watch?v=' + id;
+    watch.href = input.value;
+    watch.hidden = false;
+    setPlaying(false);
+    status.textContent = 'Journal soundtrack ready — open player to listen';
+    if (player && ready) {
+      video.hidden = false;
+      player.cueVideoById(id);
+      status.textContent = 'Press play in the YouTube player';
+    } else if (!panel.hidden) {
+      selectVideo(id);
+    }
+  }
+
+  window.addEventListener('journal:entrychange', event => applyEntryMusic(event.detail?.music));
   launch.addEventListener('click', () => showPanel(panel.hidden));
   close.addEventListener('click', () => { showPanel(false); launch.focus(); });
   form.addEventListener('submit', event => {
@@ -128,11 +152,15 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !panel.hidden) { showPanel(false); launch.focus(); }
   });
-  try {
-    const saved = localStorage.getItem('krmi-youtube-video');
-    if (saved && /^[A-Za-z0-9_-]{11}$/.test(saved)) {
-      input.value = 'https://www.youtube.com/watch?v=' + saved;
-      status.textContent = 'Previous video ready — press Load';
-    }
-  } catch (_) {}
+  if (window.currentJournalMusicUrl) {
+    applyEntryMusic(window.currentJournalMusicUrl);
+  } else {
+    try {
+      const saved = localStorage.getItem('krmi-youtube-video');
+      if (saved && /^[A-Za-z0-9_-]{11}$/.test(saved)) {
+        input.value = 'https://www.youtube.com/watch?v=' + saved;
+        status.textContent = 'Previous video ready — press Load';
+      }
+    } catch (_) {}
+  }
 })();
