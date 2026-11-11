@@ -8,6 +8,12 @@ The journal uses a full-width, borderless personal-wiki layout with the editoria
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
+## Tarot-backed journal photography
+
+Single photos sit on an adaptive, slightly offset celestial tarot backing. The existing photograph keeps its native shape and aspect ratio; `app.js` classifies the loaded photo as portrait, square, landscape, or panorama and CSS adjusts the backing's offset and rotation. The decoration sits behind the photo mat, not its caption, so no image pixels are cropped.
+
+Draggable photo stacks receive **two crossed portrait-format tarot cards** behind the entire stack, independent of the dimensions of its individual pictures. Their ornaments and borders follow the dark/light plum palette. Backings use CSS only, do not intercept clicks or drags, and need no extra image downloads.
+
 ## Layered entry transitions
 
 Opening or revisiting a journal entry unveils its content in reading order: breadcrumbs, title, date and labels, then paragraphs or photo stacks, then navigation and social links. Each layer gently fades upward; later paragraphs are staggered with a capped delay so long entries do not take excessively long to appear. Rapid navigation cancels the previous animations, and reduced-motion preferences skip the effect entirely. The sidebar, floating soundtrack and star map remain uninterrupted.
