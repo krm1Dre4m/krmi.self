@@ -23,6 +23,7 @@ The site-wide fallback lives at the top of `data/posts.js` as `window.defaultMus
 The minimal floating YouTube dock is visible by default at the bottom-right. It uses the same **250 × 80px embedded YouTube viewport** found in QioCas's recap posts, plus a compact volume slider. This is an experimental, below-minimum-size YouTube embed: controls may be cramped or inconsistent, and it does not meet YouTube's documented 200 × 200px minimum. To restore a supported player size, change the iframe dimensions in `music-player.js` and `.music-video iframe` in `styles.css` to at least 200 × 200px. The **Music** button opens it again after it has been closed while paused. Visitors cannot enter or choose their own YouTube links: the current blog's `music` field (or `window.defaultMusicUrl`) decides the soundtrack.
 
 - YouTube's official embedded player provides visible playback, volume, seeking, and attribution controls.
+- A dedicated compact **Play / Pause** button beside the volume slider controls playback through YouTube's IFrame API. Its icon and accessible label follow YouTube's reported playback state. It stays disabled until YouTube is ready.
 - Playback starts only when the visitor presses Play; switching blogs cues the new song without autoplay.
 - To minimize the panel, pause the video first; the panel cannot hide an actively playing YouTube embed. The frequency-style bars on the Music button animate during playback but do not analyze audio frequencies.
 - The custom volume slider adjusts the YouTube player's volume and remembers the setting locally.
