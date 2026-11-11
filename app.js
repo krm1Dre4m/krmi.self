@@ -24,11 +24,11 @@
   const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
     .filter(label => typeof label === 'string' && label.trim())
     .map(label => label.trim());
-  // IDs are explicit positive integers, not positional indices. Reordering posts
+  // IDs are explicit non-negative integers (0 is the introduction), not positional indices. Reordering posts
   // or editing a title/date will therefore never change the permalink.
   const posts = (Array.isArray(window.posts) ? window.posts : [])
     .map((post, index) => ({...post, parsedDate:parseDate(post.date), originalIndex:index}))
-    .filter(post => post.parsedDate && typeof post.title === 'string' && Number.isSafeInteger(post.id) && post.id > 0)
+    .filter(post => post.parsedDate && typeof post.title === 'string' && Number.isSafeInteger(post.id) && post.id >= 0)
     .sort((a,b) => b.parsedDate - a.parsedDate || a.originalIndex - b.originalIndex);
   const seenIds = new Set();
   for (const post of posts) {
@@ -198,8 +198,8 @@
     if (hash.startsWith('#note/')) {
       try { token = decodeURIComponent(hash.slice(6)); } catch (_) { token = null; }
     }
-    const numericId = token && /^[1-9]\d*$/.test(token) ? Number(token) : null;
-    const targetId = token === null ? posts[0]?.id : (legacyIds[token] ?? numericId);
+    const numericId = token !== null && /^(0|[1-9]\d*)$/.test(token) ? Number(token) : null;
+    const targetId = token === null ? 0 : (legacyIds[token] ?? numericId);
     const foundIndex = posts.findIndex(p => p.id === targetId);
     const index = foundIndex;
     const post = posts[index];
