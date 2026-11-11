@@ -4,7 +4,7 @@ A tiny, dependency-free personal journal. Built with plain HTML, CSS, and JavaSc
 
 ## Reading
 
-The left sidebar groups entries by **year → month → post**, newest first. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/my-entry` that can be shared or bookmarked.
+The journal is presented as one centered, rounded notebook panel with an integrated archive and reading area. The left sidebar groups entries by **year → month → post**, newest first. Years and months expand and collapse. Selecting an entry opens it in the main reading pane, with an address like `#note/my-entry` that can be shared or bookmarked.
 
 On smaller screens, use the **Archive** button to open the drawer. The light/dark theme choice is saved in your browser.
 
@@ -45,4 +45,4 @@ Edit `data/posts.js` and append or prepend an object to `window.posts`:
 - `app.js`: archive grouping, entry routing, theme, and mobile drawer.
 - `data/posts.js`: journal content.
 
-The default theme is a muted violet dark theme, with an optional light mode. All existing entries and image paths were preserved during the redesign.
+The default theme is a quiet, muted violet notebook with soft Nunito Sans typography, an optional light mode, and a responsive mobile archive drawer. All existing entries and image paths were preserved during the redesign.
