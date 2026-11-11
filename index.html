@@ -16,7 +16,10 @@
   <div class="layout">
     <header class="site-header">
       <a href="#" class="site-brand" aria-label="Journal home"><span aria-hidden="true">✿</span> krmii / MySelf</a>
-      <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☾</button>
+      <div class="header-actions">
+        <button class="random-entry" type="button" title="Surprise me with a random entry" aria-label="Open a random journal entry">✧ <span>Surprise me</span></button>
+        <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">☾</button>
+      </div>
     </header>
     <aside class="sidebar" id="sidebar" aria-label="Journal navigation">
       <nav aria-label="Archive">
@@ -47,7 +50,37 @@
     </div>
   </div>
   <div class="mobile-backdrop" id="mobile-backdrop" hidden></div>
+  <section class="music-widget" aria-label="Music player">
+    <button class="music-launch" id="music-launch" type="button" aria-controls="music-panel" aria-expanded="false" title="Open music player">
+      <span aria-hidden="true">♫</span><span>Music</span>
+    </button>
+    <div class="music-panel" id="music-panel" hidden>
+      <div class="music-heading">
+        <div><span class="music-eyebrow">LITTLE JUKEBOX</span><strong>Something to listen to</strong></div>
+        <button class="music-close" id="music-close" type="button" aria-label="Close music player">×</button>
+      </div>
+      <form id="music-form" class="music-form">
+        <label for="music-url">YouTube video link</label>
+        <div class="music-input-row">
+          <input id="music-url" type="url" placeholder="Paste a YouTube URL…" autocomplete="off" required>
+          <button type="submit">Load</button>
+        </div>
+      </form>
+      <div class="music-video" id="music-video" hidden>
+        <div id="youtube-player"></div>
+      </div>
+      <div class="music-bottom">
+        <div class="music-bars" id="music-bars" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <span id="music-status" role="status" aria-live="polite">Paste a link to begin</span>
+        <a id="music-watch" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden>View on YouTube</a>
+      </div>
+      <p class="music-note">Uses YouTube’s own player and controls. The bars are decorative, not an audio spectrum.</p>
+    </div>
+  </section>
   <script src="data/posts.js"></script>
   <script src="app.js"></script>
+  <script src="music-player.js"></script>
 </body>
 </html>
