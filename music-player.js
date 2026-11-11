@@ -4,7 +4,9 @@
  * Bars indicate playing state, not actual audio frequencies. */
 (() => {
   const launch = document.getElementById('music-launch');
+  const widget = document.getElementById('music-widget');
   const panel = document.getElementById('music-panel');
+  const isOpen = () => !widget.classList.contains('is-collapsed');
   const close = document.getElementById('music-close');
   const bars = document.getElementById('music-bars');
   const playButton = document.getElementById('music-play');
@@ -89,7 +91,7 @@
   }
 
   async function ensurePlayer() {
-    if (!selectedVideo || panel.hidden) return;
+    if (!selectedVideo || !isOpen()) return;
     if (player && ready) {
       if (cuedVideo !== pendingVideo) {
         player.cueVideoById(pendingVideo);
@@ -102,7 +104,7 @@
     status.textContent = 'Loading…';
     try {
       const YT = await loadApi();
-      if (panel.hidden) return;
+      if (!isOpen()) return;
       player = new YT.Player('youtube-player', {
         width: '250', height: '80', videoId: pendingVideo,
         playerVars: { controls: 1, playsinline: 1, rel: 0 },
@@ -112,12 +114,12 @@
             playButton.disabled = false;
             event.target.setVolume(volumeLevel);
             if (pendingVideo) { event.target.cueVideoById(pendingVideo); cuedVideo = pendingVideo; }
-            if (panel.hidden) event.target.pauseVideo();
-            status.textContent = panel.hidden ? 'Ready to listen' : 'Press play above';
+            if (!isOpen()) event.target.pauseVideo();
+            status.textContent = !isOpen() ? 'Ready to listen' : 'Press play above';
           },
           onStateChange: event => {
             if (event.data === YT.PlayerState.PLAYING) {
-              if (panel.hidden) { event.target.pauseVideo(); return; }
+              if (!isOpen()) { event.target.pauseVideo(); return; }
               setPlaying(true);
             } else if (event.data === YT.PlayerState.ENDED) {
               setPlaying(false);
@@ -149,7 +151,7 @@
     watch.href = 'https://www.youtube.com/watch?v=' + id;
     setPlaying(false);
     status.textContent = 'Ready to listen';
-    if (!panel.hidden) ensurePlayer();
+    if (isOpen()) ensurePlayer();
   }
 
   playButton.addEventListener('click', () => {
@@ -162,22 +164,25 @@
   });
 
   function showPanel(open) {
-    // The official YouTube video must remain visible while it plays.
-    // Visitors can pause inside the player and then close this panel.
-    if (!open && playing) {
-      status.textContent = 'Pause the video before closing';
+    // Never hide a playing YouTube embed. Collapse only when paused.
+    const actualPlaying = playing || (ready && player?.getPlayerState?.() === window.YT?.PlayerState?.PLAYING);
+    if (!open && actualPlaying) {
+      status.textContent = 'Pause before minimizing';
       return;
     }
-    panel.hidden = !open;
+    widget.classList.toggle('is-collapsed', !open);
+    panel.inert = !open;
+    panel.setAttribute('aria-hidden', String(!open));
     launch.setAttribute('aria-expanded', String(open));
+    launch.title = open ? 'Minimize music widget' : 'Expand music widget';
     if (open) ensurePlayer();
     else setPlaying(false);
   }
 
-  launch.addEventListener('click', () => showPanel(panel.hidden));
+  launch.addEventListener('click', () => showPanel(!isOpen()));
   close.addEventListener('click', () => { showPanel(false); launch.focus(); });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !panel.hidden) { showPanel(false); launch.focus(); }
+    if (event.key === 'Escape' && isOpen()) { showPanel(false); launch.focus(); }
   });
   window.addEventListener('journal:entrychange', event => updateMusic(event.detail?.music));
   updateMusic(window.currentJournalMusicUrl || window.defaultMusicUrl);
