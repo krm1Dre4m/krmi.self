@@ -310,6 +310,10 @@ body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 }
 
 
+/* Reserve enough trailing scroll room for the floating soundtrack.
+   JS measures the dock's visible footprint; a normal 70px gap is the fallback. */
+main{padding-bottom:max(70px,var(--music-scroll-clearance,70px))}
+
 /* Celestial icon language — small, quiet details, not extra background particles.
    All affordances retain their original labels, sizing and keyboard behavior. */
 .brand-star{position:relative;display:inline-grid;place-items:center;width:25px;height:29px;font-size:29px;line-height:1;color:var(--accent);font-weight:400}
