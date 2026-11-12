@@ -33,7 +33,7 @@
   const playIcon = playButton.querySelector('.music-play-icon');
   const volume = document.getElementById('music-volume');
   const volumeValue = document.getElementById('music-volume-value');
-  let volumeLevel = 65;
+  let volumeLevel = 33;
   try {
     const saved = Number(localStorage.getItem('krmi-music-volume'));
     if (localStorage.getItem('krmi-music-volume') !== null && Number.isFinite(saved)) volumeLevel = Math.max(0, Math.min(100, saved));
