@@ -208,6 +208,24 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-body .entry-aside{
   color:var(--muted);font-size:.94em;line-height:1.8;
 }
+/* A quoted question: an understated vertical rule, not a decorated callout.
+   Its answer is simply the next ordinary paragraph in the entry. */
+.entry-body .entry-question{
+  margin:9px 0 16px;
+  padding:1px 0 1px 18px;
+  border-left:2px solid var(--tarot-edge);
+  color:var(--muted);
+  font-size:.96em;
+  line-height:1.75;
+  font-style:italic;
+}
+.entry-body .entry-question p{margin:0}
+body.theme-ready .entry-question{
+  transition:border-color 350ms ease,color 350ms ease;
+}
+@media(prefers-reduced-motion:reduce){
+  body.theme-ready .entry-question{transition:none!important}
+}
 .entry-closing{
   margin:44px auto 8px;max-width:610px;
   display:flex;flex-direction:column;align-items:center;gap:9px;
