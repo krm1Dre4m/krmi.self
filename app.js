@@ -109,6 +109,26 @@
     years.get(year).get(month).push(post);
   }
   let selectedId = null;
+  // Fade the table of contents only when switching Journal / Collections.
+  // Entry changes within the same section retain the current sidebar state.
+  let lastTocSection = null;
+  let tocAnimations = [];
+  function revealToc(section) {
+    const changed = lastTocSection !== section;
+    lastTocSection = section;
+    if (!changed || window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        !Element.prototype.animate) return;
+    tocAnimations.forEach(animation => animation.cancel());
+    tocAnimations = [];
+    for (const [element, delay] of [[sidebarHeading, 0], [root, 65]]) {
+      const animation = element.animate([
+        { opacity: 0, transform: 'translateY(7px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], { duration: 340, delay, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+      tocAnimations.push(animation);
+      animation.onfinish = () => animation.cancel();
+    }
+  }
   function renderTree() {
     if (location.hash === '#collections' || location.hash.startsWith('#collection/')) {
       sidebarHeading.textContent = 'Collections';
@@ -135,6 +155,7 @@
         </details>`;
       }).join('') || '<p class="empty">No collections yet.</p>';
       sidebar.scrollTop = scrollTop;
+      revealToc('collections');
       return;
     }
     sidebarHeading.textContent = 'Journal';
@@ -158,6 +179,7 @@
       </details>`;
     }).join('') || '<p class="empty">No entries yet.</p>';
     sidebar.scrollTop = archiveScrollTop;
+    revealToc('journal');
   }
   // Native details remain keyboard accessible; enhance their open/close motion
   // without adding a framework or animating on initial render.
