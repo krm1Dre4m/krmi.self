@@ -33,12 +33,16 @@ Edit `data/posts.js` and add an entry to `window.posts`:
   music: "https://www.youtube.com/watch?v=VIDEO_ID",
   body: [
     "A paragraph.",
+    { dim: "A quieter aside or passing thought." },
     { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption" }
-  ]
+  ],
+  closing: "A final thought, if there is one."
 }
 ```
 
 Keep each `id` unique; `0` is reserved for the welcome page. Don't change existing IDs. Posts are sorted by date automatically. `labels`, `music`, and images are optional. Add image files to `assets/`.
+
+Use `{ dim: "..." }` inside `body` for a muted paragraph. Add an optional `closing: "..."` to display a small, centered closing thought after the entry. Existing posts don't need either field.
 
 For multiple photos in one draggable stack, use a `stack` block:
 
