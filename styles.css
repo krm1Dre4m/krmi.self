@@ -468,8 +468,15 @@ body.theme-ready .section-switch,body.theme-ready .section-link{transition:color
 .collection-group{margin:3px 0 18px}
 .collection-parent{display:block;color:var(--ink);font-weight:600;font-size:14px;text-decoration:none;padding:8px 11px;border-radius:7px}
 .collection-parent:hover,.collection-parent[aria-current="page"]{background:var(--active);color:var(--accent)}
-.collection-links{padding:3px 0 6px 17px}
-.collection-links a{font-size:13px}
+/* Match Journal's year/month disclosure hierarchy in Collections. */
+.collection-year{margin:0 0 4px}
+.collection-year>.months{padding-top:4px}
+.collection-month{margin-bottom:2px}
+.collection-overview{padding:0 0 7px 0}
+.collection-links{padding:2px 0 7px 18px}
+.collection-links a{font-size:12px}
+.collection-links a[href^="http"]{opacity:.85}
+.collection-links a[href^="http"]:hover{opacity:1}
 .genre-list{display:flex;flex-direction:column;margin-top:28px;border-top:1px solid var(--line)}
 .genre-card{display:flex;align-items:center;gap:15px;padding:19px 8px;text-decoration:none;border-bottom:1px solid var(--line);color:var(--muted)}
 .genre-card:hover{color:var(--accent);background:var(--active)}
