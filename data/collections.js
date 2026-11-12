@@ -9,7 +9,8 @@ window.collections = [
         title: "J-Pop",
         description: "A few J-Pop songs I like.",
         songs: [
-          { title: "Rainy Nights are like Magic (Demo)", artist: "Natori", url: "https://youtu.be/YOzFUlXcHvs?si=n4rSZyF5Wy6mvdz2", note: "Shrug I hum this song like all the time." }
+          { title: "Rainy Nights are like Magic (Demo)", artist: "Natori", url: "https://youtu.be/YOzFUlXcHvs?si=n4rSZyF5Wy6mvdz2", note: "Shrug I hum this song like all the time." },
+          { title: "LIVING DEAD", artist: "Natori", url: "https://youtu.be/Yir-3mlhchU?si=wrLFwQUO9t5WEFWl", note: "Mad good high-key." }
         ]
       }
     ]
