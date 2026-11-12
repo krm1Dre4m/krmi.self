@@ -138,10 +138,9 @@
       const hadCollectionTree = root.querySelector('.collection-year') !== null;
       root.innerHTML = collections.map(item => {
         const base = '#collection/' + item.id;
-        const activeShelf = location.hash === '#collections' || location.hash === base || location.hash.startsWith(base + '/');
         const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
           g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
-        const openShelf = (hadCollectionTree ? expandedShelves.has(item.id) : activeShelf) || location.hash.startsWith(base + '/');
+        const openShelf = hadCollectionTree ? expandedShelves.has(item.id) : true;
         return `<details class="year collection-year" data-collection="${escapeHtml(item.id)}" ${openShelf ? 'open' : ''}>
           <summary>${escapeHtml(item.title)}</summary>
           <div class="months">
@@ -164,14 +163,12 @@
     const archiveScrollTop = sidebar.scrollTop;
     const expandedYears = new Set([...root.querySelectorAll('.year[open]')].map(node => node.dataset.year));
     const expandedMonths = new Set([...root.querySelectorAll('.month[open]')].map(node => node.dataset.month));
-    const hadTree = root.children.length > 0;
+    const hadTree = root.querySelector('.year:not(.collection-year)') !== null;
     root.innerHTML = Array.from(years, ([year, months]) => {
-      const containsSelected = [...months.values()].some(items => items.some(p => p.id === selectedId));
-      return `<details class="year" data-year="${escapeHtml(year)}" ${(containsSelected || (hadTree && expandedYears.has(year))) ? 'open' : ''}>
+      return `<details class="year" data-year="${escapeHtml(year)}" ${(!hadTree || expandedYears.has(year)) ? 'open' : ''}>
         <summary>${escapeHtml(year)}</summary>
         <div class="months">${Array.from(months, ([month, items]) => {
-          const active = items.some(p => p.id === selectedId);
-          return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(active || (hadTree && expandedMonths.has(year + '-' + month))) ? 'open' : ''}>
+          return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(!hadTree || expandedMonths.has(year + '-' + month)) ? 'open' : ''}>
             <summary>${escapeHtml(monthName(items[0].parsedDate))}</summary>
             <div class="post-links">${items.map(p => `<a href="#note/${p.id}" ${p.id === selectedId ? 'aria-current="page"' : ''}>${escapeHtml(p.title)}</a>`).join('')}</div>
           </details>`;
