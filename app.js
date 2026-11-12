@@ -112,16 +112,45 @@
     if (location.hash === '#collections' || location.hash.startsWith('#collection/')) {
       sidebarHeading.textContent = 'Collections';
       menuLabel.textContent = 'Collections';
+      const scrollTop = sidebar.scrollTop;
+      const expandedShelves = new Set([...root.querySelectorAll('.collection-year[open]')].map(node => node.dataset.collection));
+      const expandedGenres = new Set([...root.querySelectorAll('.collection-month[open]')].map(node => node.dataset.genre));
+      const hadCollectionTree = root.querySelector('.collection-year') !== null;
       root.innerHTML = collections.map(item => {
         const base = '#collection/' + item.id;
-        const active = location.hash === base || location.hash === '#collections';
+        const activeShelf = location.hash === '#collections' || location.hash === base || location.hash.startsWith(base + '/');
         const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
           g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
-        return `<div class="collection-group"><a class="collection-parent" href="${base}" ${active ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a>
-          <div class="post-links collection-links">${genres.map(g =>
-            `<a href="${base}/${g.id}" ${location.hash === base + '/' + g.id ? 'aria-current="page"' : ''}>${escapeHtml(g.title)}</a>`
-          ).join('')}</div></div>`;
+        const openShelf = (hadCollectionTree ? expandedShelves.has(item.id) : activeShelf) || location.hash.startsWith(base + '/');
+        return `<details class="year collection-year" data-collection="${escapeHtml(item.id)}" ${openShelf ? 'open' : ''}>
+          <summary>${escapeHtml(item.title)}</summary>
+          <div class="months">
+            <div class="post-links collection-overview"><a href="${base}" ${location.hash === base || (location.hash === '#collections' && item === collections[0]) ? 'aria-current="page"' : ''}>Overview</a></div>
+            ${genres.map(g => {
+              const path = base + '/' + g.id;
+              const activeGenre = location.hash === path;
+              const key = item.id + '/' + g.id;
+              const openGenre = activeGenre || (hadCollectionTree && expandedGenres.has(key));
+              const songs = Array.isArray(g.songs) ? g.songs.filter(song => song && typeof song.title === 'string') : [];
+              songs.sort((a,b) => String(a.artist || '').localeCompare(String(b.artist || ''), undefined, {sensitivity:'base'})
+                || a.title.localeCompare(b.title, undefined, {sensitivity:'base'}));
+              return `<details class="month collection-month" data-genre="${escapeHtml(key)}" ${openGenre ? 'open' : ''}>
+                <summary>${escapeHtml(g.title)}</summary>
+                <div class="post-links collection-links">
+                  <a href="${path}" ${activeGenre ? 'aria-current="page"' : ''}>View ${escapeHtml(g.title)}</a>
+                  ${songs.map(song => {
+                    const url = safeExternalUrl(song.url);
+                    return url
+                      ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(song.title)}</a>`
+                      : `<a href="${path}">${escapeHtml(song.title)}</a>`;
+                  }).join('')}
+                </div>
+              </details>`;
+            }).join('')}
+          </div>
+        </details>`;
       }).join('') || '<p class="empty">No collections yet.</p>';
+      sidebar.scrollTop = scrollTop;
       return;
     }
     sidebarHeading.textContent = 'Journal';
