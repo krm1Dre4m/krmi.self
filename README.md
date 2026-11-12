@@ -29,6 +29,7 @@ Edit `data/posts.js` and add an entry to `window.posts`:
   id: 5,
   title: "A new entry",
   date: "12-11-2026",
+  time: "21:30", // optional; used for sorting only
   labels: ["Life"],
   music: "https://www.youtube.com/watch?v=VIDEO_ID",
   body: [
@@ -42,7 +43,7 @@ Edit `data/posts.js` and add an entry to `window.posts`:
 }
 ```
 
-Keep each `id` unique; `0` is reserved for the welcome page. Don't change existing IDs. Posts are sorted by date automatically. `labels`, `music`, and images are optional. Add image files to `assets/`.
+Keep each `id` unique; `0` is reserved for the welcome page. Don't change existing IDs. Posts are sorted newest first by date, then optional `time` (`HH:mm`, 24-hour format) when posts share a date. The time is **never displayed**. Posts without a time sort as `00:00`; ties keep their order in `posts.js`. `labels`, `music`, and images are optional. Add image files to `assets/`.
 
 Inside `body`, use `{ dim: "..." }` for a muted paragraph or `{ question: "..." }` for a quoted question with a vertical line. Write the answer as the next normal paragraph. Use `closing: "..."` for an optional closing thought.
 
