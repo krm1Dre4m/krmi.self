@@ -101,6 +101,8 @@ Click a photo to expand it inside the masonry layout. Nearby photos rearrange sm
 
 Expanded photos show the caption (if present), **Posted** date from the journal entry, and a link back to that entry. To provide an exact upload date instead, add `uploaded: "13-11-2026"` to that image object (the date is then labeled **Uploaded**). Both `DD-MM-YYYY` and `YYYY-MM-DD` are accepted.
 
+For a quick layout regression check, run `node --test tests/gallery.test.cjs` (no dependencies required).
+
 ## Customize
 
 - **Posts and default soundtrack:** `data/posts.js`
