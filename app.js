@@ -302,6 +302,10 @@
         </figure>`;
       }
       if (block && typeof block === 'object' && block.image) return imageFigure(block);
+      // A quoted question is a separate, minimally styled block. The following
+      // paragraph stays ordinary prose so the question/answer rhythm reads naturally.
+      if (block && typeof block === 'object' && typeof block.question === 'string')
+        return `<blockquote class="entry-question"><p>${escapeHtml(block.question)}</p></blockquote>`;
       // Optional quieter aside, kept as ordinary readable text (not opacity-dimmed).
       if (block && typeof block === 'object' && typeof block.dim === 'string')
         return `<p class="entry-aside">${escapeHtml(block.dim)}</p>`;
