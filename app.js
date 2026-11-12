@@ -94,8 +94,8 @@
       ).join('') || '<p class="empty">No collections yet.</p>';
       return;
     }
-    sidebarHeading.textContent = 'Pages';
-    menuLabel.textContent = 'Pages';
+    sidebarHeading.textContent = 'Journal';
+    menuLabel.textContent = 'Journal';
     // Keep manually opened archive groups open when changing entries.
     const archiveScrollTop = sidebar.scrollTop;
     const expandedYears = new Set([...root.querySelectorAll('.year[open]')].map(node => node.dataset.year));
