@@ -101,11 +101,15 @@
       </g>
     </g>
   </svg>
-  <a class="skip-link" href="#entry">Skip to entry</a>
+  <a class="skip-link" href="#entry">Skip to content</a>
   <div class="layout">
     <header class="site-header">
       <a href="#" class="site-brand" aria-label="Journal home"><span class="brand-star" aria-hidden="true">✧</span> krmii / MySelf</a>
       <div class="header-actions">
+        <nav class="section-switch" aria-label="Website sections">
+          <a class="section-link" href="#" data-section="journal" aria-current="page">Journal</a>
+          <a class="section-link" href="#collections" data-section="collections">Collections</a>
+        </nav>
         <button class="random-entry" type="button" title="Surprise me with a random entry" aria-label="Open a random journal entry"><span class="random-star" aria-hidden="true">✧</span><span>Surprise me</span></button>
         <button class="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false"><span class="theme-symbol" aria-hidden="true">☾</span></button>
       </div>
@@ -203,6 +207,7 @@
       <span class="music-chevron" aria-hidden="true">⌄</span>
     </button>
   </section>
+  <script src="data/collections.js"></script>
   <script src="data/posts.js"></script>
   <script src="app.js"></script>
   <script src="music-player.js"></script>
