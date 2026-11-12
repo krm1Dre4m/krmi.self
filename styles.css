@@ -1,3 +1,12 @@
+/* Typed color tokens let the tarot cover's gradients interpolate between themes.
+   CSS gradients themselves do not animate through background-color transitions. */
+@property --tarot-fill { syntax: '<color>'; inherits: true; initial-value: #302637; }
+@property --tarot-shade { syntax: '<color>'; inherits: true; initial-value: #211a28; }
+@property --tarot-edge { syntax: '<color>'; inherits: true; initial-value: #796580; }
+@property --tarot-rule { syntax: '<color>'; inherits: true; initial-value: rgba(207,175,223,.42); }
+@property --tarot-glow { syntax: '<color>'; inherits: true; initial-value: rgba(191,157,213,.12); }
+@property --tarot-ornament { syntax: '<color>'; inherits: true; initial-value: #bda0ca; }
+
 :root {
   color-scheme: dark;
   --page:#1b161c; --sidebar-bg:#1b161c; --active:#302735;
@@ -89,6 +98,16 @@ body.theme-ready .stack-next {
 }
 body.theme-ready .theme-toggle{transition:background-color 350ms ease,color 350ms ease,transform 350ms ease}
 body.light-mode .theme-toggle{transform:rotate(180deg)}
+/* Animate the registered colors on their common ancestor, so the front
+   frame, tilted backing and crossed stack covers all fade as one. */
+body.theme-ready{
+  transition-property:background-color,color,border-color,box-shadow,
+    --tarot-fill,--tarot-shade,--tarot-edge,--tarot-rule,--tarot-glow,--tarot-ornament;
+}
+@media(prefers-reduced-motion:reduce){
+  body.theme-ready{transition:none!important}
+}
+
 /* Transition both sides of the tarot frames when the theme changes.
    Apply only after theme-ready so initial page load does not flash. */
 body.theme-ready .photo-mat,
