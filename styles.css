@@ -89,6 +89,25 @@ body.theme-ready .stack-next {
 }
 body.theme-ready .theme-toggle{transition:background-color 350ms ease,color 350ms ease,transform 350ms ease}
 body.light-mode .theme-toggle{transform:rotate(180deg)}
+/* Transition both sides of the tarot frames when the theme changes.
+   Apply only after theme-ready so initial page load does not flash. */
+body.theme-ready .photo-mat,
+body.theme-ready .photo-frame::before,
+body.theme-ready .photo-stack::before,
+body.theme-ready .photo-stack::after {
+  transition:background-color 350ms ease,border-color 350ms ease,box-shadow 350ms ease;
+}
+body.theme-ready .photo-frame::after {
+  transition:color 350ms ease;
+}
+@media(prefers-reduced-motion:reduce){
+  body.theme-ready .photo-mat,
+  body.theme-ready .photo-frame::before,
+  body.theme-ready .photo-frame::after,
+  body.theme-ready .photo-stack::before,
+  body.theme-ready .photo-stack::after{transition:none!important}
+}
+
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .skip-link{position:fixed;z-index:90;top:-100px;left:12px;background:var(--accent);color:var(--page);padding:8px 14px}
