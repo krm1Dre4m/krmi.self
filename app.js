@@ -114,7 +114,6 @@
       menuLabel.textContent = 'Collections';
       const scrollTop = sidebar.scrollTop;
       const expandedShelves = new Set([...root.querySelectorAll('.collection-year[open]')].map(node => node.dataset.collection));
-      const expandedGenres = new Set([...root.querySelectorAll('.collection-month[open]')].map(node => node.dataset.genre));
       const hadCollectionTree = root.querySelector('.collection-year') !== null;
       root.innerHTML = collections.map(item => {
         const base = '#collection/' + item.id;
@@ -125,28 +124,12 @@
         return `<details class="year collection-year" data-collection="${escapeHtml(item.id)}" ${openShelf ? 'open' : ''}>
           <summary>${escapeHtml(item.title)}</summary>
           <div class="months">
-            <div class="post-links collection-overview"><a href="${base}" ${location.hash === base || (location.hash === '#collections' && item === collections[0]) ? 'aria-current="page"' : ''}>Overview</a></div>
-            ${genres.map(g => {
-              const path = base + '/' + g.id;
-              const activeGenre = location.hash === path;
-              const key = item.id + '/' + g.id;
-              const openGenre = activeGenre || (hadCollectionTree && expandedGenres.has(key));
-              const songs = Array.isArray(g.songs) ? g.songs.filter(song => song && typeof song.title === 'string') : [];
-              songs.sort((a,b) => String(a.artist || '').localeCompare(String(b.artist || ''), undefined, {sensitivity:'base'})
-                || a.title.localeCompare(b.title, undefined, {sensitivity:'base'}));
-              return `<details class="month collection-month" data-genre="${escapeHtml(key)}" ${openGenre ? 'open' : ''}>
-                <summary>${escapeHtml(g.title)}</summary>
-                <div class="post-links collection-links">
-                  <a href="${path}" ${activeGenre ? 'aria-current="page"' : ''}>View ${escapeHtml(g.title)}</a>
-                  ${songs.map(song => {
-                    const url = safeExternalUrl(song.url);
-                    return url
-                      ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(song.title)}</a>`
-                      : `<a href="${path}">${escapeHtml(song.title)}</a>`;
-                  }).join('')}
-                </div>
-              </details>`;
-            }).join('')}
+            <div class="post-links collection-links">
+              ${genres.map(g => {
+                const path = base + '/' + g.id;
+                return `<a href="${path}" ${location.hash === path ? 'aria-current="page"' : ''}>${escapeHtml(g.title)}</a>`;
+              }).join('')}
+            </div>
           </div>
         </details>`;
       }).join('') || '<p class="empty">No collections yet.</p>';
@@ -401,8 +384,9 @@
     labelsNode.replaceChildren();
     entryPager.hidden = true;
     const base = current ? '#collection/' + current.id : '#collections';
-    breadcrumbs.innerHTML = '<a href="#collections">Collections</a>' +
-      (genre ? `<span aria-hidden="true">/</span><a href="${base}">${escapeHtml(current.title)}</a>` : '');
+    breadcrumbs.innerHTML = genre
+      ? `<a href="#collections">Collections</a><span aria-hidden="true">/</span><span>${escapeHtml(current.title)}</span>`
+      : '';
     const renderSongs = songs => {
       const valid = songs.filter(song => song && typeof song.title === 'string')
         .sort((a, b) => String(a.artist || '').localeCompare(String(b.artist || ''), undefined, { sensitivity: 'base' })
@@ -427,23 +411,15 @@
         ? `<p class="collection-intro">${escapeHtml(genre.description)}</p>` : '';
       body.innerHTML = intro + renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
     } else {
-      title.textContent = current.title;
-      const intro = typeof current.description === 'string'
-        ? `<p class="collection-intro">${escapeHtml(current.description)}</p>` : '';
-      const genreCards = genres.map(g =>
-        `<a class="genre-card" href="${base}/${g.id}"><span class="genre-card-star" aria-hidden="true">✧</span><span class="genre-card-text"><strong>${escapeHtml(g.title)}</strong>${g.description ? `<small>${escapeHtml(g.description)}</small>` : ''}</span><span aria-hidden="true">›</span></a>`
-      ).join('');
-      // Legacy top-level songs remain supported for existing collections.
-      const songs = Array.isArray(current.songs) ? current.songs : [];
-      body.innerHTML = intro + (genres.length ? `<nav class="genre-list" aria-label="Listening sections">${genreCards}</nav>` : '') +
-        (songs.length ? renderSongs(songs) : (!genres.length
-          ? '<p class="collection-empty">No sections yet. Add your own genres in data/collections.js. ✧</p>' : ''));
+      // Listening Shelf is a navigation group, not an overview/content page.
+      title.textContent = '';
+      body.replaceChildren();
     }
     // If a custom image or remote thumbnail is unavailable, restore the note icon.
     body.querySelectorAll('.song-cover').forEach(image => {
       image.addEventListener('error', () => image.remove(), { once: true });
     });
-    document.title = `${!current || invalid ? 'Collections' : genre ? genre.title : current.title} — KRMII's Journal`;
+    document.title = `${genre ? genre.title : 'Collections'} — KRMII's Journal`;
     window.currentJournalMusicUrl = window.defaultMusicUrl || '';
     window.dispatchEvent(new CustomEvent('journal:entrychange', {
       detail: { music: window.currentJournalMusicUrl, entryId: null }
