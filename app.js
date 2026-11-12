@@ -403,6 +403,11 @@
       genre = genres[0];
       history.replaceState(null, '', '#collection/' + current.id + '/' + genre.id);
     }
+    const hasPlayableSongs = Boolean(genre && Array.isArray(genre.songs) &&
+      genre.songs.some(song => song && safeExternalUrl(song.url)));
+    randomButton.disabled = !hasPlayableSongs;
+    randomButton.title = hasPlayableSongs ? 'Surprise me with a random song from this genre' : 'No playable songs in this genre';
+    randomButton.setAttribute('aria-label', randomButton.title);
     dateNode.textContent = '';
     dateNode.removeAttribute('datetime');
     dateNode.hidden = true;
@@ -473,6 +478,9 @@
       renderCollection();
       return;
     }
+    randomButton.disabled = false;
+    randomButton.title = 'Surprise me with a random journal entry';
+    randomButton.setAttribute('aria-label', 'Open a random journal entry');
     entryInfo.classList.remove('is-genre-description');
     genreDescriptionNode.hidden = true;
     genreDescriptionNode.textContent = '';
@@ -602,6 +610,20 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
   const randomButton = document.querySelector('.random-entry');
   randomButton.addEventListener('click', () => {
+    // In Collections, draw only from the currently viewed genre.
+    const parts = location.hash.startsWith('#collection/')
+      ? location.hash.slice('#collection/'.length).split('/') : [];
+    if (location.hash === '#collections' || parts.length) {
+      const collection = collections.find(item => item.id === parts[0]) || (!parts.length ? collections[0] : null);
+      const genres = collection && Array.isArray(collection.genres) ? collection.genres : [];
+      const genre = parts.length > 1 ? genres.find(item => item && item.id === parts[1]) : genres[0];
+      const candidates = genre && Array.isArray(genre.songs)
+        ? genre.songs.map(song => song && safeExternalUrl(song.url)).filter(Boolean) : [];
+      if (!candidates.length) return;
+      const url = candidates[Math.floor(Math.random() * candidates.length)];
+      window.open(url, '_blank', 'noopener,noreferrer');
+      return;
+    }
     const candidates = posts.filter(post => post.id !== 0 && (posts.length <= 2 || post.id !== selectedId));
     if (!candidates.length) return;
     const chosen = candidates[Math.floor(Math.random() * candidates.length)];
