@@ -37,7 +37,7 @@ Edit `data/posts.js` and add an entry to `window.posts`:
     { dim: "A quieter aside or passing thought." },
     { question: "Why did you choose this place?" },
     "Because I believe there's something more here.",
-    { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption" }
+    { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption", tilt: true }
   ],
   closing: "A final thought, if there is one."
 }
@@ -46,6 +46,8 @@ Edit `data/posts.js` and add an entry to `window.posts`:
 Keep each `id` unique; `0` is reserved for the welcome page. Don't change existing IDs. Posts are sorted newest first by date, then optional `time` (`HH:mm`, 24-hour format) when posts share a date. The time is **never displayed**. Posts without a time sort as `00:00`; ties keep their order in `posts.js`. `labels`, `music`, and images are optional. Add image files to `assets/`.
 
 Inside `body`, use `{ dim: "..." }` for a muted paragraph or `{ question: "..." }` for a quoted question with a vertical line. Write the answer as the next normal paragraph. Use `closing: "..."` for an optional closing thought.
+
+Add `tilt: true` to an individual image to give its card a subtle 3D mouse-following effect. It's off by default and disabled on touch devices and for reduced-motion visitors. The tarot backing tilts along with the photo.
 
 For multiple photos in one draggable stack, use a `stack` block:
 
