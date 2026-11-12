@@ -529,7 +529,8 @@ body.theme-ready .song-mark,body.theme-ready .song-item,body.theme-ready .song-t
 /* Random archive entry */
 .header-actions{display:flex;align-items:center;gap:10px}
 .random-entry{display:flex;align-items:center;gap:7px;border:1px solid transparent;background:transparent;border-radius:999px;color:var(--muted);font-size:13px;padding:7px 10px}
-.random-entry:hover{color:var(--accent);background:var(--active)}
+.random-entry:hover:not(:disabled){color:var(--accent);background:var(--active)}
+.random-entry:disabled{opacity:.45;cursor:default}
 .random-entry:active{transform:scale(.97)}
 body.theme-ready .random-entry{transition:background-color 350ms,color 350ms}
 
