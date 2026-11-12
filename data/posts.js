@@ -10,7 +10,7 @@ window.posts = [
       "This is where I leave bits and pieces of my life: thoughts, memories, random moments, and whatever else I feel like writing down.",
       "Nothing too serious. Just a place to look back on, someday.",
       "below is a piece I drew, enjoy your stay!",
-      {image: "assets/0.png", alt: "happy", caption: "it's Lingsha!"}
+      {image: "assets/0.png", alt: "happy", caption: "it's Lingsha!", tilt: true}
     ]
   },
   {
