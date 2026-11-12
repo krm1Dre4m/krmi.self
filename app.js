@@ -386,7 +386,7 @@
         const url = safeExternalUrl(song.url);
         const artwork = songArtwork(song);
         const cover = `<span class="song-mark" aria-hidden="true">♫${artwork ? `<img class="song-cover" src="${escapeHtml(artwork)}" alt="" loading="lazy" decoding="async">` : ''}</span>`;
-        return `<div class="song-item">${cover}<div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
+        return `<div class="song-item">${cover}<div class="song-details"><div class="song-heading"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div></div>${note}</div></div>`;
       }).join('')}</div>`;
     };
     if (!current || invalid) {
