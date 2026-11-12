@@ -204,6 +204,11 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-label{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:11px}
 .entry-body{padding-top:30px;border-top:1px solid var(--line);color:var(--text);font-size:17px;line-height:1.85;overflow-wrap:anywhere}
 .entry-body p{margin:0 0 1.55em}
+/* Emphasis is a slightly brighter line of text, with no underline. */
+.entry-highlight{color:var(--ink);font-weight:600}
+.entry-highlight-paragraph{color:var(--ink)}
+body.theme-ready .entry-highlight{transition:color 350ms ease}
+
 /* Quiet asides are muted without reducing opacity (so text stays legible). */
 .entry-body .entry-aside{
   color:var(--muted);font-size:.94em;line-height:1.8;
@@ -453,6 +458,41 @@ body.theme-ready .entry-closing::before{
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
 
+/* Section navigation shares the quiet header language, never a large tab bar. */
+.section-switch{display:inline-flex;align-items:center;gap:4px;border-right:1px solid var(--line);padding-right:12px;margin-right:2px}
+.section-link{color:var(--muted);text-decoration:none;font-size:13px;border-radius:7px;padding:6px 9px;white-space:nowrap}
+.section-link:hover{color:var(--accent);background:var(--active)}
+.section-link[aria-current="page"]{color:var(--ink);background:var(--active)}
+body.theme-ready .section-switch,body.theme-ready .section-link{transition:color 350ms ease,background-color 350ms ease,border-color 350ms ease}
+.entry-info[hidden],.entry-pager[hidden]{display:none}
+.collection-links{padding:2px 0 6px}
+.collection-links a{font-size:14px}
+.collection-intro{color:var(--muted);font-size:.95em}
+.collection-empty{color:var(--muted);font-style:italic;padding-top:8px}
+.song-list{display:flex;flex-direction:column;gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.song-item{display:flex;align-items:flex-start;gap:17px;padding:22px 5px;border-bottom:1px solid var(--line)}
+.song-mark{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:10px;background:var(--active);color:var(--accent);font-size:20px}
+.song-details{min-width:0;flex:1}
+.song-title{font-weight:700;color:var(--ink);line-height:1.5}
+.song-title a{text-decoration:none;color:inherit}
+.song-title a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--accent)}
+.song-artist{font-size:13px;color:var(--muted)}
+.song-note{margin:9px 0 0!important;font-size:14px;color:var(--muted);font-style:italic;line-height:1.65}
+body.theme-ready .song-mark,body.theme-ready .song-item,body.theme-ready .song-title,body.theme-ready .song-artist,body.theme-ready .song-note{transition:background-color 350ms ease,border-color 350ms ease,color 350ms ease}
+@media(max-width:680px){
+  .site-header{gap:7px;padding-left:14px;padding-right:14px}
+  .site-brand{font-size:14px;white-space:nowrap;gap:5px}
+  .brand-star{width:18px;font-size:22px}
+  .header-actions{gap:3px}
+  .section-switch{gap:0;padding-right:4px;margin-right:0}
+  .section-link{font-size:11px;padding:6px 5px}
+  .random-entry{padding:6px 4px}
+  .theme-toggle{width:30px;height:34px}
+}
+@media(max-width:385px){
+  .site-brand{font-size:12px}
+  .section-link{font-size:10px;padding:5px 4px}
+}
 /* Random archive entry */
 .header-actions{display:flex;align-items:center;gap:10px}
 .random-entry{display:flex;align-items:center;gap:7px;border:1px solid transparent;background:transparent;border-radius:999px;color:var(--muted);font-size:13px;padding:7px 10px}
