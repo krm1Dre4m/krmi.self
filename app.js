@@ -167,9 +167,12 @@
         queued = requestAnimationFrame(() => {
           queued = 0;
           if (!lastPointer || !frame.isConnected) return;
-          const rect = frame.getBoundingClientRect();
+          // Use the stable, untransformed figure as the coordinate reference:
+          // measuring the rotating frame would cause feedback and cursor jitter.
+          const rect = figure.getBoundingClientRect();
+          const height = frame.offsetHeight;
           const x = Math.max(-1, Math.min(1, (lastPointer.x - rect.left - rect.width / 2) / (rect.width / 2)));
-          const y = Math.max(-1, Math.min(1, (lastPointer.y - rect.top - rect.height / 2) / (rect.height / 2)));
+          const y = Math.max(-1, Math.min(1, (lastPointer.y - rect.top - height / 2) / (height / 2)));
           frame.classList.add('is-tilting');
           frame.style.setProperty('--tilt-x', (-y * 5).toFixed(2) + 'deg');
           frame.style.setProperty('--tilt-y', (x * 5).toFixed(2) + 'deg');
