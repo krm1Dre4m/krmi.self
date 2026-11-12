@@ -484,7 +484,8 @@ body.theme-ready .collection-parent,body.theme-ready .genre-card,body.theme-read
 .collection-empty{color:var(--muted);font-style:italic;padding-top:8px}
 .song-list{display:flex;flex-direction:column;gap:0;margin-top:28px;border-top:1px solid var(--line)}
 .song-item{display:flex;align-items:flex-start;gap:17px;padding:22px 5px;border-bottom:1px solid var(--line)}
-.song-mark{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:10px;background:var(--active);color:var(--accent);font-size:20px}
+.song-mark{position:relative;display:grid;place-items:center;flex:0 0 56px;width:56px;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--active);color:var(--accent);font-size:20px;overflow:hidden}
+.song-cover{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 .song-details{min-width:0;flex:1}
 .song-title{font-weight:700;color:var(--ink);line-height:1.5}
 .song-title a{text-decoration:none;color:inherit}
