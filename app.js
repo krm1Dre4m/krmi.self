@@ -140,7 +140,44 @@
     const caption = photo.caption ? `<figcaption>${escapeHtml(photo.caption)}</figcaption>` : '';
     // Both cards share the exact same photo-frame box. The caption stays
     // outside it, so it cannot accidentally stretch the tarot back.
-    return `<figure class="journal-photo"><div class="photo-frame"><div class="photo-mat"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy"></div></div>${caption}</figure>`;
+    return `<figure class="journal-photo${photo.tilt === true ? ' has-tilt' : ''}"><div class="photo-frame"><div class="photo-mat"><img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" loading="lazy"></div></div>${caption}</figure>`;
+  }
+
+  function initPhotoTilts() {
+    // Only opted-in single photos respond to a precise hovering pointer.
+    // Keep the caption in place; the photograph and its tarot cover move together.
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for (const figure of body.querySelectorAll('.journal-photo.has-tilt')) {
+      const frame = figure.querySelector('.photo-frame');
+      let queued = 0;
+      let lastPointer = null;
+      const reset = () => {
+        lastPointer = null;
+        if (queued) cancelAnimationFrame(queued);
+        queued = 0;
+        frame.classList.remove('is-tilting');
+        frame.style.removeProperty('--tilt-x');
+        frame.style.removeProperty('--tilt-y');
+      };
+      frame.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        lastPointer = { x: event.clientX, y: event.clientY };
+        if (queued) return;
+        queued = requestAnimationFrame(() => {
+          queued = 0;
+          if (!lastPointer || !frame.isConnected) return;
+          const rect = frame.getBoundingClientRect();
+          const x = Math.max(-1, Math.min(1, (lastPointer.x - rect.left - rect.width / 2) / (rect.width / 2)));
+          const y = Math.max(-1, Math.min(1, (lastPointer.y - rect.top - rect.height / 2) / (rect.height / 2)));
+          frame.classList.add('is-tilting');
+          frame.style.setProperty('--tilt-x', (-y * 5).toFixed(2) + 'deg');
+          frame.style.setProperty('--tilt-y', (x * 5).toFixed(2) + 'deg');
+        });
+      });
+      frame.addEventListener('pointerleave', reset);
+      frame.addEventListener('pointercancel', reset);
+    }
   }
 
   function initPhotoStacks() {
@@ -301,7 +338,7 @@
       if (block && typeof block === 'object' && Array.isArray(block.stack)) {
         const photos = block.stack.filter(photo => photo && typeof photo.image === 'string' && photo.image.trim());
         if (!photos.length) return '';
-        if (photos.length === 1) return imageFigure(photos[0]);
+        if (photos.length === 1) return imageFigure({...photos[0], tilt: block.tilt === true || photos[0].tilt === true});
         const cards = photos.map((photo, i) => `<div class="stack-card" data-depth="${i}" aria-hidden="${i !== 0}" style="--depth:${Math.min(i, 3)}">
           <img src="${escapeHtml(photo.image)}" alt="${escapeHtml(photo.alt || '')}" draggable="false" loading="lazy">
         </div>`).join('');
@@ -330,6 +367,7 @@
         `<aside class="entry-closing" aria-label="Closing thought"><span class="entry-closing-star" aria-hidden="true">✧</span><p>${escapeHtml(post.closing)}</p></aside>`);
     }
     initPhotoStacks();
+    initPhotoTilts();
     // Set the mat from each image's intrinsic width, capped at 560px,
     // instead of measuring the unclamped image and leaving an empty strip.
     for (const image of body.querySelectorAll('.journal-photo img')) {
