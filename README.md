@@ -34,6 +34,8 @@ Edit `data/posts.js` and add an entry to `window.posts`:
   body: [
     "A paragraph.",
     { dim: "A quieter aside or passing thought." },
+    { question: "Why did you choose this place?" },
+    "Because I believe there's something more here.",
     { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption" }
   ],
   closing: "A final thought, if there is one."
@@ -42,7 +44,7 @@ Edit `data/posts.js` and add an entry to `window.posts`:
 
 Keep each `id` unique; `0` is reserved for the welcome page. Don't change existing IDs. Posts are sorted by date automatically. `labels`, `music`, and images are optional. Add image files to `assets/`.
 
-Use `{ dim: "..." }` inside `body` for a muted paragraph. Add an optional `closing: "..."` to display a small, centered closing thought after the entry. Existing posts don't need either field.
+Inside `body`, use `{ dim: "..." }` for a muted paragraph or `{ question: "..." }` for a quoted question with a vertical line. Write the answer as the next normal paragraph. Use `closing: "..."` for an optional closing thought.
 
 For multiple photos in one draggable stack, use a `stack` block:
 
