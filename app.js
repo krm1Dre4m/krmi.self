@@ -352,7 +352,9 @@
     breadcrumbs.innerHTML = '<a href="#collections">Collections</a>' +
       (genre ? `<span aria-hidden="true">/</span><a href="${base}">${escapeHtml(current.title)}</a>` : '');
     const renderSongs = songs => {
-      const valid = songs.filter(song => song && typeof song.title === 'string');
+      const valid = songs.filter(song => song && typeof song.title === 'string')
+        .sort((a, b) => String(a.artist || '').localeCompare(String(b.artist || ''), undefined, { sensitivity: 'base' })
+          || a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
       if (!valid.length) return '<p class="collection-empty">Nothing on this shelf just yet. ✧</p>';
       return `<div class="song-list">${valid.map(song => {
         const name = escapeHtml(song.title);
