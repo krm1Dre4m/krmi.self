@@ -48,6 +48,7 @@ window.posts = [
     id: 4,
     title: "An overhaul",
     date: "12-11-2026",
+    time: "5:00",
     labels: ["Coding"],
     body: [
       "Sau một hồi mày mò thì K đã quyết với kiểu thiết kế này: đơn điệu, một màu, thanh nhã, đúng với mong muốn của bản thân, heh.",
@@ -58,6 +59,7 @@ window.posts = [
     id: 5,
     title: "A... ?",
     date: "12-11-2026",
+    time: "23:59",
     labels: ["???"],
     body: [
       {question: "cũng cũng nhờ"},
