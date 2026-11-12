@@ -14,5 +14,10 @@ window.collections = [
         ]
       }
     ]
+  },
+  {
+    id: "gallery",
+    title: "Gallery",
+    type: "gallery"
   }
 ];
