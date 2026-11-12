@@ -82,6 +82,7 @@ genres: [
         title: "Song title",
         artist: "Artist",
         url: "https://www.youtube.com/watch?v=VIDEO_ID",
+        cover: "assets/album-cover.jpg", // optional
         note: "Why I recommend this song."
       }
     ]
@@ -89,7 +90,7 @@ genres: [
 ]
 ```
 
-Genre names are entirely yours (genres, moods, or any grouping). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. The sidebar displays genres beneath Listening Shelf, and each has its own page. Songs are displayed alphabetically by artist (then song title), regardless of their order in the file. Song links open in a new tab. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
+Genre names are entirely yours (genres, moods, or any grouping). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. The sidebar displays genres beneath Listening Shelf, and each has its own page. Songs are displayed alphabetically by artist (then song title), regardless of their order in the file. Each song can specify `cover: "assets/album-cover.jpg"` (or an HTTPS image URL). Without a cover, YouTube links automatically show their video thumbnail; other songs use the music-note placeholder. Place local cover files in `assets/`. Song links open in a new tab. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
 
 ## Customize
 
