@@ -200,8 +200,10 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-info{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px;margin-bottom:23px}
 .entry-info[hidden],.entry-date[hidden],.genre-description[hidden]{display:none}
 .entry-date,.genre-description{color:inherit}
-.entry-info.is-genre-description>svg{display:none}
-.entry-info.is-genre-description::before{content:'✧';font:17px/1 Georgia,serif;color:var(--accent)}
+.entry-info>.genre-music-icon{display:none;flex:none;color:var(--accent)}
+.entry-info.is-genre-description>svg:not(.genre-music-icon){display:none}
+.entry-info.is-genre-description>.genre-music-icon{display:block}
+body.theme-ready .genre-music-icon{transition:color 350ms ease}
 body.theme-ready .genre-description{transition:color 350ms ease}
 .entry-labels{display:flex;flex-wrap:wrap;gap:7px;margin:-6px 0 23px}
 .entry-labels[hidden]{display:none}
