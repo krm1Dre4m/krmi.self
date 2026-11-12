@@ -3,6 +3,7 @@
   const title = document.getElementById('entry-title');
   const breadcrumbs = document.getElementById('breadcrumbs');
   const dateNode = document.getElementById('entry-date');
+  const genreDescriptionNode = document.getElementById('genre-description');
   const body = document.getElementById('entry-body');
   const labelsNode = document.getElementById('entry-labels');
   const older = document.getElementById('older-link');
@@ -385,7 +386,12 @@
     }
     dateNode.textContent = '';
     dateNode.removeAttribute('datetime');
-    entryInfo.hidden = true;
+    dateNode.hidden = true;
+    const description = genre && typeof genre.description === 'string' ? genre.description.trim() : '';
+    genreDescriptionNode.textContent = description;
+    genreDescriptionNode.hidden = !description;
+    entryInfo.classList.toggle('is-genre-description', Boolean(description));
+    entryInfo.hidden = !description;
     labelsNode.hidden = true;
     labelsNode.replaceChildren();
     entryPager.hidden = true;
@@ -413,9 +419,7 @@
       body.innerHTML = '<p>Choose a collection from the sidebar.</p>';
     } else if (genre) {
       title.textContent = genre.title;
-      const intro = typeof genre.description === 'string' && genre.description.trim()
-        ? `<p class="collection-intro">${escapeHtml(genre.description)}</p>` : '';
-      body.innerHTML = intro + renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
+      body.innerHTML = renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
     } else {
       // Only seen when the shelf has no genres yet; no overview is needed.
       title.textContent = 'Collections';
@@ -450,6 +454,10 @@
       renderCollection();
       return;
     }
+    entryInfo.classList.remove('is-genre-description');
+    genreDescriptionNode.hidden = true;
+    genreDescriptionNode.textContent = '';
+    dateNode.hidden = false;
     entryInfo.hidden = false;
     entryPager.hidden = false;
     let token = null;
