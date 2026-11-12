@@ -69,20 +69,27 @@ For multiple photos in one draggable stack, use a `stack` block:
 
 Use **Journal** and **Collections** beside “Surprise me” in the top-right header. Journal has its own year/month archive; Collections has a separate sidebar. The first collection is **Listening Shelf**.
 
-Edit `data/collections.js` to add recommended songs:
+Edit `data/collections.js` to add your own genre sections under Listening Shelf:
 
 ```js
-songs: [
+genres: [
   {
-    title: "Song title",
-    artist: "Artist",
-    url: "https://www.youtube.com/watch?v=VIDEO_ID",
-    note: "Why I recommend this song."
+    id: "late-night",
+    title: "Late Night",
+    description: "Songs for the quieter hours.",
+    songs: [
+      {
+        title: "Song title",
+        artist: "Artist",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID",
+        note: "Why I recommend this song."
+      }
+    ]
   }
 ]
 ```
 
-Song titles with URLs open the track in a new tab. The shelf starts empty until you add your own songs. You can add further collections to the `window.collections` array.
+Genre names are entirely yours (genres, moods, or any grouping). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. The sidebar displays genres beneath Listening Shelf, and each has its own page. Song links open in a new tab. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
 
 ## Customize
 
