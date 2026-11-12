@@ -302,8 +302,17 @@
         </figure>`;
       }
       if (block && typeof block === 'object' && block.image) return imageFigure(block);
+      // Optional quieter aside, kept as ordinary readable text (not opacity-dimmed).
+      if (block && typeof block === 'object' && typeof block.dim === 'string')
+        return `<p class="entry-aside">${escapeHtml(block.dim)}</p>`;
       return `<p>${escapeHtml(block)}</p>`;
     }).join('');
+    // Closing thoughts are opt-in and become the last body layer, so they also
+    // participate in the existing staggered entry reveal animation.
+    if (typeof post.closing === 'string' && post.closing.trim()) {
+      body.insertAdjacentHTML('beforeend',
+        `<aside class="entry-closing" aria-label="Closing thought"><span class="entry-closing-star" aria-hidden="true">✧</span><p>${escapeHtml(post.closing)}</p></aside>`);
+    }
     initPhotoStacks();
     // Set the mat from each image's intrinsic width, capped at 560px,
     // instead of measuring the unclamped image and leaving an empty strip.
