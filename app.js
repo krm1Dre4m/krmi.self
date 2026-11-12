@@ -50,6 +50,29 @@
       return (url.protocol === 'https:' || url.protocol === 'http:') ? url.href : '';
     } catch (_) { return ''; }
   };
+  // Optional album art wins; otherwise use a YouTube preview for supported URLs.
+  const songArtwork = song => {
+    if (typeof song.cover === 'string' && song.cover.trim()) {
+      const cover = song.cover.trim();
+      if (/^(?:assets\/|\.\/assets\/)[a-zA-Z0-9_./-]+$/.test(cover) && !cover.includes('..'))
+        return cover;
+      const remote = safeExternalUrl(cover);
+      if (remote) return remote;
+    }
+    const link = safeExternalUrl(song.url);
+    if (!link) return '';
+    try {
+      const url = new URL(link);
+      const host = url.hostname.toLowerCase();
+      let id = '';
+      if (host === 'youtu.be' || host === 'www.youtu.be') id = url.pathname.split('/')[1] || '';
+      else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com'].includes(host)) {
+        id = url.pathname === '/watch' ? url.searchParams.get('v') || '' :
+          /^\/(?:shorts|embed|live)\//.test(url.pathname) ? url.pathname.split('/')[2] || '' : '';
+      }
+      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? `https://i.ytimg.com/vi/${id}/mqdefault.jpg` : '';
+    } catch (_) { return ''; }
+  };
   const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
     .filter(label => typeof label === 'string' && label.trim())
     .map(label => label.trim());
@@ -361,7 +384,9 @@
         const artist = escapeHtml(song.artist || '');
         const note = song.note ? `<p class="song-note">${escapeHtml(song.note)}</p>` : '';
         const url = safeExternalUrl(song.url);
-        return `<div class="song-item"><span class="song-mark" aria-hidden="true">♫</span><div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
+        const artwork = songArtwork(song);
+        const cover = `<span class="song-mark" aria-hidden="true">♫${artwork ? `<img class="song-cover" src="${escapeHtml(artwork)}" alt="" loading="lazy" decoding="async">` : ''}</span>`;
+        return `<div class="song-item">${cover}<div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
       }).join('')}</div>`;
     };
     if (!current || invalid) {
@@ -385,6 +410,10 @@
         (songs.length ? renderSongs(songs) : (!genres.length
           ? '<p class="collection-empty">No sections yet. Add your own genres in data/collections.js. ✧</p>' : ''));
     }
+    // If a custom image or remote thumbnail is unavailable, restore the note icon.
+    body.querySelectorAll('.song-cover').forEach(image => {
+      image.addEventListener('error', () => image.remove(), { once: true });
+    });
     document.title = `${!current || invalid ? 'Collections' : genre ? genre.title : current.title} — KRMII's Journal`;
     window.currentJournalMusicUrl = window.defaultMusicUrl || '';
     window.dispatchEvent(new CustomEvent('journal:entrychange', {
