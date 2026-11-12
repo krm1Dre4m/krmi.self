@@ -204,6 +204,36 @@ h1{margin:0 0 19px;font-size:clamp(30px,3vw,42px);font-weight:700;line-height:1.
 .entry-label{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:11px}
 .entry-body{padding-top:30px;border-top:1px solid var(--line);color:var(--text);font-size:17px;line-height:1.85;overflow-wrap:anywhere}
 .entry-body p{margin:0 0 1.55em}
+/* Quiet asides are muted without reducing opacity (so text stays legible). */
+.entry-body .entry-aside{
+  color:var(--muted);font-size:.94em;line-height:1.8;
+}
+.entry-closing{
+  margin:44px auto 8px;max-width:610px;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  text-align:center;color:var(--muted);
+}
+.entry-closing::before{
+  content:'';height:1px;width:min(160px,45%);background:var(--line);
+  margin-bottom:9px;
+}
+.entry-closing-star{color:var(--accent);font-size:17px;line-height:1;opacity:.7}
+.entry-closing p{
+  margin:0;font-size:.94em;line-height:1.85;font-style:italic;
+  max-width:52ch;
+}
+body.theme-ready .entry-aside,
+body.theme-ready .entry-closing,
+body.theme-ready .entry-closing-star,
+body.theme-ready .entry-closing::before{
+  transition:color 350ms ease,background-color 350ms ease;
+}
+@media(prefers-reduced-motion:reduce){
+  body.theme-ready .entry-aside,
+  body.theme-ready .entry-closing,
+  body.theme-ready .entry-closing-star,
+  body.theme-ready .entry-closing::before{transition:none!important}
+}
 /* Tarot-backed photography. Single backings inherit each image's natural
    dimensions while the original pixels are never stretched or cropped. */
 .entry-body figure{margin:38px auto 54px;max-width:100%}
