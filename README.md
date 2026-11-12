@@ -89,7 +89,7 @@ genres: [
 ]
 ```
 
-Genre names are entirely yours (genres, moods, or any grouping). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. The sidebar displays genres beneath Listening Shelf, and each has its own page. Song links open in a new tab. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
+Genre names are entirely yours (genres, moods, or any grouping). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. The sidebar displays genres beneath Listening Shelf, and each has its own page. Songs are displayed alphabetically by artist (then song title), regardless of their order in the file. Song links open in a new tab. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
 
 ## Customize
 
