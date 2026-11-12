@@ -20,6 +20,13 @@
     const result = new Date(Date.UTC(y, m - 1, d));
     return result.getUTCFullYear() === y && result.getUTCMonth() === m - 1 && result.getUTCDate() === d ? result : null;
   };
+  // Optional HH:mm time only breaks ties between posts on the same date.
+  // It is never rendered in the archive or the entry header.
+  const parsePostTime = value => {
+    if (typeof value !== 'string') return null;
+    const match = /^(?:[01]\d|2[0-3]):[0-5]\d$/.exec(value);
+    return match ? Number(value.slice(0, 2)) * 60 + Number(value.slice(3, 5)) : null;
+  };
   const longDate = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long', day:'numeric', year:'numeric'}).format(d);
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
   const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
@@ -28,9 +35,14 @@
   // IDs are explicit non-negative integers (0 is the introduction), not positional indices. Reordering posts
   // or editing a title/date will therefore never change the permalink.
   const posts = (Array.isArray(window.posts) ? window.posts : [])
-    .map((post, index) => ({...post, parsedDate:parseDate(post.date), originalIndex:index}))
+    .map((post, index) => ({
+      ...post, parsedDate:parseDate(post.date), parsedTime:parsePostTime(post.time),
+      originalIndex:index
+    }))
     .filter(post => post.parsedDate && typeof post.title === 'string' && Number.isSafeInteger(post.id) && post.id >= 0)
-    .sort((a,b) => b.parsedDate - a.parsedDate || a.originalIndex - b.originalIndex);
+    .sort((a,b) => b.parsedDate - a.parsedDate
+      || (b.parsedTime ?? 0) - (a.parsedTime ?? 0)
+      || a.originalIndex - b.originalIndex);
   const seenIds = new Set();
   for (const post of posts) {
     if (seenIds.has(post.id)) console.warn('Duplicate journal ID:', post.id);
