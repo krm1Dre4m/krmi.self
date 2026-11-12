@@ -264,6 +264,28 @@ body.theme-ready .entry-closing::before{
   position:relative;isolation:isolate;
   /* Height comes only from the image mat, never the caption. */
 }
+/* Optional gentle 3D tilt: the photo and matching tarot backing move together.
+   The default remains completely static. */
+@media(hover:hover) and (pointer:fine){
+  .journal-photo.has-tilt .photo-frame{
+    transform:perspective(950px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));
+    transform-style:preserve-3d;
+    transition:transform 440ms cubic-bezier(.22,1,.36,1);
+    will-change:transform;
+  }
+  .journal-photo.has-tilt .photo-frame.is-tilting{
+    transition:transform 90ms ease-out;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .journal-photo.has-tilt .photo-frame,
+  .journal-photo.has-tilt .photo-frame.is-tilting{
+    transform:none!important;
+    transition:none!important;
+    will-change:auto;
+  }
+}
+
 .photo-mat{
   position:relative;z-index:1;
   padding:8px;
