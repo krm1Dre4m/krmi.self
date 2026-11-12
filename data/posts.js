@@ -30,7 +30,7 @@ window.posts = [
     date: "20-10-2026",
     labels: ["Trying"],
     body: [
-      "Sick asf rn, but I'm making my attendance regardless, how rare of me, haha..."
+      "Sick asf right now, but I'm making my attendance regardless, how rare of me, haha..."
     ]
   },
   {
@@ -52,7 +52,7 @@ window.posts = [
     labels: ["Coding"],
     body: [
       "Sau một hồi mày mò thì K đã quyết với kiểu thiết kế này: đơn điệu, một màu, thanh nhã, đúng với mong muốn của bản thân, heh.",
-      "(Chắc chắn là đã không thức đến 5h sáng chỉ để làm lại cái web này...)",
+      {dim: "Chắc chắn là đã không thức đến 5h sáng chỉ để làm lại cái web này..."}
     ]
   },
   {
