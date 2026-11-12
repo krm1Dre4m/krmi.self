@@ -9,6 +9,7 @@ A personal journal built with HTML, CSS, and JavaScript.
 - Journal and Collections sections in the header
 - Posts organized by year and month
 - Listening Shelf for personal song recommendations
+- Responsive masonry Gallery built automatically from journal photos
 - Dark/light themes and a mobile-friendly layout
 - Photos, draggable photo stacks, and subtle tarot-style frames
 - A soundtrack player for each post
@@ -91,6 +92,14 @@ genres: [
 ```
 
 Genre names are entirely yours (genres, moods, or any grouping). Optional `description` text appears beneath the genre title, in the same metadata position as a journal entry's date (not in the song list). Each `id` must be unique within its collection, using lowercase letters, numbers, and hyphens. In the Collections sidebar, Listening Shelf expands and collapses like a year. Genres are direct links beneath it; clicking a genre shows its songs in the main content area, not in the sidebar. Listening Shelf itself has no overview page. Opening Collections automatically shows the first genre's songs, so the landing view is never blank when genres exist. Songs are displayed alphabetically by artist (then song title), regardless of their order in the file. Each song can specify `cover: "assets/album-cover.jpg"` (or an HTTPS image URL). Without a cover, YouTube links automatically show their video thumbnail; other songs use the music-note placeholder. Place local cover files in `assets/`. Song links open in a new tab. While viewing a genre, **Surprise me** opens a random linked song from that genre in a new tab; without playable links it is disabled. In Journal it still opens a random post. The shelf starts empty until you add your own genres. Other collections can still have a direct `songs` array.
+
+## Gallery
+
+Collections includes a **Gallery** alongside Listening Shelf. It automatically gathers individual photos and all images in `stack` blocks from `data/posts.js` — no second photo list needed.
+
+Click a photo to expand it inside the masonry layout. Nearby photos rearrange smoothly; only one can be expanded at a time. Click it again or press **Escape** to collapse it, and use the arrow keys to move between photos. Animation is disabled when reduced motion is preferred.
+
+Expanded photos show the caption (if present), **Posted** date from the journal entry, and a link back to that entry. To provide an exact upload date instead, add `uploaded: "13-11-2026"` to that image object (the date is then labeled **Uploaded**). Both `DD-MM-YYYY` and `YYYY-MM-DD` are accepted.
 
 ## Customize
 
