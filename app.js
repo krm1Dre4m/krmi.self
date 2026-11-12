@@ -89,9 +89,16 @@
     if (location.hash === '#collections' || location.hash.startsWith('#collection/')) {
       sidebarHeading.textContent = 'Collections';
       menuLabel.textContent = 'Collections';
-      root.innerHTML = collections.map(item =>
-        `<div class="post-links collection-links"><a href="#collection/${encodeURIComponent(item.id)}" ${location.hash === '#collection/' + item.id ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a></div>`
-      ).join('') || '<p class="empty">No collections yet.</p>';
+      root.innerHTML = collections.map(item => {
+        const base = '#collection/' + item.id;
+        const active = location.hash === base || location.hash === '#collections';
+        const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
+          g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
+        return `<div class="collection-group"><a class="collection-parent" href="${base}" ${active ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a>
+          <div class="post-links collection-links">${genres.map(g =>
+            `<a href="${base}/${g.id}" ${location.hash === base + '/' + g.id ? 'aria-current="page"' : ''}>${escapeHtml(g.title)}</a>`
+          ).join('')}</div></div>`;
+      }).join('') || '<p class="empty">No collections yet.</p>';
       return;
     }
     sidebarHeading.textContent = 'Journal';
@@ -326,37 +333,57 @@
 
   function renderCollection() {
     selectedId = null;
-    const slug = location.hash.startsWith('#collection/')
-      ? decodeURIComponent(location.hash.slice('#collection/'.length)) : '';
-    const collection = collections.find(item => item.id === slug);
-    const current = collection || (slug ? null : collections[0]);
+    const path = location.hash.startsWith('#collection/')
+      ? location.hash.slice('#collection/'.length).split('/') : [];
+    const current = collections.find(item => item.id === path[0]) || (!path.length ? collections[0] : null);
+    const genres = current && Array.isArray(current.genres)
+      ? current.genres.filter(g => g && typeof g.id === 'string' &&
+        /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string')
+      : [];
+    const genre = path.length > 1 ? genres.find(g => g.id === path[1]) : null;
+    const invalid = path.length > 2 || (path.length > 1 && !genre);
     dateNode.textContent = '';
     dateNode.removeAttribute('datetime');
     entryInfo.hidden = true;
     labelsNode.hidden = true;
     labelsNode.replaceChildren();
     entryPager.hidden = true;
-    breadcrumbs.innerHTML = '<a href="#collections">Collections</a>';
-    if (!current) {
+    const base = current ? '#collection/' + current.id : '#collections';
+    breadcrumbs.innerHTML = '<a href="#collections">Collections</a>' +
+      (genre ? `<span aria-hidden="true">/</span><a href="${base}">${escapeHtml(current.title)}</a>` : '');
+    const renderSongs = songs => {
+      const valid = songs.filter(song => song && typeof song.title === 'string');
+      if (!valid.length) return '<p class="collection-empty">Nothing on this shelf just yet. ✧</p>';
+      return `<div class="song-list">${valid.map(song => {
+        const name = escapeHtml(song.title);
+        const artist = escapeHtml(song.artist || '');
+        const note = song.note ? `<p class="song-note">${escapeHtml(song.note)}</p>` : '';
+        const url = safeExternalUrl(song.url);
+        return `<div class="song-item"><span class="song-mark" aria-hidden="true">♫</span><div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
+      }).join('')}</div>`;
+    };
+    if (!current || invalid) {
       title.textContent = 'Collection not found';
       body.innerHTML = '<p>Choose a collection from the sidebar.</p>';
+    } else if (genre) {
+      title.textContent = genre.title;
+      const intro = typeof genre.description === 'string' && genre.description.trim()
+        ? `<p class="collection-intro">${escapeHtml(genre.description)}</p>` : '';
+      body.innerHTML = intro + renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
     } else {
       title.textContent = current.title;
-      const songs = Array.isArray(current.songs) ? current.songs : [];
       const intro = typeof current.description === 'string'
         ? `<p class="collection-intro">${escapeHtml(current.description)}</p>` : '';
-      body.innerHTML = intro + (songs.length
-        ? `<div class="song-list">${songs.filter(song => song && typeof song.title === 'string').map(song => {
-          const name = escapeHtml(song.title);
-          const artist = escapeHtml(song.artist || '');
-          const note = song.note ? `<p class="song-note">${escapeHtml(song.note)}</p>` : '';
-          const url = safeExternalUrl(song.url);
-          return `<div class="song-item"><span class="song-mark" aria-hidden="true">♫</span><div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
-        }).join('')}</div>`
-        : '<p class="collection-empty">Nothing on this shelf just yet. ✧</p>');
+      const genreCards = genres.map(g =>
+        `<a class="genre-card" href="${base}/${g.id}"><span class="genre-card-star" aria-hidden="true">✧</span><span class="genre-card-text"><strong>${escapeHtml(g.title)}</strong>${g.description ? `<small>${escapeHtml(g.description)}</small>` : ''}</span><span aria-hidden="true">›</span></a>`
+      ).join('');
+      // Legacy top-level songs remain supported for existing collections.
+      const songs = Array.isArray(current.songs) ? current.songs : [];
+      body.innerHTML = intro + (genres.length ? `<nav class="genre-list" aria-label="Listening sections">${genreCards}</nav>` : '') +
+        (songs.length ? renderSongs(songs) : (!genres.length
+          ? '<p class="collection-empty">No sections yet. Add your own genres in data/collections.js. ✧</p>' : ''));
     }
-    document.title = `${current ? current.title : 'Collections'} — KRMII's Journal`;
-    // Collections have no per-entry soundtrack; retain the default.
+    document.title = `${!current || invalid ? 'Collections' : genre ? genre.title : current.title} — KRMII's Journal`;
     window.currentJournalMusicUrl = window.defaultMusicUrl || '';
     window.dispatchEvent(new CustomEvent('journal:entrychange', {
       detail: { music: window.currentJournalMusicUrl, entryId: null }
