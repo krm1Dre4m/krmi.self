@@ -138,6 +138,9 @@
       const hadCollectionTree = root.querySelector('.collection-year') !== null;
       root.innerHTML = collections.map(item => {
         const base = '#collection/' + item.id;
+        if (item.type === 'gallery') {
+          return `<div class="post-links gallery-toc-link"><a href="${base}" ${location.hash === base ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a></div>`;
+        }
         const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
           g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
         const openShelf = hadCollectionTree ? expandedShelves.has(item.id) : true;
@@ -420,9 +423,9 @@
     labelsNode.replaceChildren();
     entryPager.hidden = true;
     const base = current ? '#collection/' + current.id : '#collections';
-    breadcrumbs.innerHTML = genre
-      ? `<a href="#collections">Collections</a><span aria-hidden="true">/</span><span>${escapeHtml(current.title)}</span>`
-      : '';
+    breadcrumbs.innerHTML = current && current.type === 'gallery'
+      ? '<a href="#collections">Collections</a><span aria-hidden="true">/</span><span>Gallery</span>'
+      : genre ? `<a href="#collections">Collections</a><span aria-hidden="true">/</span><span>${escapeHtml(current.title)}</span>` : '';
     const renderSongs = songs => {
       const valid = songs.filter(song => song && typeof song.title === 'string')
         .sort((a, b) => String(a.artist || '').localeCompare(String(b.artist || ''), undefined, { sensitivity: 'base' })
@@ -441,6 +444,12 @@
     if (!current || invalid) {
       title.textContent = 'Collection not found';
       body.innerHTML = '<p>Choose a collection from the sidebar.</p>';
+    } else if (current.type === 'gallery') {
+      title.textContent = current.title;
+      window.krmiGallery.mount(body, posts);
+      randomButton.disabled = window.krmiGallery.count() === 0;
+      randomButton.title = 'Surprise me with a random photograph';
+      randomButton.setAttribute('aria-label', randomButton.title);
     } else if (genre) {
       title.textContent = genre.title;
       body.innerHTML = renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
@@ -453,7 +462,7 @@
     body.querySelectorAll('.song-cover').forEach(image => {
       image.addEventListener('error', () => image.remove(), { once: true });
     });
-    document.title = `${genre ? genre.title : 'Collections'} — KRMII's Journal`;
+    document.title = `${current && current.type === 'gallery' ? current.title : genre ? genre.title : 'Collections'} — KRMII's Journal`;
     window.currentJournalMusicUrl = window.defaultMusicUrl || '';
     window.dispatchEvent(new CustomEvent('journal:entrychange', {
       detail: { music: window.currentJournalMusicUrl, entryId: null }
@@ -466,6 +475,7 @@
 
   function renderPost() {
     clearEntryAnimations();
+    window.krmiGallery?.unmount();
     const hash = location.hash;
     const isCollection = hash === '#collections' || hash.startsWith('#collection/');
     sectionLinks.forEach(link => {
@@ -615,6 +625,10 @@
       ? location.hash.slice('#collection/'.length).split('/') : [];
     if (location.hash === '#collections' || parts.length) {
       const collection = collections.find(item => item.id === parts[0]) || (!parts.length ? collections[0] : null);
+      if (collection && collection.type === 'gallery') {
+        window.krmiGallery?.random();
+        return;
+      }
       const genres = collection && Array.isArray(collection.genres) ? collection.genres : [];
       const genre = parts.length > 1 ? genres.find(item => item && item.id === parts[1]) : genres[0];
       const candidates = genre && Array.isArray(genre.songs)
