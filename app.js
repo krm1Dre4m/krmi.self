@@ -12,6 +12,14 @@
   const sidebarClose = document.getElementById('sidebar-close');
   const backdrop = document.getElementById('mobile-backdrop');
   const theme = document.querySelector('.theme-toggle');
+  const sectionLinks = [...document.querySelectorAll('.section-link')];
+  const sidebarHeading = document.querySelector('.sidebar-heading');
+  const menuLabel = menu.querySelector('span:last-child');
+  const entryInfo = dateNode.closest('.entry-info');
+  const entryPager = older.closest('.entry-pager');
+  const collections = (Array.isArray(window.collections) ? window.collections : [])
+    .filter(item => item && typeof item.id === 'string' && /^[a-z0-9-]+$/.test(item.id) && typeof item.title === 'string');
+
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const parseDate = value => {
     const parts = String(value || '').split('-');
@@ -29,6 +37,19 @@
   };
   const longDate = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long', day:'numeric', year:'numeric'}).format(d);
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
+  // Content is text-only: highlight tokens never inject arbitrary HTML.
+  const renderTextParts = parts => parts.map(part => {
+    if (typeof part === 'string') return escapeHtml(part);
+    if (part && typeof part === 'object' && typeof part.highlight === 'string')
+      return `<span class="entry-highlight">${escapeHtml(part.highlight)}</span>`;
+    return '';
+  }).join('');
+  const safeExternalUrl = value => {
+    try {
+      const url = new URL(value);
+      return (url.protocol === 'https:' || url.protocol === 'http:') ? url.href : '';
+    } catch (_) { return ''; }
+  };
   const getLabels = post => (Array.isArray(post.labels) ? post.labels : (typeof post.label === 'string' ? [post.label] : []))
     .filter(label => typeof label === 'string' && label.trim())
     .map(label => label.trim());
@@ -65,6 +86,16 @@
   }
   let selectedId = null;
   function renderTree() {
+    if (location.hash === '#collections' || location.hash.startsWith('#collection/')) {
+      sidebarHeading.textContent = 'Collections';
+      menuLabel.textContent = 'Collections';
+      root.innerHTML = collections.map(item =>
+        `<div class="post-links collection-links"><a href="#collection/${encodeURIComponent(item.id)}" ${location.hash === '#collection/' + item.id ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a></div>`
+      ).join('') || '<p class="empty">No collections yet.</p>';
+      return;
+    }
+    sidebarHeading.textContent = 'Pages';
+    menuLabel.textContent = 'Pages';
     // Keep manually opened archive groups open when changing entries.
     const archiveScrollTop = sidebar.scrollTop;
     const expandedYears = new Set([...root.querySelectorAll('.year[open]')].map(node => node.dataset.year));
@@ -293,9 +324,65 @@
     }
   }
 
+  function renderCollection() {
+    selectedId = null;
+    const slug = location.hash.startsWith('#collection/')
+      ? decodeURIComponent(location.hash.slice('#collection/'.length)) : '';
+    const collection = collections.find(item => item.id === slug);
+    const current = collection || (slug ? null : collections[0]);
+    dateNode.textContent = '';
+    dateNode.removeAttribute('datetime');
+    entryInfo.hidden = true;
+    labelsNode.hidden = true;
+    labelsNode.replaceChildren();
+    entryPager.hidden = true;
+    breadcrumbs.innerHTML = '<a href="#collections">Collections</a>';
+    if (!current) {
+      title.textContent = 'Collection not found';
+      body.innerHTML = '<p>Choose a collection from the sidebar.</p>';
+    } else {
+      title.textContent = current.title;
+      const songs = Array.isArray(current.songs) ? current.songs : [];
+      const intro = typeof current.description === 'string'
+        ? `<p class="collection-intro">${escapeHtml(current.description)}</p>` : '';
+      body.innerHTML = intro + (songs.length
+        ? `<div class="song-list">${songs.filter(song => song && typeof song.title === 'string').map(song => {
+          const name = escapeHtml(song.title);
+          const artist = escapeHtml(song.artist || '');
+          const note = song.note ? `<p class="song-note">${escapeHtml(song.note)}</p>` : '';
+          const url = safeExternalUrl(song.url);
+          return `<div class="song-item"><span class="song-mark" aria-hidden="true">♫</span><div class="song-details"><div class="song-title">${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a>` : name}</div><div class="song-artist">${artist}</div>${note}</div></div>`;
+        }).join('')}</div>`
+        : '<p class="collection-empty">Nothing on this shelf just yet. ✧</p>');
+    }
+    document.title = `${current ? current.title : 'Collections'} — KRMII's Journal`;
+    // Collections have no per-entry soundtrack; retain the default.
+    window.currentJournalMusicUrl = window.defaultMusicUrl || '';
+    window.dispatchEvent(new CustomEvent('journal:entrychange', {
+      detail: { music: window.currentJournalMusicUrl, entryId: null }
+    }));
+    renderTree();
+    closeMenu();
+    window.scrollTo(0, 0);
+    revealEntry();
+  }
+
   function renderPost() {
     clearEntryAnimations();
     const hash = location.hash;
+    const isCollection = hash === '#collections' || hash.startsWith('#collection/');
+    sectionLinks.forEach(link => {
+      const selected = link.dataset.section === (isCollection ? 'collections' : 'journal');
+      if (selected) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    document.body.classList.toggle('viewing-collections', isCollection);
+    if (isCollection) {
+      renderCollection();
+      return;
+    }
+    entryInfo.hidden = false;
+    entryPager.hidden = false;
     let token = null;
     if (hash.startsWith('#note/')) {
       try { token = decodeURIComponent(hash.slice(6)); } catch (_) { token = null; }
@@ -354,6 +441,10 @@
         </figure>`;
       }
       if (block && typeof block === 'object' && block.image) return imageFigure(block);
+      if (block && typeof block === 'object' && Array.isArray(block.text))
+        return `<p>${renderTextParts(block.text)}</p>`;
+      if (block && typeof block === 'object' && typeof block.highlight === 'string')
+        return `<p class="entry-highlight-paragraph"><span class="entry-highlight">${escapeHtml(block.highlight)}</span></p>`;
       // A quoted question is a separate, minimally styled block. The following
       // paragraph stays ordinary prose so the question/answer rhythm reads naturally.
       if (block && typeof block === 'object' && typeof block.question === 'string')
