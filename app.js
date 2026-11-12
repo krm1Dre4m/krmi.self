@@ -375,8 +375,14 @@
       ? current.genres.filter(g => g && typeof g.id === 'string' &&
         /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string')
       : [];
-    const genre = path.length > 1 ? genres.find(g => g.id === path[1]) : null;
+    let genre = path.length > 1 ? genres.find(g => g.id === path[1]) : null;
     const invalid = path.length > 2 || (path.length > 1 && !genre);
+    // Collections has no empty landing page: open the first available genre,
+    // just as Journal opens an entry by default. Keep direct genre links intact.
+    if (current && !invalid && !genre && genres.length) {
+      genre = genres[0];
+      history.replaceState(null, '', '#collection/' + current.id + '/' + genre.id);
+    }
     dateNode.textContent = '';
     dateNode.removeAttribute('datetime');
     entryInfo.hidden = true;
@@ -411,9 +417,9 @@
         ? `<p class="collection-intro">${escapeHtml(genre.description)}</p>` : '';
       body.innerHTML = intro + renderSongs(Array.isArray(genre.songs) ? genre.songs : []);
     } else {
-      // Listening Shelf is a navigation group, not an overview/content page.
-      title.textContent = '';
-      body.replaceChildren();
+      // Only seen when the shelf has no genres yet; no overview is needed.
+      title.textContent = 'Collections';
+      body.innerHTML = '<p class="collection-empty">Nothing here yet. Add a genre to your Listening Shelf. ✧</p>';
     }
     // If a custom image or remote thumbnail is unavailable, restore the note icon.
     body.querySelectorAll('.song-cover').forEach(image => {
