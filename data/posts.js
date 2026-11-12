@@ -54,4 +54,14 @@ window.posts = [
       "(Chắc chắn là đã không thức đến 5h sáng chỉ để làm lại cái web này...)",
     ]
   },
+  {
+    id: 5,
+    title: "A... ?",
+    date: "12-11-2026",
+    labels: ["???"],
+    body: [
+      {question: "cũng cũng nhờ"},
+      "cũng cũng thật..."
+    ]
+  },
 ];
