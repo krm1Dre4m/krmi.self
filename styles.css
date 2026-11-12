@@ -465,8 +465,21 @@ body.theme-ready .entry-closing::before{
 .section-link[aria-current="page"]{color:var(--ink);background:var(--active)}
 body.theme-ready .section-switch,body.theme-ready .section-link{transition:color 350ms ease,background-color 350ms ease,border-color 350ms ease}
 .entry-info[hidden],.entry-pager[hidden]{display:none}
-.collection-links{padding:2px 0 6px}
-.collection-links a{font-size:14px}
+.collection-group{margin:3px 0 18px}
+.collection-parent{display:block;color:var(--ink);font-weight:600;font-size:14px;text-decoration:none;padding:8px 11px;border-radius:7px}
+.collection-parent:hover,.collection-parent[aria-current="page"]{background:var(--active);color:var(--accent)}
+.collection-links{padding:3px 0 6px 17px}
+.collection-links a{font-size:13px}
+.genre-list{display:flex;flex-direction:column;margin-top:28px;border-top:1px solid var(--line)}
+.genre-card{display:flex;align-items:center;gap:15px;padding:19px 8px;text-decoration:none;border-bottom:1px solid var(--line);color:var(--muted)}
+.genre-card:hover{color:var(--accent);background:var(--active)}
+.genre-card-star{font-size:22px;color:var(--accent);width:34px;text-align:center;flex:none}
+.genre-card-text{display:flex;flex-direction:column;flex:1;min-width:0;gap:2px}
+.genre-card-text strong{font-size:15px;color:var(--ink);font-weight:600}
+.genre-card-text small{font-size:12px;color:var(--muted);line-height:1.6}
+body.theme-ready .collection-parent,body.theme-ready .genre-card,body.theme-ready .genre-card-text strong,body.theme-ready .genre-card-text small{
+  transition:background-color 350ms ease,color 350ms ease,border-color 350ms ease;
+}
 .collection-intro{color:var(--muted);font-size:.95em}
 .collection-empty{color:var(--muted);font-style:italic;padding-top:8px}
 .song-list{display:flex;flex-direction:column;gap:0;margin-top:28px;border-top:1px solid var(--line)}
