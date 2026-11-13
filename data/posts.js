@@ -66,4 +66,18 @@ window.posts = [
       "cũng cũng thật..."
     ]
   },
+  {
+    id: 6,
+    title: "An observation",
+    date: "13-11-2026",
+    time: "22:17",
+    labels: ["Observing", "???"],
+    body: [
+      "Why are some women so handsome? Like boy handsome?",
+      "While men are pretty? Like girl pretty!?",
+      "I truly can't understand...",
+      {dim: "Not like I'm complaining though :side_eyes:"},
+    ],
+    closing: "I guess beauty is truly in the eyes of the beholder",
+  },
 ];
