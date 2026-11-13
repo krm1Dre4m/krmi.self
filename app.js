@@ -144,7 +144,8 @@
         const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
           g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
         const openShelf = hadCollectionTree ? expandedShelves.has(item.id) : true;
-        return `<details class="year collection-year" data-collection="${escapeHtml(item.id)}" ${openShelf ? 'open' : ''}>
+        const isCurrentShelf = location.hash === base || location.hash.startsWith(base + '/');
+        return `<details class="year collection-year${isCurrentShelf ? ' is-current' : ''}" data-collection="${escapeHtml(item.id)}" ${openShelf ? 'open' : ''}>
           <summary>${escapeHtml(item.title)}</summary>
           <div class="months">
             <div class="post-links collection-links">
@@ -168,7 +169,8 @@
     const expandedMonths = new Set([...root.querySelectorAll('.month[open]')].map(node => node.dataset.month));
     const hadTree = root.querySelector('.year:not(.collection-year)') !== null;
     root.innerHTML = Array.from(years, ([year, months]) => {
-      return `<details class="year" data-year="${escapeHtml(year)}" ${(!hadTree || expandedYears.has(year)) ? 'open' : ''}>
+      const isCurrentYear = [...months.values()].some(items => items.some(post => post.id === selectedId));
+      return `<details class="year${isCurrentYear ? ' is-current' : ''}" data-year="${escapeHtml(year)}" ${(!hadTree || expandedYears.has(year)) ? 'open' : ''}>
         <summary>${escapeHtml(year)}</summary>
         <div class="months">${Array.from(months, ([month, items]) => {
           return `<details class="month" data-month="${escapeHtml(year + '-' + month)}" ${(!hadTree || expandedMonths.has(year + '-' + month)) ? 'open' : ''}>
