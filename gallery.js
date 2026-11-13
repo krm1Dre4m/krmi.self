@@ -94,12 +94,9 @@
     gallery.setAttribute('aria-label', 'Photographs from journal entries');
     host.append(gallery);
 
+    // Exactly one active image. A new selection replaces the old one in the
+    // same layout frame so shrink, expansion and masonry reflow run together.
     let activeIndex = -1;
-    // Switching images is sequential: collapse the current tile, then expand
-    // the newest requested tile. A single pending choice handles rapid clicks.
-    let pendingSelection = null;
-    let switchTimer = 0;
-    let collapsingTile = null;
     let scheduled = 0;
     let ready = false;
     let destroyed = false;
@@ -137,7 +134,8 @@
 
       const details = document.createElement('div');
       details.className = 'gallery-details';
-      details.hidden = true;
+      details.inert = true;
+      details.setAttribute('aria-hidden', 'true');
       if (photo.caption) {
         const caption = document.createElement('p');
         caption.className = 'gallery-caption';
@@ -176,9 +174,14 @@
         tile.classList.toggle('is-expanded', selected);
         tile.style.width = `${item.width}px`;
         button.style.height = `${item.imageHeight}px`;
+        // Keep metadata mounted as the image closes: it fades away instead
+        // of disappearing mid-shrink. Measure at the destination width.
+        details.style.width = `${item.width}px`;
+        details.style.top = `${item.imageHeight}px`;
+        details.inert = !selected;
+        details.setAttribute('aria-hidden', String(!selected));
         button.setAttribute('aria-expanded', String(selected));
         button.setAttribute('aria-label', `${selected ? 'Collapse' : 'Enlarge'} photograph from ${photos[index].postTitle}`);
-        details.hidden = !selected;
       });
       const detailHeight = activeIndex < 0 ? 0 : tiles[activeIndex].details.offsetHeight;
       const plan = planMasonry(photos, width, activeIndex, detailHeight);
@@ -204,54 +207,14 @@
         });
       });
     }
-    function clearSwitch() {
-      if (switchTimer) window.clearTimeout(switchTimer);
-      switchTimer = 0;
-      if (collapsingTile) collapsingTile.removeEventListener('transitionend', onCollapseEnd);
-      collapsingTile = null;
-      pendingSelection = null;
-    }
-    function finishCollapse() {
-      if (!switchTimer) return;
-      const next = pendingSelection;
-      clearSwitch();
-      if (destroyed || !next || next.index < 0) return;
-      activeIndex = next.index;
-      schedule();
-      if (next.scrollToImage) scrollToSelected(next.index);
-    }
-    function onCollapseEnd(event) {
-      // Height changes even on a one-column mobile grid; transform may not.
-      if (event.target === collapsingTile && event.propertyName === 'height')
-        finishCollapse();
-    }
     function setActive(index, scrollToImage = false) {
-      if (destroyed) return;
-      if (switchTimer) {
-        // Escape or toggling closed cancels the pending zoom-in.
-        if (index < 0) clearSwitch();
-        else pendingSelection = { index, scrollToImage };
-        return;
-      }
-      if (index === activeIndex) return;
-      if (activeIndex >= 0 && index >= 0 && ready && !reducedMotion.matches) {
-        // First return the current photo to its original masonry size.
-        collapsingTile = tiles[activeIndex].tile;
-        collapsingTile.addEventListener('transitionend', onCollapseEnd);
-        pendingSelection = { index, scrollToImage };
-        activeIndex = -1;
-        // The actual transition completes in 440ms. The fallback covers
-        // interrupted transitions / background tabs without getting stuck.
-        switchTimer = window.setTimeout(finishCollapse, 520);
-        schedule();
-        return;
-      }
+      if (destroyed || index === activeIndex) return;
       activeIndex = index;
       schedule();
       if (scrollToImage && index >= 0) scrollToSelected(index);
     }
     function onKeydown(event) {
-      const selected = pendingSelection ? pendingSelection.index : activeIndex;
+      const selected = activeIndex;
       if (selected < 0 || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -272,14 +235,12 @@
     instance = {
       count: photos.length,
       random() {
-        const selected = pendingSelection ? pendingSelection.index : activeIndex;
-        const choices = photos.map((_, index) => index).filter(index => photos.length === 1 || index !== selected);
+        const choices = photos.map((_, index) => index).filter(index => photos.length === 1 || index !== activeIndex);
         if (!choices.length) return;
         setActive(choices[Math.floor(Math.random() * choices.length)], true);
       },
       destroy() {
         destroyed = true;
-        clearSwitch();
         if (scheduled) cancelAnimationFrame(scheduled);
         if (observer) observer.disconnect();
         else window.removeEventListener('resize', schedule);
