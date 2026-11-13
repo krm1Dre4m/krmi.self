@@ -179,7 +179,8 @@ details[open]>summary::before{transform:rotate(90deg)}
 /* JS animates the section height; keep children clipped during the motion. */
 .archive-animating>.months,.archive-animating>.post-links{overflow:hidden}
 .year>summary{padding:10px 12px;border-radius:8px;color:var(--text);font-size:15px}
-.year[open]>summary{background:var(--active);color:var(--ink)}
+/* Expanding a group does not mark it selected; only the current route does. */
+.year.is-current>summary{background:var(--active);color:var(--ink)}
 .months{padding:6px 0 8px 17px}
 .month>summary{color:var(--muted);font-size:14px;padding:8px 10px}
 .year>summary:hover,.month>summary:hover{color:var(--ink)}
@@ -670,12 +671,12 @@ body.theme-ready .brand-star,body.theme-ready .random-star,body.theme-ready .mus
    in one coordinated transition when the active photograph changes. */
 .gallery-grid{position:relative;width:100%;min-height:0;isolation:isolate}
 .gallery-tile{position:absolute;top:0;left:0;min-width:0;transform-origin:top left}
-.gallery-grid.is-ready{transition:height 420ms cubic-bezier(.4,0,.2,1)}
+.gallery-grid.is-ready{transition:height 315ms cubic-bezier(.4,0,.2,1)}
 .gallery-grid.is-ready .gallery-tile{
-  transition:transform 420ms cubic-bezier(.4,0,.2,1),width 420ms cubic-bezier(.4,0,.2,1),height 420ms cubic-bezier(.4,0,.2,1);
+  transition:transform 315ms cubic-bezier(.4,0,.2,1),width 315ms cubic-bezier(.4,0,.2,1),height 315ms cubic-bezier(.4,0,.2,1);
 }
 .gallery-image-trigger{position:relative;display:block;width:100%;padding:0;border:1px solid var(--tarot-edge);border-radius:10px;overflow:hidden;background:var(--active);color:var(--accent);cursor:zoom-in;box-shadow:0 5px 15px rgba(0,0,0,.10)}
-.gallery-grid.is-ready .gallery-image-trigger{transition:height 420ms cubic-bezier(.4,0,.2,1)}
+.gallery-grid.is-ready .gallery-image-trigger{transition:height 315ms cubic-bezier(.4,0,.2,1)}
 .gallery-image-trigger img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
 .gallery-image-trigger:hover{border-color:var(--accent)}
 .gallery-image-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
@@ -686,15 +687,15 @@ body.theme-ready .brand-star,body.theme-ready .random-star,body.theme-ready .mus
 .gallery-tile.is-expanded .gallery-image-trigger{cursor:zoom-out;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 /* Metadata stays mounted so it can fade out while the photograph shrinks.
    Absolute positioning prevents its intrinsic height from shifting the grid. */
-.gallery-details{position:absolute;left:0;padding:12px 4px 8px;box-sizing:border-box;color:var(--muted);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 180ms ease,visibility 0s linear 180ms,top 420ms cubic-bezier(.4,0,.2,1)}
-.gallery-tile.is-expanded .gallery-details{opacity:1;visibility:visible;pointer-events:auto;transition:opacity 230ms ease 90ms,visibility 0s linear 0s,top 420ms cubic-bezier(.4,0,.2,1)}
+.gallery-details{position:absolute;left:0;padding:12px 4px 8px;box-sizing:border-box;color:var(--muted);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 135ms ease,visibility 0s linear 135ms,top 315ms cubic-bezier(.4,0,.2,1)}
+.gallery-tile.is-expanded .gallery-details{opacity:1;visibility:visible;pointer-events:auto;transition:opacity 173ms ease 68ms,visibility 0s linear 0s,top 315ms cubic-bezier(.4,0,.2,1)}
 .gallery-caption{margin:0 0 9px!important;font-size:14px;line-height:1.65;color:var(--text)}
 .gallery-metadata{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;line-height:1.55}
 .gallery-date{color:var(--muted)}
 .gallery-metadata a{color:var(--accent);text-decoration:none}
 .gallery-metadata a:hover{text-decoration:underline;text-underline-offset:3px}
 body.theme-ready .gallery-grid.is-ready .gallery-image-trigger{
-  transition:height 420ms cubic-bezier(.4,0,.2,1),background-color 350ms ease,border-color 350ms ease,color 350ms ease,box-shadow 350ms ease;
+  transition:height 315ms cubic-bezier(.4,0,.2,1),background-color 350ms ease,border-color 350ms ease,color 350ms ease,box-shadow 350ms ease;
 }
 body.theme-ready .gallery-metadata a{transition:color 350ms ease}
 @media(max-width:480px){.gallery-caption{font-size:13px}.gallery-metadata{font-size:11px;gap:7px}}
