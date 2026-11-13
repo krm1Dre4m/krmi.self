@@ -699,5 +699,5 @@ body.theme-ready .gallery-grid.is-ready .gallery-image-trigger{
 body.theme-ready .gallery-metadata a{transition:color 350ms ease}
 @media(max-width:480px){.gallery-caption{font-size:13px}.gallery-metadata{font-size:11px;gap:7px}}
 @media(prefers-reduced-motion:reduce){
-  .gallery-grid.is-ready,.gallery-grid.is-ready .gallery-tile,.gallery-details{transition:none!important;animation:none!important}
+  .gallery-grid.is-ready,.gallery-grid.is-ready .gallery-tile,.gallery-grid.is-ready .gallery-image-trigger,.gallery-details{transition:none!important;animation:none!important}
 }
