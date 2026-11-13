@@ -80,4 +80,16 @@ window.posts = [
     ],
     closing: "I guess beauty is truly in the eyes of the beholder",
   },
+  {
+    id: 7,
+    title: "In a loop",
+    date: "13-11-2026",
+    time: "23:00",
+    labels: ["Coding", "Trying"],
+    body: [
+      "Everytime I add something, something else breaks.",
+      "I guess this is normal, but I can't help but feel helpless...",
+      "It's been going on for weeks, and I'm getting sick of this myself."
+    ],
+  },
 ];
