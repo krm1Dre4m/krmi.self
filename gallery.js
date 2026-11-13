@@ -95,6 +95,11 @@
     host.append(gallery);
 
     let activeIndex = -1;
+    // Switching images is sequential: collapse the current tile, then expand
+    // the newest requested tile. A single pending choice handles rapid clicks.
+    let pendingSelection = null;
+    let switchTimer = 0;
+    let collapsingTile = null;
     let scheduled = 0;
     let ready = false;
     let destroyed = false;
@@ -190,26 +195,70 @@
     function schedule() {
       if (!scheduled && !destroyed) scheduled = requestAnimationFrame(layout);
     }
+    function scrollToSelected(index) {
+      requestAnimationFrame(() => {
+        if (destroyed || activeIndex !== index) return;
+        tiles[index].button.focus({ preventScroll: true });
+        tiles[index].tile.scrollIntoView({
+          block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth'
+        });
+      });
+    }
+    function clearSwitch() {
+      if (switchTimer) window.clearTimeout(switchTimer);
+      switchTimer = 0;
+      if (collapsingTile) collapsingTile.removeEventListener('transitionend', onCollapseEnd);
+      collapsingTile = null;
+      pendingSelection = null;
+    }
+    function finishCollapse() {
+      if (!switchTimer) return;
+      const next = pendingSelection;
+      clearSwitch();
+      if (destroyed || !next || next.index < 0) return;
+      activeIndex = next.index;
+      schedule();
+      if (next.scrollToImage) scrollToSelected(next.index);
+    }
+    function onCollapseEnd(event) {
+      // Height changes even on a one-column mobile grid; transform may not.
+      if (event.target === collapsingTile && event.propertyName === 'height')
+        finishCollapse();
+    }
     function setActive(index, scrollToImage = false) {
-      if (destroyed || index === activeIndex) return;
+      if (destroyed) return;
+      if (switchTimer) {
+        // Escape or toggling closed cancels the pending zoom-in.
+        if (index < 0) clearSwitch();
+        else pendingSelection = { index, scrollToImage };
+        return;
+      }
+      if (index === activeIndex) return;
+      if (activeIndex >= 0 && index >= 0 && ready && !reducedMotion.matches) {
+        // First return the current photo to its original masonry size.
+        collapsingTile = tiles[activeIndex].tile;
+        collapsingTile.addEventListener('transitionend', onCollapseEnd);
+        pendingSelection = { index, scrollToImage };
+        activeIndex = -1;
+        // The actual transition completes in 440ms. The fallback covers
+        // interrupted transitions / background tabs without getting stuck.
+        switchTimer = window.setTimeout(finishCollapse, 520);
+        schedule();
+        return;
+      }
       activeIndex = index;
       schedule();
-      if (scrollToImage && index >= 0) {
-        requestAnimationFrame(() => {
-          if (destroyed) return;
-          tiles[index].button.focus({ preventScroll: true });
-          tiles[index].tile.scrollIntoView({ block: 'nearest', behavior: reducedMotion.matches ? 'instant' : 'smooth' });
-        });
-      }
+      if (scrollToImage && index >= 0) scrollToSelected(index);
     }
     function onKeydown(event) {
-      if (activeIndex < 0 || event.altKey || event.ctrlKey || event.metaKey) return;
+      const selected = pendingSelection ? pendingSelection.index : activeIndex;
+      if (selected < 0 || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         setActive(-1);
       } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
         event.preventDefault();
-        setActive((activeIndex + (event.key === 'ArrowRight' ? 1 : -1) + photos.length) % photos.length, true);
+        setActive((selected + (event.key === 'ArrowRight' ? 1 : -1) + photos.length) % photos.length, true);
       }
     }
     document.addEventListener('keydown', onKeydown);
@@ -223,12 +272,14 @@
     instance = {
       count: photos.length,
       random() {
-        const choices = photos.map((_, index) => index).filter(index => photos.length === 1 || index !== activeIndex);
+        const selected = pendingSelection ? pendingSelection.index : activeIndex;
+        const choices = photos.map((_, index) => index).filter(index => photos.length === 1 || index !== selected);
         if (!choices.length) return;
         setActive(choices[Math.floor(Math.random() * choices.length)], true);
       },
       destroy() {
         destroyed = true;
+        clearSwitch();
         if (scheduled) cancelAnimationFrame(scheduled);
         if (observer) observer.disconnect();
         else window.removeEventListener('resize', schedule);
