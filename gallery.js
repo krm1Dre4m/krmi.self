@@ -97,6 +97,9 @@
     // Exactly one active image. A new selection replaces the old one in the
     // same layout frame so shrink, expansion and masonry reflow run together.
     let activeIndex = -1;
+    // Keep shrinking photographs above their moving neighbors until the
+    // transition finishes. The incoming photograph always stays on top.
+    const shrinking = new Map();
     let scheduled = 0;
     let ready = false;
     let destroyed = false;
@@ -209,6 +212,21 @@
     }
     function setActive(index, scrollToImage = false) {
       if (destroyed || index === activeIndex) return;
+      if (ready && !reducedMotion.matches && activeIndex >= 0) {
+        const outgoing = activeIndex;
+        if (shrinking.has(outgoing)) window.clearTimeout(shrinking.get(outgoing));
+        tiles[outgoing].tile.classList.add('is-shrinking');
+        shrinking.set(outgoing, window.setTimeout(() => {
+          shrinking.delete(outgoing);
+          if (!destroyed) tiles[outgoing].tile.classList.remove('is-shrinking');
+        }, 450));
+      }
+      // A rapidly reselected photo becomes the only expanded one again.
+      if (index >= 0 && shrinking.has(index)) {
+        window.clearTimeout(shrinking.get(index));
+        shrinking.delete(index);
+        tiles[index].tile.classList.remove('is-shrinking');
+      }
       activeIndex = index;
       schedule();
       if (scrollToImage && index >= 0) scrollToSelected(index);
@@ -241,6 +259,8 @@
       },
       destroy() {
         destroyed = true;
+        for (const timer of shrinking.values()) window.clearTimeout(timer);
+        shrinking.clear();
         if (scheduled) cancelAnimationFrame(scheduled);
         if (observer) observer.disconnect();
         else window.removeEventListener('resize', schedule);
