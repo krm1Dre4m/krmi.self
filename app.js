@@ -139,7 +139,7 @@
       root.innerHTML = collections.map(item => {
         const base = '#collection/' + item.id;
         if (item.type === 'gallery') {
-          return `<div class="post-links gallery-toc-link"><a href="${base}" ${location.hash === base ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a></div>`;
+          return `<a class="gallery-toc-link" href="${base}" ${location.hash === base ? 'aria-current="page"' : ''}>${escapeHtml(item.title)}</a>`;
         }
         const genres = Array.isArray(item.genres) ? item.genres.filter(g =>
           g && typeof g.id === 'string' && /^[a-z0-9-]+$/.test(g.id) && typeof g.title === 'string') : [];
