@@ -681,6 +681,7 @@ body.theme-ready .brand-star,body.theme-ready .random-star,body.theme-ready .mus
 .gallery-image-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .gallery-image-trigger img[hidden],.gallery-image-fallback[hidden],.gallery-details[hidden]{display:none}
 .gallery-image-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:24px}
+.gallery-tile.is-shrinking{z-index:1}
 .gallery-tile.is-expanded{z-index:2}
 .gallery-tile.is-expanded .gallery-image-trigger{cursor:zoom-out;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 /* Metadata stays mounted so it can fade out while the photograph shrinks.
