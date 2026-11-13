@@ -24,6 +24,7 @@ window.collections = [
           { title: "Love like you (ft. Rebecca Sugar)", artist: "Steven Universe", url: "https://youtu.be/GDTD24KsdGc?si=YqRiWXrxL_DIT8ys", note: "'I think you're so good, and I'm nothing like you!'" },
           { title: "It's over, isn't it? (ft. Deedee Magno Hall)", artist: "Steven Universe", url: "https://youtu.be/LD6ePgLagcU?si=OfxF8mPCd-EWtX6_", note: "'It's over, isn't it? Why can't I move on?'" },
           { title: "I'm Just Your Problem (ft. Olivia Olson)", artist: "Adventure Time", url: "https://youtu.be/mqjC3ZXPe-Q?si=arTnd0aH9beDDGi4", note: "'You don't like that? Or do you just not like me!?'" },
+          {title: "Escapism (ft. AJ Michalka, Zach Callison & Grace Rolek)", artist: "Steven Universe", url: "https://youtu.be/cy57UnoAgCY?si=kZ3NYQyPmHDtDtgk", note: "'I'd rather be... Free... Free... Free...'"},
         ]
       },
     ]
