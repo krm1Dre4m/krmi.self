@@ -219,7 +219,7 @@
         shrinking.set(outgoing, window.setTimeout(() => {
           shrinking.delete(outgoing);
           if (!destroyed) tiles[outgoing].tile.classList.remove('is-shrinking');
-        }, 450));
+        }, 340));
       }
       // A rapidly reselected photo becomes the only expanded one again.
       if (index >= 0 && shrinking.has(index)) {
