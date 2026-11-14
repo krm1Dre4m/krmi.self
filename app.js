@@ -366,22 +366,32 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
         !Element.prototype.animate) return;
 
+    // Reveal playlist rows individually instead of fading the whole list at once.
+    // A short stagger gives the songs a gentle reading-order entrance.
+    const bodyLayers = [...body.children].flatMap((node, index) => {
+      if (node.classList.contains('song-list')) {
+        return [...node.children]
+          .filter(item => item.classList.contains('song-item'))
+          .map((item, songIndex) => [item, 220 + songIndex * 55, 400, 8]);
+      }
+      return [[node, 220 + Math.min(index, 10) * 55, 460, 12]];
+    });
     const layers = [
       [breadcrumbs, 0],
       [title, 75],
       [dateNode.closest('.entry-info'), 135],
       ...(!labelsNode.hidden ? [[labelsNode, 190]] : []),
-      ...[...body.children].map((node, index) => [node, 220 + Math.min(index, 10) * 55]),
+      ...bodyLayers,
       [older.closest('.entry-pager'), 360 + Math.min(body.children.length, 10) * 55],
       [document.querySelector('.social-footer'), 430 + Math.min(body.children.length, 10) * 55]
     ];
-    for (const [element, delay] of layers) {
+    for (const [element, delay, duration = 460, offset = 12] of layers) {
       if (!element) continue;
       const animation = element.animate([
-        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 0, transform: `translateY(${offset}px)` },
         { opacity: 1, transform: 'translateY(0)' }
       ], {
-        duration: 460,
+        duration,
         delay,
         easing: 'cubic-bezier(.22,1,.36,1)',
         fill: 'both'
