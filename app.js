@@ -39,24 +39,53 @@
   const longDate = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long', day:'numeric', year:'numeric'}).format(d);
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
   // Content is text-only: highlight tokens never inject arbitrary HTML.
-  const renderTextParts = parts => parts.map(part => {
+  const renderCensor = value => {
+    // Keep only an approximate width in the rendered page; never put the
+    // censored value itself into visible or accessible markup.
+    const censorWidth = Array.from(value).reduce((width, character) => {
+      if (/\s/u.test(character)) return width + .28;
+      if (/[ilI.,'`:;!|]/u.test(character)) return width + .3;
+      if (/[MW@#%&]/u.test(character)) return width + .8;
+      return width + .54;
+    }, 0);
+    if (!censorWidth) return '';
+    return `<span class="entry-censor" role="img" aria-label="Censored text" style="--censor-width:${censorWidth.toFixed(2)}em"></span>`;
+  };
+  const wrapInlineEffect = (effect, html) => {
+    if (effect === 'bold') return `<strong class="entry-inline-bold">${html}</strong>`;
+    if (effect === 'strike') return `<s class="entry-strike">${html}</s>`;
+    if (effect === 'highlight') return `<span class="entry-highlight">${html}</span>`;
+    return html;
+  };
+  const renderTextPart = part => {
     if (typeof part === 'string') return escapeHtml(part);
-    if (part && typeof part === 'object' && typeof part.highlight === 'string')
-      return `<span class="entry-highlight">${escapeHtml(part.highlight)}</span>`;
-    if (part && typeof part === 'object' && typeof part.censor === 'string') {
-      // Keep only an approximate width in the rendered page; never put the
-      // censored value itself into visible or accessible markup.
-      const censorWidth = Array.from(part.censor).reduce((width, character) => {
-        if (/\s/u.test(character)) return width + .28;
-        if (/[ilI.,'`:;!|]/u.test(character)) return width + .3;
-        if (/[MW@#%&]/u.test(character)) return width + .8;
-        return width + .54;
-      }, 0);
-      if (!censorWidth) return '';
-      return `<span class="entry-censor" role="img" aria-label="Censored text" style="--censor-width:${censorWidth.toFixed(2)}em"></span>`;
+    if (Array.isArray(part)) return renderTextParts(part);
+    if (!part || typeof part !== 'object') return '';
+
+    // Flag-based composition is convenient when several effects belong to
+    // the same word: { text: 'word', bold: true, strike: true }.
+    if (typeof part.text === 'string' || Array.isArray(part.text)) {
+      let html = typeof part.text === 'string' ? escapeHtml(part.text) : renderTextParts(part.text);
+      for (const effect of ['highlight', 'strike', 'bold']) {
+        if (part[effect] === true) html = wrapInlineEffect(effect, html);
+      }
+      return part.censor === true && typeof part.text === 'string'
+        ? renderCensor(part.text) : html;
+    }
+
+    // Nested composition also works: { bold: { strike: 'old wording' } }.
+    for (const effect of ['highlight', 'censor', 'strike', 'bold']) {
+      if (!Object.prototype.hasOwnProperty.call(part, effect)) continue;
+      const value = part[effect];
+      if (effect === 'censor' && typeof value === 'string') return renderCensor(value);
+      if (effect === 'highlight' && typeof value === 'string')
+        return wrapInlineEffect('highlight', escapeHtml(value));
+      if (effect === 'highlight' || effect === 'strike' || effect === 'bold')
+        return wrapInlineEffect(effect, renderTextPart(value));
     }
     return '';
-  }).join('');
+  };
+  const renderTextParts = parts => Array.isArray(parts) ? parts.map(renderTextPart).join('') : '';
   const safeExternalUrl = value => {
     try {
       const url = new URL(value);
