@@ -43,6 +43,18 @@
     if (typeof part === 'string') return escapeHtml(part);
     if (part && typeof part === 'object' && typeof part.highlight === 'string')
       return `<span class="entry-highlight">${escapeHtml(part.highlight)}</span>`;
+    if (part && typeof part === 'object' && typeof part.censor === 'string') {
+      // Keep only an approximate width in the rendered page; never put the
+      // censored value itself into visible or accessible markup.
+      const censorWidth = Array.from(part.censor).reduce((width, character) => {
+        if (/\s/u.test(character)) return width + .28;
+        if (/[ilI.,'`:;!|]/u.test(character)) return width + .3;
+        if (/[MW@#%&]/u.test(character)) return width + .8;
+        return width + .54;
+      }, 0);
+      if (!censorWidth) return '';
+      return `<span class="entry-censor" role="img" aria-label="Censored text" style="--censor-width:${censorWidth.toFixed(2)}em"></span>`;
+    }
     return '';
   }).join('');
   const safeExternalUrl = value => {
