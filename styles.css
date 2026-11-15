@@ -224,65 +224,123 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 
-/* A compact, static galaxy of tiny dots. Transparent underneath and
-   clipped to the inline text width; no tiles, borders, or animation. */
+/* Each concealed character gets its own tiny, randomly chosen dot field.
+   Static CSS patterns keep the effect lightweight and bounded to the text. */
 .entry-censor{
-  display:inline-block;
-  position:relative;
-  width:var(--censor-width,3em);
+  display:inline-flex;
+  align-items:stretch;
   height:.94em;
   vertical-align:-.08em;
   overflow:hidden;
   white-space:nowrap;
   user-select:none;
   pointer-events:none;
+}
+.entry-censor-dot,
+.entry-censor-gap{
+  display:block;
+  flex:0 0 auto;
+  height:.94em;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+}
+.entry-censor-dot{min-width:2px}
+.entry-censor-gap{background:none}
+.entry-censor-dot.v1{
   background-image:
-    radial-gradient(circle at 4% 13%,var(--ink) 0 .42px,transparent .95px),
-    radial-gradient(circle at 16% 42%,var(--muted) 0 .55px,transparent 1px),
-    radial-gradient(circle at 28% 78%,var(--ink) 0 .38px,transparent .9px),
-    radial-gradient(circle at 39% 23%,var(--muted) 0 .48px,transparent .95px),
-    radial-gradient(circle at 51% 61%,var(--ink) 0 .58px,transparent 1.05px),
-    radial-gradient(circle at 63% 12%,var(--muted) 0 .38px,transparent .9px),
-    radial-gradient(circle at 75% 43%,var(--ink) 0 .5px,transparent 1px),
-    radial-gradient(circle at 88% 82%,var(--muted) 0 .45px,transparent .95px),
-    radial-gradient(circle at 97% 29%,var(--ink) 0 .4px,transparent .9px);
-  background-size:13px .94em;
-  background-repeat:repeat-x;
+    radial-gradient(circle at 14% 18%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 76% 29%,var(--muted) 0 0.5px,transparent 0.98px),
+    radial-gradient(circle at 32% 72%,var(--ink) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 91% 84%,var(--muted) 0 0.46px,transparent 0.94px);
+  opacity:.72;
+}
+.entry-censor-dot.v2{
+  background-image:
+    radial-gradient(circle at 24% 63%,var(--ink) 0 0.38px,transparent 0.86px),
+    radial-gradient(circle at 82% 12%,var(--muted) 0 0.48px,transparent 0.96px),
+    radial-gradient(circle at 49% 39%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 8% 88%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
+  opacity:.58;
+}
+.entry-censor-dot.v3{
+  background-image:
+    radial-gradient(circle at 7% 34%,var(--ink) 0 0.52px,transparent 1px),
+    radial-gradient(circle at 61% 16%,var(--muted) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 38% 87%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
+    radial-gradient(circle at 93% 55%,var(--muted) 0 0.4px,transparent 0.88px);
+  opacity:.82;
+}
+.entry-censor-dot.v4{
+  background-image:
+    radial-gradient(circle at 31% 12%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 88% 42%,var(--muted) 0 0.5px,transparent 0.98px),
+    radial-gradient(circle at 14% 77%,var(--ink) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 58% 68%,var(--muted) 0 0.46px,transparent 0.94px);
+  opacity:.64;
+}
+.entry-censor-dot.v5{
+  background-image:
+    radial-gradient(circle at 19% 48%,var(--ink) 0 0.38px,transparent 0.86px),
+    radial-gradient(circle at 72% 81%,var(--muted) 0 0.48px,transparent 0.96px),
+    radial-gradient(circle at 43% 21%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 96% 16%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
   opacity:.76;
 }
-.entry-censor::before,
-.entry-censor::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-repeat:repeat-x;
-}
-.entry-censor::before{
+.entry-censor-dot.v6{
   background-image:
-    radial-gradient(circle at 8% 68%,var(--muted) 0 .38px,transparent .9px),
-    radial-gradient(circle at 21% 16%,var(--ink) 0 .52px,transparent 1px),
-    radial-gradient(circle at 34% 51%,var(--muted) 0 .42px,transparent .9px),
-    radial-gradient(circle at 47% 88%,var(--ink) 0 .58px,transparent 1.05px),
-    radial-gradient(circle at 60% 35%,var(--muted) 0 .36px,transparent .85px),
-    radial-gradient(circle at 73% 72%,var(--ink) 0 .48px,transparent .95px),
-    radial-gradient(circle at 86% 8%,var(--muted) 0 .4px,transparent .9px),
-    radial-gradient(circle at 96% 56%,var(--ink) 0 .52px,transparent 1px);
-  background-size:17px .94em;
-  opacity:.48;
+    radial-gradient(circle at 4% 82%,var(--ink) 0 0.52px,transparent 1px),
+    radial-gradient(circle at 54% 52%,var(--muted) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 84% 17%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
+    radial-gradient(circle at 29% 25%,var(--muted) 0 0.4px,transparent 0.88px);
+  opacity:.54;
 }
-.entry-censor::after{
+.entry-censor-dot.v7{
   background-image:
-    radial-gradient(circle at 3% 48%,var(--muted) 0 .3px,transparent .8px),
-    radial-gradient(circle at 14% 91%,var(--ink) 0 .42px,transparent .9px),
-    radial-gradient(circle at 26% 31%,var(--muted) 0 .32px,transparent .8px),
-    radial-gradient(circle at 41% 7%,var(--ink) 0 .4px,transparent .9px),
-    radial-gradient(circle at 55% 76%,var(--muted) 0 .34px,transparent .82px),
-    radial-gradient(circle at 68% 24%,var(--ink) 0 .44px,transparent .92px),
-    radial-gradient(circle at 82% 57%,var(--muted) 0 .3px,transparent .8px),
-    radial-gradient(circle at 94% 87%,var(--ink) 0 .38px,transparent .88px);
-  background-size:11px .94em;
-  opacity:.3;
+    radial-gradient(circle at 36% 37%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 9% 9%,var(--muted) 0 0.5px,transparent 0.98px),
+    radial-gradient(circle at 68% 73%,var(--ink) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 91% 93%,var(--muted) 0 0.46px,transparent 0.94px);
+  opacity:.86;
+}
+.entry-censor-dot.v8{
+  background-image:
+    radial-gradient(circle at 18% 88%,var(--ink) 0 0.38px,transparent 0.86px),
+    radial-gradient(circle at 47% 14%,var(--muted) 0 0.48px,transparent 0.96px),
+    radial-gradient(circle at 79% 48%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 97% 25%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
+  opacity:.67;
+}
+.entry-censor-dot.v9{
+  background-image:
+    radial-gradient(circle at 12% 27%,var(--ink) 0 0.52px,transparent 1px),
+    radial-gradient(circle at 64% 88%,var(--muted) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 39% 54%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
+    radial-gradient(circle at 85% 8%,var(--muted) 0 0.4px,transparent 0.88px);
+  opacity:.79;
+}
+.entry-censor-dot.v10{
+  background-image:
+    radial-gradient(circle at 27% 77%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 93% 33%,var(--muted) 0 0.5px,transparent 0.98px),
+    radial-gradient(circle at 57% 24%,var(--ink) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 6% 51%,var(--muted) 0 0.46px,transparent 0.94px);
+  opacity:.61;
+}
+.entry-censor-dot.v11{
+  background-image:
+    radial-gradient(circle at 42% 8%,var(--ink) 0 0.38px,transparent 0.86px),
+    radial-gradient(circle at 16% 57%,var(--muted) 0 0.48px,transparent 0.96px),
+    radial-gradient(circle at 76% 69%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
+    radial-gradient(circle at 98% 91%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
+  opacity:.83;
+}
+.entry-censor-dot.v12{
+  background-image:
+    radial-gradient(circle at 5% 19%,var(--ink) 0 0.52px,transparent 1px),
+    radial-gradient(circle at 52% 81%,var(--muted) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 87% 43%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
+    radial-gradient(circle at 33% 36%,var(--muted) 0 0.4px,transparent 0.88px);
+  opacity:.7;
 }
 
 /* Quiet asides are muted without reducing opacity (so text stays legible). */
