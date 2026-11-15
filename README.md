@@ -50,9 +50,12 @@ The `body` array accepts plain strings (paragraphs) and these optional blocks:
 { dim: "A quieter aside." }
 { highlight: "A sentence to emphasize." }
 { text: ["Normal text ", { highlight: "emphasized text" }, " more text."] }
+{ text: ["Today I discussed about ", { censor: "something private" }, " with my ", { censor: "friend" }, "."] }
 { question: "Why did you choose this place?" } // Put the answer in the next paragraph.
 { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption", tilt: true }
 ```
+
+Use `censor` inside a `text` block for a transparent patch of softly twinkling stars and dots. Its approximate width follows the supplied text, but the original value remains in `data/posts.js`: this is visual concealment, not encryption.
 
 Use `tilt: true` for a subtle mouse-following effect on an individual image. It is disabled on touch devices and for visitors who prefer reduced motion.
 
