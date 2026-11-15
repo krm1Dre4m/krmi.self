@@ -94,7 +94,7 @@ window.posts = [
   },
   {
     id: 8,
-    title: "Bad habbits",
+    title: "Bad habits",
     date: "16-11-2026",
     time: "00:12",
     labels: ["Observing"],
