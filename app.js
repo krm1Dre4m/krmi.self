@@ -40,16 +40,22 @@
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
   // Content is text-only: highlight tokens never inject arbitrary HTML.
   const renderCensor = value => {
-    // Keep only an approximate width in the rendered page; never put the
-    // censored value itself into visible or accessible markup.
-    const censorWidth = Array.from(value).reduce((width, character) => {
-      if (/\s/u.test(character)) return width + .28;
-      if (/[ilI.,'`:;!|]/u.test(character)) return width + .3;
-      if (/[MW@#%&]/u.test(character)) return width + .8;
-      return width + .54;
-    }, 0);
-    if (!censorWidth) return '';
-    return `<span class="entry-censor" role="img" aria-label="Censored text" style="--censor-width:${censorWidth.toFixed(2)}em"></span>`;
+    // Each character becomes an independent, randomly selected static dot
+    // pattern. The source characters are never emitted into the markup.
+    const cells = Array.from(value, character => {
+      let width = .54;
+      if (/\s/u.test(character)) width = .28;
+      else if (/[ilI.,'`:;!|]/u.test(character)) width = .3;
+      else if (/[MW@#%&]/u.test(character)) width = .8;
+      else if (/[\u{1F000}-\u{1FAFF}]/u.test(character)) width = .95;
+      if (/\s/u.test(character)) {
+        return `<span class="entry-censor-gap" aria-hidden="true" style="width:${width}em"></span>`;
+      }
+      const variant = Math.floor(Math.random() * 12) + 1;
+      return `<span class="entry-censor-dot v${variant}" aria-hidden="true" style="width:${width}em"></span>`;
+    }).join('');
+    if (!cells) return '';
+    return `<span class="entry-censor" role="img" aria-label="Censored text">${cells}</span>`;
   };
   const wrapInlineEffect = (effect, html) => {
     if (effect === 'bold') return `<strong class="entry-inline-bold">${html}</strong>`;
