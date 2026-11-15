@@ -224,8 +224,8 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 
-/* A Threads-like inline spoiler: dense, irregular dots with a soft,
-   independently fluctuating opacity. Transparent underneath, no tiles. */
+/* A compact, static galaxy of tiny dots. Transparent underneath and
+   clipped to the inline text width; no tiles, borders, or animation. */
 .entry-censor{
   display:inline-block;
   position:relative;
@@ -237,15 +237,18 @@ body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
   user-select:none;
   pointer-events:none;
   background-image:
-    radial-gradient(circle at 8% 28%,var(--ink) 0 1.1px,transparent 1.8px),
-    radial-gradient(circle at 22% 66%,var(--muted) 0 1.5px,transparent 2.1px),
-    radial-gradient(circle at 38% 17%,var(--ink) 0 .9px,transparent 1.6px),
-    radial-gradient(circle at 54% 54%,var(--muted) 0 1.3px,transparent 2px),
-    radial-gradient(circle at 72% 25%,var(--ink) 0 1.2px,transparent 1.9px),
-    radial-gradient(circle at 91% 72%,var(--muted) 0 1.4px,transparent 2px);
-  background-size:19px .94em;
+    radial-gradient(circle at 4% 13%,var(--ink) 0 .42px,transparent .95px),
+    radial-gradient(circle at 16% 42%,var(--muted) 0 .55px,transparent 1px),
+    radial-gradient(circle at 28% 78%,var(--ink) 0 .38px,transparent .9px),
+    radial-gradient(circle at 39% 23%,var(--muted) 0 .48px,transparent .95px),
+    radial-gradient(circle at 51% 61%,var(--ink) 0 .58px,transparent 1.05px),
+    radial-gradient(circle at 63% 12%,var(--muted) 0 .38px,transparent .9px),
+    radial-gradient(circle at 75% 43%,var(--ink) 0 .5px,transparent 1px),
+    radial-gradient(circle at 88% 82%,var(--muted) 0 .45px,transparent .95px),
+    radial-gradient(circle at 97% 29%,var(--ink) 0 .4px,transparent .9px);
+  background-size:13px .94em;
   background-repeat:repeat-x;
-  opacity:.78;
+  opacity:.76;
 }
 .entry-censor::before,
 .entry-censor::after{
@@ -257,41 +260,29 @@ body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 }
 .entry-censor::before{
   background-image:
-    radial-gradient(circle at 5% 74%,var(--ink) 0 1.7px,transparent 2.3px),
-    radial-gradient(circle at 17% 39%,var(--muted) 0 1px,transparent 1.7px),
-    radial-gradient(circle at 31% 83%,var(--ink) 0 1.3px,transparent 2px),
-    radial-gradient(circle at 46% 31%,var(--ink) 0 1.8px,transparent 2.5px),
-    radial-gradient(circle at 62% 68%,var(--muted) 0 1.1px,transparent 1.8px),
-    radial-gradient(circle at 79% 45%,var(--ink) 0 1.5px,transparent 2.2px),
-    radial-gradient(circle at 96% 16%,var(--muted) 0 1.2px,transparent 1.9px);
-  background-size:27px .94em;
-  opacity:.56;
-  animation:censor-dots-a 2.7s ease-in-out infinite alternate;
+    radial-gradient(circle at 8% 68%,var(--muted) 0 .38px,transparent .9px),
+    radial-gradient(circle at 21% 16%,var(--ink) 0 .52px,transparent 1px),
+    radial-gradient(circle at 34% 51%,var(--muted) 0 .42px,transparent .9px),
+    radial-gradient(circle at 47% 88%,var(--ink) 0 .58px,transparent 1.05px),
+    radial-gradient(circle at 60% 35%,var(--muted) 0 .36px,transparent .85px),
+    radial-gradient(circle at 73% 72%,var(--ink) 0 .48px,transparent .95px),
+    radial-gradient(circle at 86% 8%,var(--muted) 0 .4px,transparent .9px),
+    radial-gradient(circle at 96% 56%,var(--ink) 0 .52px,transparent 1px);
+  background-size:17px .94em;
+  opacity:.48;
 }
 .entry-censor::after{
   background-image:
-    radial-gradient(circle at 12% 13%,var(--muted) 0 .9px,transparent 1.6px),
-    radial-gradient(circle at 27% 51%,var(--ink) 0 1.2px,transparent 1.9px),
-    radial-gradient(circle at 43% 91%,var(--muted) 0 1.6px,transparent 2.2px),
-    radial-gradient(circle at 59% 12%,var(--ink) 0 1px,transparent 1.7px),
-    radial-gradient(circle at 74% 79%,var(--ink) 0 1.7px,transparent 2.4px),
-    radial-gradient(circle at 88% 34%,var(--muted) 0 1.1px,transparent 1.8px);
-  background-size:23px .94em;
-  opacity:.38;
-  animation:censor-dots-b 3.4s ease-in-out -1.3s infinite alternate;
-}
-@keyframes censor-dots-a{
-  from{opacity:.28}
-  to{opacity:.82}
-}
-@keyframes censor-dots-b{
-  from{opacity:.18}
-  to{opacity:.7}
-}
-html.is-page-hidden .entry-censor::before,
-html.is-page-hidden .entry-censor::after{animation-play-state:paused}
-@media(prefers-reduced-motion:reduce){
-  .entry-censor::before,.entry-censor::after{animation:none!important}
+    radial-gradient(circle at 3% 48%,var(--muted) 0 .3px,transparent .8px),
+    radial-gradient(circle at 14% 91%,var(--ink) 0 .42px,transparent .9px),
+    radial-gradient(circle at 26% 31%,var(--muted) 0 .32px,transparent .8px),
+    radial-gradient(circle at 41% 7%,var(--ink) 0 .4px,transparent .9px),
+    radial-gradient(circle at 55% 76%,var(--muted) 0 .34px,transparent .82px),
+    radial-gradient(circle at 68% 24%,var(--ink) 0 .44px,transparent .92px),
+    radial-gradient(circle at 82% 57%,var(--muted) 0 .3px,transparent .8px),
+    radial-gradient(circle at 94% 87%,var(--ink) 0 .38px,transparent .88px);
+  background-size:11px .94em;
+  opacity:.3;
 }
 
 /* Quiet asides are muted without reducing opacity (so text stays legible). */
