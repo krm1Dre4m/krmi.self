@@ -224,8 +224,8 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 
-/* A transparent, inline night-sky censor. The text is replaced by CSS stars,
-   not tiles or a background; only two small opacity layers are animated. */
+/* A Threads-like inline spoiler: dense, irregular dots with a soft,
+   independently fluctuating opacity. Transparent underneath, no tiles. */
 .entry-censor{
   display:inline-block;
   position:relative;
@@ -237,48 +237,56 @@ body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
   user-select:none;
   pointer-events:none;
   background-image:
-    radial-gradient(circle at 9% 27%,var(--muted) 0 .8px,transparent 1.25px),
-    radial-gradient(circle at 78% 72%,var(--accent) 0 .9px,transparent 1.35px),
-    radial-gradient(circle at 48% 17%,var(--muted) 0 .65px,transparent 1.1px);
-  background-size:31px .94em,43px .94em,37px .94em;
+    radial-gradient(circle at 8% 28%,var(--ink) 0 1.1px,transparent 1.8px),
+    radial-gradient(circle at 22% 66%,var(--muted) 0 1.5px,transparent 2.1px),
+    radial-gradient(circle at 38% 17%,var(--ink) 0 .9px,transparent 1.6px),
+    radial-gradient(circle at 54% 54%,var(--muted) 0 1.3px,transparent 2px),
+    radial-gradient(circle at 72% 25%,var(--ink) 0 1.2px,transparent 1.9px),
+    radial-gradient(circle at 91% 72%,var(--muted) 0 1.4px,transparent 2px);
+  background-size:19px .94em;
   background-repeat:repeat-x;
-  opacity:.76;
+  opacity:.78;
 }
 .entry-censor::before,
 .entry-censor::after{
   content:"";
   position:absolute;
   inset:0;
-  background-repeat:repeat-x;
   pointer-events:none;
+  background-repeat:repeat-x;
 }
 .entry-censor::before{
   background-image:
-    radial-gradient(ellipse 1px 4px at 22% 48%,var(--accent) 0 90%,transparent 100%),
-    radial-gradient(ellipse 4px 1px at 22% 48%,var(--accent) 0 90%,transparent 100%),
-    radial-gradient(ellipse 1px 3px at 69% 28%,var(--ink) 0 90%,transparent 100%),
-    radial-gradient(ellipse 3px 1px at 69% 28%,var(--ink) 0 90%,transparent 100%);
-  background-size:37px .94em,37px .94em,47px .94em,47px .94em;
-  opacity:.2;
-  animation:censor-star-twinkle 4.8s ease-in-out infinite alternate;
+    radial-gradient(circle at 5% 74%,var(--ink) 0 1.7px,transparent 2.3px),
+    radial-gradient(circle at 17% 39%,var(--muted) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 31% 83%,var(--ink) 0 1.3px,transparent 2px),
+    radial-gradient(circle at 46% 31%,var(--ink) 0 1.8px,transparent 2.5px),
+    radial-gradient(circle at 62% 68%,var(--muted) 0 1.1px,transparent 1.8px),
+    radial-gradient(circle at 79% 45%,var(--ink) 0 1.5px,transparent 2.2px),
+    radial-gradient(circle at 96% 16%,var(--muted) 0 1.2px,transparent 1.9px);
+  background-size:27px .94em;
+  opacity:.56;
+  animation:censor-dots-a 2.7s ease-in-out infinite alternate;
 }
 .entry-censor::after{
   background-image:
-    radial-gradient(circle at 42% 72%,var(--ink) 0 .8px,transparent 1.25px),
-    radial-gradient(circle at 91% 20%,var(--accent) 0 .75px,transparent 1.2px),
-    radial-gradient(ellipse 1px 3px at 55% 43%,var(--accent) 0 90%,transparent 100%),
-    radial-gradient(ellipse 3px 1px at 55% 43%,var(--accent) 0 90%,transparent 100%);
-  background-size:29px .94em,41px .94em,53px .94em,53px .94em;
-  opacity:.12;
-  animation:censor-dust-twinkle 6.2s ease-in-out -2.1s infinite alternate;
+    radial-gradient(circle at 12% 13%,var(--muted) 0 .9px,transparent 1.6px),
+    radial-gradient(circle at 27% 51%,var(--ink) 0 1.2px,transparent 1.9px),
+    radial-gradient(circle at 43% 91%,var(--muted) 0 1.6px,transparent 2.2px),
+    radial-gradient(circle at 59% 12%,var(--ink) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 74% 79%,var(--ink) 0 1.7px,transparent 2.4px),
+    radial-gradient(circle at 88% 34%,var(--muted) 0 1.1px,transparent 1.8px);
+  background-size:23px .94em;
+  opacity:.38;
+  animation:censor-dots-b 3.4s ease-in-out -1.3s infinite alternate;
 }
-@keyframes censor-star-twinkle{
-  from{opacity:.16}
+@keyframes censor-dots-a{
+  from{opacity:.28}
   to{opacity:.82}
 }
-@keyframes censor-dust-twinkle{
-  from{opacity:.1}
-  to{opacity:.64}
+@keyframes censor-dots-b{
+  from{opacity:.18}
+  to{opacity:.7}
 }
 html.is-page-hidden .entry-censor::before,
 html.is-page-hidden .entry-censor::after{animation-play-state:paused}
