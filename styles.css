@@ -214,7 +214,15 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 /* Emphasis is a slightly brighter line of text, with no underline. */
 .entry-highlight{color:var(--ink);font-weight:600}
 .entry-highlight-paragraph{color:var(--ink)}
+.entry-inline-bold{font-weight:750}
+.entry-strike{
+  text-decoration-line:line-through;
+  text-decoration-thickness:1.25px;
+  text-decoration-color:var(--muted);
+  text-decoration-skip-ink:auto;
+}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
+body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 
 /* A transparent, inline night-sky censor. The text is replaced by CSS stars,
    not tiles or a background; only two small opacity layers are animated. */
