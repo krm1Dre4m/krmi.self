@@ -604,7 +604,10 @@
     labelsNode.innerHTML = labels.map(label => {
       if (label === 'Trying') return `<span class="entry-label entry-label-trying">
         <span class="trying-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false"><path d="M12.3 2.8c.3 3.2-1.6 4.8-3.1 6.7-1.3 1.7-2.1 3.3-2.1 5.3a5 5 0 0 0 10 0c0-2.6-1.6-4.8-3.8-6.7.2 2-1 3.2-2 3.9.3-2.8-.4-5.5-1-9.2Z"/></svg>
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.8c.2 3.2-2.8 4.8-3.8 7.7-.9 2.7.2 4.7 1.7 5.8-.1-2 1-3.4 2.2-4.8.8 1.5 2.5 2.3 2.5 4.8 0 1.1-.3 2.1-.9 2.9 1.9-.8 3.7-2.7 3.7-5.4 0-3.9-2.8-5.8-5.4-11Z"/></svg>
+          <span class="trying-embers">
+            <i class="trying-ember"></i><i class="trying-ember"></i><i class="trying-ember"></i><i class="trying-ember"></i>
+          </span>
         </span>
         <span class="trying-label-text">${escapeHtml(label)}</span>
       </span>`;

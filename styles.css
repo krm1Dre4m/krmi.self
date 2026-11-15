@@ -215,10 +215,16 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 .overthinking-icon svg{display:block;width:15px;height:18px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round}
 .overthinking-cloud-line{stroke-width:1.2;opacity:.7}
 .overthinking-label-text{position:relative;z-index:1}
-.trying-icon{display:block;flex:0 0 15px;width:15px;height:18px;color:inherit}
-.trying-icon svg{display:block;width:15px;height:18px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;transform-origin:50% 90%;animation:trying-flame-flicker 960ms ease-in-out 220ms both}
+.trying-icon{position:relative;display:block;flex:0 0 15px;width:15px;height:18px;color:inherit}
+.trying-icon svg{display:block;width:15px;height:18px;overflow:visible;fill:currentColor}
+.trying-embers{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.trying-ember{position:absolute;left:var(--ember-left);bottom:var(--ember-bottom);display:block;width:var(--ember-size);height:var(--ember-size);border-radius:50%;background:currentColor;opacity:0;animation:trying-ember-rise var(--ember-duration) ease-in-out var(--ember-delay) both}
+.trying-ember:nth-child(1){--ember-left:5px;--ember-bottom:7px;--ember-size:1.5px;--ember-opacity:.62;--ember-drift:-3px;--ember-rise:-17px;--ember-duration:1.8s;--ember-delay:220ms}
+.trying-ember:nth-child(2){--ember-left:8px;--ember-bottom:8px;--ember-size:1px;--ember-opacity:.5;--ember-drift:3px;--ember-rise:-21px;--ember-duration:1.95s;--ember-delay:465ms}
+.trying-ember:nth-child(3){--ember-left:4px;--ember-bottom:10px;--ember-size:1.25px;--ember-opacity:.57;--ember-drift:-2px;--ember-rise:-19px;--ember-duration:1.7s;--ember-delay:710ms}
+.trying-ember:nth-child(4){--ember-left:10px;--ember-bottom:7px;--ember-size:.9px;--ember-opacity:.44;--ember-drift:2px;--ember-rise:-22px;--ember-duration:1.9s;--ember-delay:955ms}
 .trying-label-text{display:block}
-@keyframes trying-flame-flicker{0%{opacity:.35;transform:translateY(2px) scale(.86,.88) rotate(-2deg);filter:drop-shadow(0 0 0 transparent)}16%{opacity:.86;transform:translateY(0) scale(1.02,.96) rotate(1.5deg);filter:drop-shadow(0 0 1.5px currentColor)}31%{opacity:.68;transform:translateY(1px) scale(.95,1.04) rotate(-1deg);filter:drop-shadow(0 0 2px currentColor)}49%{opacity:.98;transform:translateY(0) scale(1.01,.99) rotate(.8deg);filter:drop-shadow(0 0 1px currentColor)}67%{opacity:.78;transform:translateY(.5px) scale(.98,1.02) rotate(-.5deg);filter:drop-shadow(0 0 1.5px currentColor)}84%{opacity:.94;transform:scale(1,.995) rotate(.2deg);filter:drop-shadow(0 0 .5px currentColor)}100%{opacity:1;transform:none;filter:none}}
+@keyframes trying-ember-rise{0%{opacity:0;transform:translate(0,0) scale(.75)}16%{opacity:var(--ember-opacity);transform:translate(calc(var(--ember-drift) * .18),calc(var(--ember-rise) * .18)) scale(1)}62%{opacity:var(--ember-opacity);transform:translate(calc(var(--ember-drift) * .68),calc(var(--ember-rise) * .68)) scale(.9)}100%{opacity:0;transform:translate(var(--ember-drift),var(--ember-rise)) scale(.55)}}
 .overthinking-rain{position:absolute;z-index:0;top:11px;left:0;width:15px;height:16px;pointer-events:none}
 .overthinking-beat{position:absolute;top:0;width:3px;height:16px}
 .overthinking-beat:nth-child(1){left:2px;--overthinking-drop-delay:480ms;--overthinking-ripple-delay:1.18s}
@@ -801,6 +807,7 @@ body.theme-ready .entry-closing::before{
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .trying-ember{opacity:0!important}
   .overthinking-drop,.overthinking-ripple{opacity:0!important}
 }
 
