@@ -116,7 +116,7 @@ window.posts = [
     body: [
       "Yesterday I had a haircut at my go-to, the usual barber is there, and we had a little check up on each other.",
       {text: [
-        "Then he asked me about my ", {censor: "######## #######"}, "and I answered casually, probably everything I could've thought of at that moment."
+        "Then he asked me about my ", {censor: "######## #######"}, " and I answered casually, probably everything I could've thought of at that moment."
       ]
         },
       {question: "What horrible life you're living. It must be tough for you, sorry that you have to go through such circumstance."},
