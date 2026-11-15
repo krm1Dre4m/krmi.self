@@ -50,10 +50,13 @@ The `body` array accepts plain strings (paragraphs) and these optional blocks:
 { dim: "A quieter aside." }
 { highlight: "A sentence to emphasize." }
 { text: ["Normal text ", { highlight: "emphasized text" }, " more text."] }
+{ text: ["I almost wrote ", { strike: "old wording" }, " but ", { text: "changed my mind", bold: true, strike: true }, "."] }
 { text: ["Today I discussed about ", { censor: "something private" }, " with my ", { censor: "friend" }, "."] }
 { question: "Why did you choose this place?" } // Put the answer in the next paragraph.
 { image: "assets/photo.jpg", alt: "Description", caption: "Optional caption", tilt: true }
 ```
+
+Use `strike` to cross out wording. Inline effects can be combined on the same text with flags, for example `{ text: "old wording", bold: true, strike: true }`. You can also nest effects, as in `{ bold: { strike: "old wording" } }`.
 
 Use `censor` inside a `text` block for a transparent patch of softly twinkling stars and dots. Its approximate width follows the supplied text, but the original value remains in `data/posts.js`: this is visual concealment, not encryption.
 
