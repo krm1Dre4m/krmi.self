@@ -107,4 +107,21 @@ window.posts = [
       "After all, even I don't want to be reminded of myself.",
     ],
   },
+  {
+    id: 9,
+    title: "Bad habits (2)",
+    date: "16-11-2026",
+    time: "01:26",
+    labels: ["Observing"],
+    body: [
+      "Yesterday I had a haircut at my go-to, the usual barber is there, and we had a little check up on each other.",
+      {text: [
+        "Then he asked me about my ", {censor: "######## #######"}, "and I answered casually, probably everything I could've thought of at that moment."
+      ]
+        },
+      {question: "What horrible life you're living. It must be tough for you, sorry that you have to go through such circumstance."},
+      "I shrugged it off, I've always thought it was normal, and I still do.",
+    ],
+    closing: "Sometimes I overshare without thinking how bad it is.",
+  },
 ];
