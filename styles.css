@@ -217,9 +217,9 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 .entry-inline-bold{font-weight:750}
 .entry-strike{
   text-decoration-line:line-through;
-  text-decoration-thickness:1.25px;
-  text-decoration-color:var(--muted);
-  text-decoration-skip-ink:auto;
+  text-decoration-thickness:.1em;
+  text-decoration-color:var(--ink);
+  text-decoration-skip-ink:none;
 }
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
