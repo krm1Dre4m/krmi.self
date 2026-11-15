@@ -92,4 +92,17 @@ window.posts = [
       "It's been going on for weeks, and I'm getting sick of this myself."
     ],
   },
+  {
+    id: 8,
+    title: "Bad habbits",
+    date: "16-11-2026",
+    time: "00:12",
+    labels: ["Observing"],
+    body: [
+      "Sometimes I tend to play dead, like being unresponsive, anywhere, anytime.",
+      "It's not that I want to be dead, but there are times when I don't feel wanted.",
+      "Sometimes I don't want anyone to remember me, or be reminded of me.",
+      "After all, even I don't want to be reminded of myself.",
+    ],
+  },
 ];
