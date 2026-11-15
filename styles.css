@@ -216,6 +216,68 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 .entry-highlight-paragraph{color:var(--ink)}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 
+/* A transparent, inline night-sky censor. The text is replaced by CSS stars,
+   not tiles or a background; only two small opacity layers are animated. */
+.entry-censor{
+  display:inline-block;
+  position:relative;
+  width:var(--censor-width,3em);
+  height:.94em;
+  vertical-align:-.08em;
+  overflow:hidden;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 9% 27%,var(--muted) 0 .8px,transparent 1.25px),
+    radial-gradient(circle at 78% 72%,var(--accent) 0 .9px,transparent 1.35px),
+    radial-gradient(circle at 48% 17%,var(--muted) 0 .65px,transparent 1.1px);
+  background-size:31px .94em,43px .94em,37px .94em;
+  background-repeat:repeat-x;
+  opacity:.76;
+}
+.entry-censor::before,
+.entry-censor::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-repeat:repeat-x;
+  pointer-events:none;
+}
+.entry-censor::before{
+  background-image:
+    radial-gradient(ellipse 1px 4px at 22% 48%,var(--accent) 0 90%,transparent 100%),
+    radial-gradient(ellipse 4px 1px at 22% 48%,var(--accent) 0 90%,transparent 100%),
+    radial-gradient(ellipse 1px 3px at 69% 28%,var(--ink) 0 90%,transparent 100%),
+    radial-gradient(ellipse 3px 1px at 69% 28%,var(--ink) 0 90%,transparent 100%);
+  background-size:37px .94em,37px .94em,47px .94em,47px .94em;
+  opacity:.2;
+  animation:censor-star-twinkle 4.8s ease-in-out infinite alternate;
+}
+.entry-censor::after{
+  background-image:
+    radial-gradient(circle at 42% 72%,var(--ink) 0 .8px,transparent 1.25px),
+    radial-gradient(circle at 91% 20%,var(--accent) 0 .75px,transparent 1.2px),
+    radial-gradient(ellipse 1px 3px at 55% 43%,var(--accent) 0 90%,transparent 100%),
+    radial-gradient(ellipse 3px 1px at 55% 43%,var(--accent) 0 90%,transparent 100%);
+  background-size:29px .94em,41px .94em,53px .94em,53px .94em;
+  opacity:.12;
+  animation:censor-dust-twinkle 6.2s ease-in-out -2.1s infinite alternate;
+}
+@keyframes censor-star-twinkle{
+  from{opacity:.16}
+  to{opacity:.82}
+}
+@keyframes censor-dust-twinkle{
+  from{opacity:.1}
+  to{opacity:.64}
+}
+html.is-page-hidden .entry-censor::before,
+html.is-page-hidden .entry-censor::after{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){
+  .entry-censor::before,.entry-censor::after{animation:none!important}
+}
+
 /* Quiet asides are muted without reducing opacity (so text stays legible). */
 .entry-body .entry-aside{
   color:var(--muted);font-size:.94em;line-height:1.8;
