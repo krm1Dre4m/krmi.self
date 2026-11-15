@@ -594,9 +594,36 @@
     const year = String(post.parsedDate.getUTCFullYear());
     const month = monthName(post.parsedDate);
     breadcrumbs.innerHTML = `<a href="#" aria-label="Journal home">Journal</a><span aria-hidden="true">/</span><span>${escapeHtml(year)}</span><span aria-hidden="true">/</span><span>${escapeHtml(month)}</span>`;
-    const labels = [...new Set(getLabels(post))];
+    const labels = [...new Set(getLabels(post))]
+      .sort((a, b) => {
+        const aHasIcon = a === 'Trying' || a === 'Overthinking';
+        const bHasIcon = b === 'Trying' || b === 'Overthinking';
+        return Number(bHasIcon) - Number(aHasIcon);
+      });
     labelsNode.hidden = labels.length === 0;
-    labelsNode.innerHTML = labels.map(label => `<span class="entry-label">${escapeHtml(label)}</span>`).join('');
+    labelsNode.innerHTML = labels.map(label => {
+      if (label === 'Trying') return `<span class="entry-label entry-label-trying">
+        <span class="trying-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.8c.2 3.2-2.8 4.8-3.8 7.7-.9 2.7.2 4.7 1.7 5.8-.1-2 1-3.4 2.2-4.8.8 1.5 2.5 2.3 2.5 4.8 0 1.1-.3 2.1-.9 2.9 1.9-.8 3.7-2.7 3.7-5.4 0-3.9-2.8-5.8-5.4-11Z"/></svg>
+          <span class="trying-embers">
+            <i class="trying-ember"></i><i class="trying-ember"></i><i class="trying-ember"></i><i class="trying-ember"></i>
+          </span>
+        </span>
+        <span class="trying-label-text">${escapeHtml(label)}</span>
+      </span>`;
+      if (label !== 'Overthinking') return `<span class="entry-label">${escapeHtml(label)}</span>`;
+      return `<span class="entry-label entry-label-overthinking">
+        <span class="overthinking-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M7.4 16.2h9.8a4.8 4.8 0 0 0 .4-9.6 6.4 6.4 0 0 0-12.1 1.8A4 4 0 0 0 7.4 16.2Z"/><path class="overthinking-cloud-line" d="M8.3 19.1v1.7M12 19.1v1.7M15.7 19.1v1.7"/></svg>
+          <span class="overthinking-rain" aria-hidden="true">
+            <span class="overthinking-beat"><i class="overthinking-drop"></i><i class="overthinking-ripple"></i></span>
+            <span class="overthinking-beat"><i class="overthinking-drop"></i><i class="overthinking-ripple"></i></span>
+            <span class="overthinking-beat"><i class="overthinking-drop"></i><i class="overthinking-ripple"></i></span>
+          </span>
+        </span>
+        <span class="overthinking-label-text">${escapeHtml(label)}</span>
+      </span>`;
+    }).join('');
     body.innerHTML = (Array.isArray(post.body) ? post.body : []).map((block, blockIndex) => {
       if (block && typeof block === 'object' && Array.isArray(block.stack)) {
         const photos = block.stack.filter(photo => photo && typeof photo.image === 'string' && photo.image.trim());

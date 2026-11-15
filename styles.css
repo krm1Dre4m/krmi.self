@@ -209,6 +209,31 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 .entry-labels{display:flex;flex-wrap:wrap;gap:7px;margin:-6px 0 23px}
 .entry-labels[hidden]{display:none}
 .entry-label{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:11px}
+.entry-label-overthinking{position:relative;display:inline-flex;align-items:center;gap:5px;isolation:isolate;overflow:visible}
+.entry-label-trying{display:inline-flex;align-items:center;gap:5px}
+.overthinking-icon{position:relative;z-index:1;display:block;flex:0 0 15px;width:15px;height:18px;color:inherit}
+.overthinking-icon svg{display:block;width:15px;height:18px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round}
+.overthinking-cloud-line{stroke-width:1.2;opacity:.7}
+.overthinking-label-text{position:relative;z-index:1}
+.trying-icon{position:relative;display:block;flex:0 0 15px;width:15px;height:18px;color:inherit}
+.trying-icon svg{display:block;width:15px;height:18px;overflow:visible;fill:currentColor}
+.trying-embers{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.trying-ember{position:absolute;left:var(--ember-left);bottom:var(--ember-bottom);display:block;width:var(--ember-size);height:var(--ember-size);border-radius:50%;background:currentColor;opacity:0;animation:trying-ember-rise var(--ember-duration) ease-in-out var(--ember-delay) both}
+.trying-ember:nth-child(1){--ember-left:5px;--ember-bottom:7px;--ember-size:1.5px;--ember-opacity:.62;--ember-drift:-3px;--ember-rise:-17px;--ember-duration:1.8s;--ember-delay:220ms}
+.trying-ember:nth-child(2){--ember-left:8px;--ember-bottom:8px;--ember-size:1px;--ember-opacity:.5;--ember-drift:3px;--ember-rise:-21px;--ember-duration:1.95s;--ember-delay:465ms}
+.trying-ember:nth-child(3){--ember-left:4px;--ember-bottom:10px;--ember-size:1.25px;--ember-opacity:.57;--ember-drift:-2px;--ember-rise:-19px;--ember-duration:1.7s;--ember-delay:710ms}
+.trying-ember:nth-child(4){--ember-left:10px;--ember-bottom:7px;--ember-size:.9px;--ember-opacity:.44;--ember-drift:2px;--ember-rise:-22px;--ember-duration:1.9s;--ember-delay:955ms}
+.trying-label-text{display:block}
+@keyframes trying-ember-rise{0%{opacity:0;transform:translate(0,0) scale(.75)}16%{opacity:var(--ember-opacity);transform:translate(calc(var(--ember-drift) * .18),calc(var(--ember-rise) * .18)) scale(1)}62%{opacity:var(--ember-opacity);transform:translate(calc(var(--ember-drift) * .68),calc(var(--ember-rise) * .68)) scale(.9)}100%{opacity:0;transform:translate(var(--ember-drift),var(--ember-rise)) scale(.55)}}
+.overthinking-rain{position:absolute;z-index:0;top:11px;left:0;width:15px;height:16px;pointer-events:none}
+.overthinking-beat{position:absolute;top:0;width:3px;height:16px}
+.overthinking-beat:nth-child(1){left:2px;--overthinking-drop-delay:480ms;--overthinking-ripple-delay:1.18s}
+.overthinking-beat:nth-child(2){left:7px;--overthinking-drop-delay:635ms;--overthinking-ripple-delay:1.335s}
+.overthinking-beat:nth-child(3){left:12px;--overthinking-drop-delay:570ms;--overthinking-ripple-delay:1.27s}
+.overthinking-drop{position:absolute;top:0;left:1px;width:1.5px;height:3px;border-radius:999px;background:currentColor;opacity:0;animation:overthinking-drop-fall 700ms cubic-bezier(.22,1,.36,1) var(--overthinking-drop-delay) both}
+.overthinking-ripple{position:absolute;top:10px;left:-4px;width:11px;height:5px;border:1px solid currentColor;border-radius:50%;opacity:0;transform:scale(.25);animation:overthinking-ripple-out 520ms ease-out var(--overthinking-ripple-delay) both}
+@keyframes overthinking-drop-fall{0%{opacity:0;transform:translateY(-4px) scale(.8)}18%{opacity:.72}72%{opacity:.72}100%{opacity:0;transform:translateY(10px) scale(1)}}
+@keyframes overthinking-ripple-out{0%{opacity:0;transform:scale(.25)}18%{opacity:.52}100%{opacity:0;transform:scale(1.45)}}
 .entry-body{padding-top:30px;border-top:1px solid var(--line);color:var(--text);font-size:17px;line-height:1.85;overflow-wrap:anywhere}
 .entry-body p{margin:0 0 1.55em}
 /* Emphasis is a slightly brighter line of text, with no underline. */
@@ -782,6 +807,8 @@ body.theme-ready .entry-closing::before{
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .trying-ember{opacity:0!important}
+  .overthinking-drop,.overthinking-ripple{opacity:0!important}
 }
 
 /* Section navigation shares the quiet header language, never a large tab bar. */
