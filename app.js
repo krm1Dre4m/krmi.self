@@ -671,6 +671,10 @@
   window.addEventListener('hashchange', renderPost);
   // The archive is navigable by native details/summary controls, without JS state for expanded groups.
   try { setTheme(localStorage.getItem('krmii-theme') === 'light'); } catch (_) { setTheme(false); }
+  // Pause the lightweight CSS star twinkles while this tab is hidden.
+  const syncCensorMotion = () => document.documentElement.classList.toggle('is-page-hidden', document.hidden);
+  document.addEventListener('visibilitychange', syncCensorMotion);
+  syncCensorMotion();
   document.body.classList.add('theme-ready');
   renderPost();
 })();
