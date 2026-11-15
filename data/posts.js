@@ -40,7 +40,10 @@ window.posts = [
     labels: ["Overthinking"],
     body: [
       "I used to believe that I'm sentimental, I thought I helped a lot of people, I thought I understood their problems..",
-      "But in the end, I realize that I don't really understand their feelings, nor do I think I genuinely share them.",
+      {text: [
+        "But in the end, I realize that I don't really", {strike: "hold any empathy"}, "understand their feelings, nor do I think I genuinely share them."
+      ]
+    },
       "Most of the time, I just come up with what I think is an appropriate response, without really feeling what I'm saying.",
       "Perhaps I'm more self-centred than I thought.",
       "... And it disgusts me."
