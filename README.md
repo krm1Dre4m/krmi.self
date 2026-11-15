@@ -58,7 +58,7 @@ The `body` array accepts plain strings (paragraphs) and these optional blocks:
 
 Use `strike` to cross out wording. Inline effects can be combined on the same text with flags, for example `{ text: "old wording", bold: true, strike: true }`. You can also nest effects, as in `{ bold: { strike: "old wording" } }`.
 
-Use `censor` inside a `text` block for a transparent patch of softly twinkling stars and dots. Its approximate width follows the supplied text, but the original value remains in `data/posts.js`: this is visual concealment, not encryption.
+Use `censor` inside a `text` block for a transparent, Threads-style spoiler made of dense, irregular dots that softly fluctuate in opacity. Its approximate width follows the supplied text, but the original value remains in `data/posts.js`: this is visual concealment, not encryption.
 
 Use `tilt: true` for a subtle mouse-following effect on an individual image. It is disabled on touch devices and for visitors who prefer reduced motion.
 
