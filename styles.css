@@ -224,8 +224,8 @@ body.theme-ready .genre-description{transition:color 350ms ease}
 body.theme-ready .entry-highlight{transition:color 350ms ease}
 body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 
-/* Each concealed character gets its own tiny, randomly chosen dot field.
-   Static CSS patterns keep the effect lightweight and bounded to the text. */
+/* Each concealed character gets an independent, dense field of tiny dots.
+   Static gradients keep the texture crisp, bounded, and inexpensive to render. */
 .entry-censor{
   display:inline-flex;
   align-items:stretch;
@@ -248,99 +248,291 @@ body.theme-ready .entry-strike{transition:text-decoration-color 350ms ease}
 .entry-censor-gap{background:none}
 .entry-censor-dot.v1{
   background-image:
-    radial-gradient(circle at 14% 18%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 76% 29%,var(--muted) 0 0.5px,transparent 0.98px),
-    radial-gradient(circle at 32% 72%,var(--ink) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 91% 84%,var(--muted) 0 0.46px,transparent 0.94px);
-  opacity:.72;
+    radial-gradient(circle at 20.0% 71.0%,var(--ink) 0 0.39px,transparent 0.82px),
+    radial-gradient(circle at 16.5% 54.3%,var(--ink) 0 0.45px,transparent 0.90px),
+    radial-gradient(circle at 61.6% 16.4%,var(--muted) 0 0.43px,transparent 0.86px),
+    radial-gradient(circle at 64.7% 75.6%,var(--ink) 0 0.33px,transparent 0.82px),
+    radial-gradient(circle at 15.6% 26.4%,var(--ink) 0 0.34px,transparent 0.80px),
+    radial-gradient(circle at 29.2% 7.2%,var(--muted) 0 0.47px,transparent 0.96px),
+    radial-gradient(circle at 57.3% 53.3%,var(--ink) 0 0.37px,transparent 0.80px),
+    radial-gradient(circle at 13.6% 84.4%,var(--muted) 0 0.35px,transparent 0.85px),
+    radial-gradient(circle at 62.7% 17.5%,var(--muted) 0 0.47px,transparent 0.90px),
+    radial-gradient(circle at 36.9% 58.7%,var(--ink) 0 0.51px,transparent 1.04px),
+    radial-gradient(circle at 46.3% 92.3%,var(--muted) 0 0.42px,transparent 0.84px),
+    radial-gradient(circle at 78.9% 37.9%,var(--ink) 0 0.45px,transparent 0.95px),
+    radial-gradient(circle at 22.6% 31.4%,var(--ink) 0 0.28px,transparent 0.77px),
+    radial-gradient(circle at 86.6% 28.5%,var(--muted) 0 0.43px,transparent 0.96px),
+    radial-gradient(circle at 5.9% 10.1%,var(--muted) 0 0.40px,transparent 0.90px),
+    radial-gradient(circle at 88.2% 16.9%,var(--muted) 0 0.50px,transparent 0.96px),
+    radial-gradient(circle at 79.2% 74.3%,var(--muted) 0 0.33px,transparent 0.79px),
+    radial-gradient(circle at 36.0% 14.7%,var(--ink) 0 0.39px,transparent 0.84px),
+    radial-gradient(circle at 64.7% 18.8%,var(--ink) 0 0.37px,transparent 0.88px),
+    radial-gradient(circle at 9.3% 42.7%,var(--ink) 0 0.38px,transparent 0.90px);
+  opacity:0.85;
 }
 .entry-censor-dot.v2{
   background-image:
-    radial-gradient(circle at 24% 63%,var(--ink) 0 0.38px,transparent 0.86px),
-    radial-gradient(circle at 82% 12%,var(--muted) 0 0.48px,transparent 0.96px),
-    radial-gradient(circle at 49% 39%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 8% 88%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
-  opacity:.58;
+    radial-gradient(circle at 76.9% 39.7%,var(--muted) 0 0.49px,transparent 1.00px),
+    radial-gradient(circle at 31.5% 31.5%,var(--ink) 0 0.44px,transparent 0.89px),
+    radial-gradient(circle at 65.3% 41.3%,var(--ink) 0 0.38px,transparent 0.81px),
+    radial-gradient(circle at 17.6% 30.9%,var(--muted) 0 0.45px,transparent 0.89px),
+    radial-gradient(circle at 49.5% 7.5%,var(--ink) 0 0.45px,transparent 0.88px),
+    radial-gradient(circle at 73.2% 16.8%,var(--ink) 0 0.37px,transparent 0.87px),
+    radial-gradient(circle at 71.7% 60.7%,var(--muted) 0 0.41px,transparent 0.91px),
+    radial-gradient(circle at 87.0% 17.4%,var(--ink) 0 0.34px,transparent 0.82px),
+    radial-gradient(circle at 77.5% 24.3%,var(--muted) 0 0.41px,transparent 0.89px),
+    radial-gradient(circle at 17.0% 31.5%,var(--ink) 0 0.50px,transparent 1.01px),
+    radial-gradient(circle at 33.9% 69.9%,var(--muted) 0 0.37px,transparent 0.85px),
+    radial-gradient(circle at 92.9% 27.6%,var(--ink) 0 0.42px,transparent 0.90px),
+    radial-gradient(circle at 96.0% 9.9%,var(--muted) 0 0.29px,transparent 0.77px),
+    radial-gradient(circle at 23.9% 92.3%,var(--muted) 0 0.42px,transparent 0.86px),
+    radial-gradient(circle at 70.3% 14.3%,var(--ink) 0 0.32px,transparent 0.76px),
+    radial-gradient(circle at 10.5% 34.2%,var(--ink) 0 0.39px,transparent 0.81px),
+    radial-gradient(circle at 79.3% 34.7%,var(--ink) 0 0.46px,transparent 0.91px),
+    radial-gradient(circle at 39.7% 16.6%,var(--muted) 0 0.44px,transparent 0.93px),
+    radial-gradient(circle at 55.9% 27.0%,var(--ink) 0 0.50px,transparent 0.95px),
+    radial-gradient(circle at 58.1% 21.3%,var(--muted) 0 0.37px,transparent 0.80px);
+  opacity:0.83;
 }
 .entry-censor-dot.v3{
   background-image:
-    radial-gradient(circle at 7% 34%,var(--ink) 0 0.52px,transparent 1px),
-    radial-gradient(circle at 61% 16%,var(--muted) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 38% 87%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
-    radial-gradient(circle at 93% 55%,var(--muted) 0 0.4px,transparent 0.88px);
-  opacity:.82;
+    radial-gradient(circle at 69.8% 20.6%,var(--muted) 0 0.42px,transparent 0.94px),
+    radial-gradient(circle at 74.3% 29.4%,var(--ink) 0 0.44px,transparent 0.87px),
+    radial-gradient(circle at 20.9% 91.7%,var(--ink) 0 0.38px,transparent 0.83px),
+    radial-gradient(circle at 86.7% 54.7%,var(--muted) 0 0.34px,transparent 0.83px),
+    radial-gradient(circle at 40.9% 68.7%,var(--muted) 0 0.49px,transparent 1.03px),
+    radial-gradient(circle at 91.3% 34.4%,var(--ink) 0 0.47px,transparent 0.97px),
+    radial-gradient(circle at 6.2% 49.2%,var(--ink) 0 0.50px,transparent 1.01px),
+    radial-gradient(circle at 68.4% 16.6%,var(--muted) 0 0.41px,transparent 0.91px),
+    radial-gradient(circle at 22.8% 30.0%,var(--ink) 0 0.42px,transparent 0.84px),
+    radial-gradient(circle at 44.8% 36.4%,var(--ink) 0 0.34px,transparent 0.79px),
+    radial-gradient(circle at 16.7% 92.6%,var(--ink) 0 0.49px,transparent 0.95px),
+    radial-gradient(circle at 70.6% 9.1%,var(--ink) 0 0.41px,transparent 0.84px),
+    radial-gradient(circle at 28.5% 87.6%,var(--muted) 0 0.32px,transparent 0.84px),
+    radial-gradient(circle at 57.7% 42.2%,var(--ink) 0 0.39px,transparent 0.92px),
+    radial-gradient(circle at 51.9% 28.1%,var(--muted) 0 0.33px,transparent 0.79px),
+    radial-gradient(circle at 63.8% 67.6%,var(--muted) 0 0.47px,transparent 0.96px),
+    radial-gradient(circle at 45.8% 20.7%,var(--ink) 0 0.35px,transparent 0.83px),
+    radial-gradient(circle at 74.3% 70.8%,var(--ink) 0 0.43px,transparent 0.97px),
+    radial-gradient(circle at 85.7% 39.6%,var(--ink) 0 0.39px,transparent 0.89px),
+    radial-gradient(circle at 53.4% 85.2%,var(--muted) 0 0.31px,transparent 0.78px);
+  opacity:0.88;
 }
 .entry-censor-dot.v4{
   background-image:
-    radial-gradient(circle at 31% 12%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 88% 42%,var(--muted) 0 0.5px,transparent 0.98px),
-    radial-gradient(circle at 14% 77%,var(--ink) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 58% 68%,var(--muted) 0 0.46px,transparent 0.94px);
-  opacity:.64;
+    radial-gradient(circle at 91.2% 7.6%,var(--ink) 0 0.36px,transparent 0.90px),
+    radial-gradient(circle at 26.2% 86.9%,var(--ink) 0 0.43px,transparent 0.92px),
+    radial-gradient(circle at 40.9% 63.2%,var(--ink) 0 0.49px,transparent 0.93px),
+    radial-gradient(circle at 14.6% 24.9%,var(--ink) 0 0.30px,transparent 0.83px),
+    radial-gradient(circle at 53.5% 66.4%,var(--muted) 0 0.39px,transparent 0.92px),
+    radial-gradient(circle at 88.1% 52.5%,var(--ink) 0 0.47px,transparent 0.93px),
+    radial-gradient(circle at 95.4% 9.9%,var(--ink) 0 0.47px,transparent 0.99px),
+    radial-gradient(circle at 94.4% 43.9%,var(--ink) 0 0.40px,transparent 0.93px),
+    radial-gradient(circle at 95.3% 46.3%,var(--muted) 0 0.37px,transparent 0.88px),
+    radial-gradient(circle at 81.7% 50.4%,var(--ink) 0 0.38px,transparent 0.84px),
+    radial-gradient(circle at 61.2% 68.6%,var(--muted) 0 0.30px,transparent 0.81px),
+    radial-gradient(circle at 55.9% 57.0%,var(--muted) 0 0.31px,transparent 0.83px),
+    radial-gradient(circle at 21.2% 62.8%,var(--ink) 0 0.36px,transparent 0.87px),
+    radial-gradient(circle at 55.7% 20.3%,var(--ink) 0 0.48px,transparent 1.01px),
+    radial-gradient(circle at 78.8% 26.1%,var(--muted) 0 0.41px,transparent 0.85px),
+    radial-gradient(circle at 17.3% 79.4%,var(--muted) 0 0.44px,transparent 0.87px),
+    radial-gradient(circle at 79.3% 47.6%,var(--muted) 0 0.36px,transparent 0.81px),
+    radial-gradient(circle at 42.9% 52.6%,var(--muted) 0 0.29px,transparent 0.72px),
+    radial-gradient(circle at 56.6% 75.6%,var(--ink) 0 0.46px,transparent 0.98px),
+    radial-gradient(circle at 46.3% 55.2%,var(--muted) 0 0.50px,transparent 0.99px);
+  opacity:0.93;
 }
 .entry-censor-dot.v5{
   background-image:
-    radial-gradient(circle at 19% 48%,var(--ink) 0 0.38px,transparent 0.86px),
-    radial-gradient(circle at 72% 81%,var(--muted) 0 0.48px,transparent 0.96px),
-    radial-gradient(circle at 43% 21%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 96% 16%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
-  opacity:.76;
+    radial-gradient(circle at 84.5% 73.9%,var(--muted) 0 0.30px,transparent 0.81px),
+    radial-gradient(circle at 35.1% 70.2%,var(--ink) 0 0.39px,transparent 0.85px),
+    radial-gradient(circle at 44.5% 56.9%,var(--ink) 0 0.34px,transparent 0.87px),
+    radial-gradient(circle at 57.6% 63.3%,var(--ink) 0 0.35px,transparent 0.86px),
+    radial-gradient(circle at 12.3% 21.3%,var(--muted) 0 0.36px,transparent 0.88px),
+    radial-gradient(circle at 7.8% 53.1%,var(--ink) 0 0.50px,transparent 0.93px),
+    radial-gradient(circle at 21.2% 18.8%,var(--muted) 0 0.38px,transparent 0.92px),
+    radial-gradient(circle at 17.3% 78.7%,var(--ink) 0 0.29px,transparent 0.80px),
+    radial-gradient(circle at 96.0% 10.8%,var(--ink) 0 0.39px,transparent 0.90px),
+    radial-gradient(circle at 61.1% 35.4%,var(--ink) 0 0.30px,transparent 0.79px),
+    radial-gradient(circle at 54.6% 60.9%,var(--muted) 0 0.38px,transparent 0.81px),
+    radial-gradient(circle at 11.0% 66.6%,var(--ink) 0 0.47px,transparent 0.94px),
+    radial-gradient(circle at 49.1% 6.4%,var(--ink) 0 0.44px,transparent 0.89px),
+    radial-gradient(circle at 53.7% 54.2%,var(--ink) 0 0.36px,transparent 0.83px),
+    radial-gradient(circle at 30.1% 49.1%,var(--ink) 0 0.39px,transparent 0.89px),
+    radial-gradient(circle at 47.1% 77.7%,var(--muted) 0 0.37px,transparent 0.79px),
+    radial-gradient(circle at 89.8% 45.9%,var(--muted) 0 0.44px,transparent 0.89px),
+    radial-gradient(circle at 21.3% 80.7%,var(--ink) 0 0.46px,transparent 0.88px),
+    radial-gradient(circle at 24.1% 34.2%,var(--muted) 0 0.48px,transparent 0.95px),
+    radial-gradient(circle at 67.8% 28.7%,var(--ink) 0 0.31px,transparent 0.75px);
+  opacity:0.91;
 }
 .entry-censor-dot.v6{
   background-image:
-    radial-gradient(circle at 4% 82%,var(--ink) 0 0.52px,transparent 1px),
-    radial-gradient(circle at 54% 52%,var(--muted) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 84% 17%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
-    radial-gradient(circle at 29% 25%,var(--muted) 0 0.4px,transparent 0.88px);
-  opacity:.54;
+    radial-gradient(circle at 65.3% 20.7%,var(--ink) 0 0.33px,transparent 0.79px),
+    radial-gradient(circle at 92.3% 50.0%,var(--ink) 0 0.31px,transparent 0.83px),
+    radial-gradient(circle at 50.6% 58.0%,var(--ink) 0 0.35px,transparent 0.80px),
+    radial-gradient(circle at 36.7% 84.2%,var(--muted) 0 0.44px,transparent 0.93px),
+    radial-gradient(circle at 43.4% 78.8%,var(--muted) 0 0.49px,transparent 0.99px),
+    radial-gradient(circle at 92.9% 50.4%,var(--muted) 0 0.31px,transparent 0.85px),
+    radial-gradient(circle at 55.8% 12.9%,var(--ink) 0 0.47px,transparent 0.94px),
+    radial-gradient(circle at 56.6% 62.4%,var(--muted) 0 0.41px,transparent 0.94px),
+    radial-gradient(circle at 9.1% 18.3%,var(--muted) 0 0.35px,transparent 0.79px),
+    radial-gradient(circle at 14.1% 29.7%,var(--muted) 0 0.49px,transparent 0.96px),
+    radial-gradient(circle at 85.3% 7.2%,var(--muted) 0 0.40px,transparent 0.89px),
+    radial-gradient(circle at 77.3% 6.7%,var(--muted) 0 0.33px,transparent 0.76px),
+    radial-gradient(circle at 19.0% 46.3%,var(--muted) 0 0.44px,transparent 0.92px),
+    radial-gradient(circle at 56.8% 76.5%,var(--ink) 0 0.36px,transparent 0.78px),
+    radial-gradient(circle at 72.8% 48.6%,var(--ink) 0 0.30px,transparent 0.75px),
+    radial-gradient(circle at 13.0% 68.5%,var(--ink) 0 0.35px,transparent 0.78px),
+    radial-gradient(circle at 36.5% 27.0%,var(--ink) 0 0.32px,transparent 0.78px),
+    radial-gradient(circle at 40.7% 75.6%,var(--muted) 0 0.30px,transparent 0.78px),
+    radial-gradient(circle at 12.8% 65.7%,var(--muted) 0 0.36px,transparent 0.86px),
+    radial-gradient(circle at 92.4% 69.3%,var(--ink) 0 0.43px,transparent 0.90px);
+  opacity:0.84;
 }
 .entry-censor-dot.v7{
   background-image:
-    radial-gradient(circle at 36% 37%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 9% 9%,var(--muted) 0 0.5px,transparent 0.98px),
-    radial-gradient(circle at 68% 73%,var(--ink) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 91% 93%,var(--muted) 0 0.46px,transparent 0.94px);
-  opacity:.86;
+    radial-gradient(circle at 56.7% 36.7%,var(--muted) 0 0.41px,transparent 0.90px),
+    radial-gradient(circle at 72.2% 90.1%,var(--ink) 0 0.50px,transparent 1.03px),
+    radial-gradient(circle at 3.5% 30.1%,var(--muted) 0 0.35px,transparent 0.87px),
+    radial-gradient(circle at 9.1% 9.8%,var(--ink) 0 0.37px,transparent 0.88px),
+    radial-gradient(circle at 16.2% 56.5%,var(--ink) 0 0.36px,transparent 0.87px),
+    radial-gradient(circle at 9.9% 87.0%,var(--ink) 0 0.48px,transparent 0.97px),
+    radial-gradient(circle at 76.0% 60.1%,var(--ink) 0 0.30px,transparent 0.79px),
+    radial-gradient(circle at 94.5% 52.8%,var(--muted) 0 0.36px,transparent 0.89px),
+    radial-gradient(circle at 26.2% 89.5%,var(--muted) 0 0.37px,transparent 0.86px),
+    radial-gradient(circle at 69.6% 53.1%,var(--muted) 0 0.32px,transparent 0.78px),
+    radial-gradient(circle at 31.4% 39.7%,var(--ink) 0 0.49px,transparent 0.99px),
+    radial-gradient(circle at 76.9% 93.9%,var(--ink) 0 0.46px,transparent 0.89px),
+    radial-gradient(circle at 46.2% 31.5%,var(--muted) 0 0.42px,transparent 0.91px),
+    radial-gradient(circle at 91.8% 36.8%,var(--ink) 0 0.38px,transparent 0.84px),
+    radial-gradient(circle at 59.4% 27.9%,var(--ink) 0 0.46px,transparent 0.97px),
+    radial-gradient(circle at 13.5% 49.9%,var(--muted) 0 0.41px,transparent 0.88px),
+    radial-gradient(circle at 3.8% 45.5%,var(--muted) 0 0.29px,transparent 0.72px),
+    radial-gradient(circle at 10.9% 18.0%,var(--ink) 0 0.35px,transparent 0.81px),
+    radial-gradient(circle at 81.6% 47.7%,var(--muted) 0 0.34px,transparent 0.79px),
+    radial-gradient(circle at 72.3% 61.9%,var(--muted) 0 0.35px,transparent 0.85px);
+  opacity:0.76;
 }
 .entry-censor-dot.v8{
   background-image:
-    radial-gradient(circle at 18% 88%,var(--ink) 0 0.38px,transparent 0.86px),
-    radial-gradient(circle at 47% 14%,var(--muted) 0 0.48px,transparent 0.96px),
-    radial-gradient(circle at 79% 48%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 97% 25%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
-  opacity:.67;
+    radial-gradient(circle at 80.2% 61.9%,var(--ink) 0 0.33px,transparent 0.85px),
+    radial-gradient(circle at 48.5% 54.7%,var(--muted) 0 0.36px,transparent 0.83px),
+    radial-gradient(circle at 16.9% 32.6%,var(--ink) 0 0.41px,transparent 0.92px),
+    radial-gradient(circle at 13.1% 70.6%,var(--ink) 0 0.44px,transparent 0.86px),
+    radial-gradient(circle at 19.4% 38.4%,var(--ink) 0 0.45px,transparent 0.91px),
+    radial-gradient(circle at 37.8% 91.1%,var(--muted) 0 0.29px,transparent 0.80px),
+    radial-gradient(circle at 47.4% 77.6%,var(--muted) 0 0.50px,transparent 1.03px),
+    radial-gradient(circle at 88.3% 10.5%,var(--ink) 0 0.28px,transparent 0.82px),
+    radial-gradient(circle at 29.0% 43.4%,var(--ink) 0 0.36px,transparent 0.88px),
+    radial-gradient(circle at 82.8% 76.3%,var(--ink) 0 0.33px,transparent 0.83px),
+    radial-gradient(circle at 22.5% 31.2%,var(--ink) 0 0.45px,transparent 0.89px),
+    radial-gradient(circle at 27.2% 29.8%,var(--ink) 0 0.41px,transparent 0.93px),
+    radial-gradient(circle at 35.1% 39.7%,var(--muted) 0 0.50px,transparent 0.94px),
+    radial-gradient(circle at 84.7% 22.0%,var(--ink) 0 0.50px,transparent 0.99px),
+    radial-gradient(circle at 86.0% 6.8%,var(--muted) 0 0.35px,transparent 0.88px),
+    radial-gradient(circle at 74.9% 58.7%,var(--muted) 0 0.31px,transparent 0.82px),
+    radial-gradient(circle at 87.1% 16.9%,var(--ink) 0 0.31px,transparent 0.81px),
+    radial-gradient(circle at 43.6% 85.7%,var(--muted) 0 0.36px,transparent 0.87px),
+    radial-gradient(circle at 77.6% 80.6%,var(--ink) 0 0.49px,transparent 0.93px),
+    radial-gradient(circle at 27.8% 54.4%,var(--ink) 0 0.44px,transparent 0.92px);
+  opacity:0.87;
 }
 .entry-censor-dot.v9{
   background-image:
-    radial-gradient(circle at 12% 27%,var(--ink) 0 0.52px,transparent 1px),
-    radial-gradient(circle at 64% 88%,var(--muted) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 39% 54%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
-    radial-gradient(circle at 85% 8%,var(--muted) 0 0.4px,transparent 0.88px);
-  opacity:.79;
+    radial-gradient(circle at 73.5% 40.1%,var(--muted) 0 0.50px,transparent 0.98px),
+    radial-gradient(circle at 57.4% 38.1%,var(--ink) 0 0.32px,transparent 0.76px),
+    radial-gradient(circle at 20.5% 26.2%,var(--ink) 0 0.49px,transparent 0.97px),
+    radial-gradient(circle at 56.1% 21.0%,var(--ink) 0 0.48px,transparent 1.02px),
+    radial-gradient(circle at 72.1% 81.3%,var(--muted) 0 0.42px,transparent 0.86px),
+    radial-gradient(circle at 51.5% 91.7%,var(--ink) 0 0.32px,transparent 0.80px),
+    radial-gradient(circle at 67.2% 86.4%,var(--muted) 0 0.41px,transparent 0.83px),
+    radial-gradient(circle at 11.3% 45.2%,var(--ink) 0 0.40px,transparent 0.92px),
+    radial-gradient(circle at 29.6% 7.9%,var(--muted) 0 0.37px,transparent 0.90px),
+    radial-gradient(circle at 62.2% 61.3%,var(--ink) 0 0.49px,transparent 1.02px),
+    radial-gradient(circle at 15.9% 23.6%,var(--ink) 0 0.30px,transparent 0.79px),
+    radial-gradient(circle at 76.3% 39.5%,var(--ink) 0 0.34px,transparent 0.81px),
+    radial-gradient(circle at 63.0% 71.3%,var(--muted) 0 0.35px,transparent 0.85px),
+    radial-gradient(circle at 82.6% 55.9%,var(--muted) 0 0.38px,transparent 0.81px),
+    radial-gradient(circle at 37.3% 29.8%,var(--muted) 0 0.33px,transparent 0.80px),
+    radial-gradient(circle at 10.7% 56.9%,var(--muted) 0 0.47px,transparent 0.98px),
+    radial-gradient(circle at 3.5% 15.2%,var(--muted) 0 0.38px,transparent 0.89px),
+    radial-gradient(circle at 22.0% 25.8%,var(--muted) 0 0.30px,transparent 0.81px),
+    radial-gradient(circle at 45.1% 39.2%,var(--muted) 0 0.29px,transparent 0.79px),
+    radial-gradient(circle at 49.3% 27.9%,var(--ink) 0 0.48px,transparent 0.91px);
+  opacity:0.85;
 }
 .entry-censor-dot.v10{
   background-image:
-    radial-gradient(circle at 27% 77%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 93% 33%,var(--muted) 0 0.5px,transparent 0.98px),
-    radial-gradient(circle at 57% 24%,var(--ink) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 6% 51%,var(--muted) 0 0.46px,transparent 0.94px);
-  opacity:.61;
+    radial-gradient(circle at 36.4% 8.8%,var(--muted) 0 0.37px,transparent 0.81px),
+    radial-gradient(circle at 72.4% 15.2%,var(--ink) 0 0.31px,transparent 0.75px),
+    radial-gradient(circle at 24.1% 51.1%,var(--muted) 0 0.43px,transparent 0.91px),
+    radial-gradient(circle at 9.0% 64.3%,var(--muted) 0 0.37px,transparent 0.86px),
+    radial-gradient(circle at 12.1% 62.3%,var(--ink) 0 0.29px,transparent 0.83px),
+    radial-gradient(circle at 95.4% 13.3%,var(--ink) 0 0.46px,transparent 0.95px),
+    radial-gradient(circle at 81.6% 93.9%,var(--muted) 0 0.45px,transparent 0.95px),
+    radial-gradient(circle at 84.6% 66.3%,var(--ink) 0 0.38px,transparent 0.90px),
+    radial-gradient(circle at 44.5% 14.7%,var(--muted) 0 0.32px,transparent 0.77px),
+    radial-gradient(circle at 42.4% 34.1%,var(--muted) 0 0.48px,transparent 0.99px),
+    radial-gradient(circle at 3.5% 89.3%,var(--ink) 0 0.49px,transparent 0.91px),
+    radial-gradient(circle at 90.3% 29.2%,var(--ink) 0 0.30px,transparent 0.75px),
+    radial-gradient(circle at 42.5% 49.8%,var(--ink) 0 0.36px,transparent 0.85px),
+    radial-gradient(circle at 19.9% 31.6%,var(--muted) 0 0.36px,transparent 0.83px),
+    radial-gradient(circle at 7.7% 34.0%,var(--ink) 0 0.49px,transparent 1.00px),
+    radial-gradient(circle at 27.0% 74.2%,var(--ink) 0 0.36px,transparent 0.83px),
+    radial-gradient(circle at 3.6% 63.6%,var(--ink) 0 0.29px,transparent 0.78px),
+    radial-gradient(circle at 25.7% 27.7%,var(--ink) 0 0.35px,transparent 0.78px),
+    radial-gradient(circle at 36.3% 47.4%,var(--ink) 0 0.41px,transparent 0.86px),
+    radial-gradient(circle at 4.1% 6.5%,var(--ink) 0 0.47px,transparent 0.93px);
+  opacity:0.83;
 }
 .entry-censor-dot.v11{
   background-image:
-    radial-gradient(circle at 42% 8%,var(--ink) 0 0.38px,transparent 0.86px),
-    radial-gradient(circle at 16% 57%,var(--muted) 0 0.48px,transparent 0.96px),
-    radial-gradient(circle at 76% 69%,var(--ink) 0 0.42px,transparent 0.8999999999999999px),
-    radial-gradient(circle at 98% 91%,var(--muted) 0 0.34px,transparent 0.8200000000000001px);
-  opacity:.83;
+    radial-gradient(circle at 29.8% 85.7%,var(--muted) 0 0.43px,transparent 0.86px),
+    radial-gradient(circle at 27.1% 89.0%,var(--muted) 0 0.32px,transparent 0.80px),
+    radial-gradient(circle at 55.5% 68.0%,var(--ink) 0 0.44px,transparent 0.95px),
+    radial-gradient(circle at 63.5% 25.3%,var(--muted) 0 0.48px,transparent 0.95px),
+    radial-gradient(circle at 4.6% 92.3%,var(--ink) 0 0.29px,transparent 0.74px),
+    radial-gradient(circle at 21.0% 40.8%,var(--ink) 0 0.46px,transparent 0.91px),
+    radial-gradient(circle at 67.1% 67.8%,var(--muted) 0 0.37px,transparent 0.82px),
+    radial-gradient(circle at 48.2% 78.2%,var(--muted) 0 0.47px,transparent 0.96px),
+    radial-gradient(circle at 11.9% 10.2%,var(--muted) 0 0.38px,transparent 0.81px),
+    radial-gradient(circle at 29.0% 79.3%,var(--ink) 0 0.37px,transparent 0.82px),
+    radial-gradient(circle at 82.2% 73.5%,var(--muted) 0 0.49px,transparent 0.97px),
+    radial-gradient(circle at 89.7% 37.0%,var(--muted) 0 0.51px,transparent 0.96px),
+    radial-gradient(circle at 3.6% 37.9%,var(--ink) 0 0.44px,transparent 0.89px),
+    radial-gradient(circle at 71.6% 91.5%,var(--muted) 0 0.45px,transparent 0.93px),
+    radial-gradient(circle at 50.3% 59.8%,var(--muted) 0 0.30px,transparent 0.76px),
+    radial-gradient(circle at 10.0% 74.7%,var(--ink) 0 0.42px,transparent 0.86px),
+    radial-gradient(circle at 32.1% 21.3%,var(--ink) 0 0.51px,transparent 1.01px),
+    radial-gradient(circle at 55.8% 6.6%,var(--ink) 0 0.36px,transparent 0.84px),
+    radial-gradient(circle at 80.5% 55.7%,var(--muted) 0 0.37px,transparent 0.81px),
+    radial-gradient(circle at 7.0% 54.3%,var(--ink) 0 0.40px,transparent 0.88px);
+  opacity:0.77;
 }
 .entry-censor-dot.v12{
   background-image:
-    radial-gradient(circle at 5% 19%,var(--ink) 0 0.52px,transparent 1px),
-    radial-gradient(circle at 52% 81%,var(--muted) 0 0.36px,transparent 0.84px),
-    radial-gradient(circle at 87% 43%,var(--ink) 0 0.44px,transparent 0.9199999999999999px),
-    radial-gradient(circle at 33% 36%,var(--muted) 0 0.4px,transparent 0.88px);
-  opacity:.7;
+    radial-gradient(circle at 86.7% 54.4%,var(--muted) 0 0.30px,transparent 0.81px),
+    radial-gradient(circle at 42.0% 66.1%,var(--muted) 0 0.31px,transparent 0.79px),
+    radial-gradient(circle at 59.2% 92.8%,var(--ink) 0 0.38px,transparent 0.90px),
+    radial-gradient(circle at 16.4% 68.6%,var(--ink) 0 0.37px,transparent 0.91px),
+    radial-gradient(circle at 38.5% 73.4%,var(--muted) 0 0.39px,transparent 0.82px),
+    radial-gradient(circle at 65.0% 50.4%,var(--ink) 0 0.36px,transparent 0.83px),
+    radial-gradient(circle at 81.5% 75.2%,var(--ink) 0 0.40px,transparent 0.94px),
+    radial-gradient(circle at 27.5% 11.3%,var(--ink) 0 0.45px,transparent 0.94px),
+    radial-gradient(circle at 26.7% 17.0%,var(--muted) 0 0.33px,transparent 0.80px),
+    radial-gradient(circle at 9.1% 52.1%,var(--muted) 0 0.36px,transparent 0.79px),
+    radial-gradient(circle at 69.8% 51.1%,var(--muted) 0 0.45px,transparent 0.98px),
+    radial-gradient(circle at 9.7% 26.7%,var(--muted) 0 0.47px,transparent 0.91px),
+    radial-gradient(circle at 77.1% 16.4%,var(--ink) 0 0.45px,transparent 0.89px),
+    radial-gradient(circle at 9.0% 67.2%,var(--muted) 0 0.43px,transparent 0.95px),
+    radial-gradient(circle at 20.7% 64.1%,var(--ink) 0 0.45px,transparent 0.97px),
+    radial-gradient(circle at 26.4% 91.9%,var(--ink) 0 0.31px,transparent 0.83px),
+    radial-gradient(circle at 32.1% 69.7%,var(--muted) 0 0.42px,transparent 0.90px),
+    radial-gradient(circle at 59.5% 8.5%,var(--muted) 0 0.41px,transparent 0.93px),
+    radial-gradient(circle at 71.7% 63.9%,var(--muted) 0 0.50px,transparent 1.00px),
+    radial-gradient(circle at 55.7% 32.9%,var(--muted) 0 0.39px,transparent 0.91px);
+  opacity:0.75;
 }
 
 /* Quiet asides are muted without reducing opacity (so text stays legible). */
