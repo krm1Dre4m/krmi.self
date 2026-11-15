@@ -121,6 +121,7 @@ window.posts = [
         },
       {question: "What horrible life you're living. It must be tough for you, sorry that you have to go through such circumstance."},
       "I shrugged it off, I've always thought it was normal, and I still do.",
+      "What's abnormal is that the haircut is so bad for its price."
     ],
     closing: "Sometimes I overshare without thinking how bad it is.",
   },
