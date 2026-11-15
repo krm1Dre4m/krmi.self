@@ -1006,7 +1006,7 @@ body.theme-ready .brand-star,body.theme-ready .random-star,body.theme-ready .mus
 .gallery-tile.is-expanded .gallery-image-trigger{cursor:zoom-out;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 /* Metadata stays mounted so it can fade out while the photograph shrinks.
    Absolute positioning prevents its intrinsic height from shifting the grid. */
-.gallery-details{position:absolute;left:0;padding:12px 4px 8px;box-sizing:border-box;color:var(--muted);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 135ms ease,visibility 0s linear 135ms,top 315ms cubic-bezier(.4,0,.2,1)}
+.gallery-details{position:absolute;left:0;padding:12px 4px 8px;box-sizing:border-box;color:var(--muted);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 135ms ease,visibility 0s linear 0s,top 315ms cubic-bezier(.4,0,.2,1)}
 .gallery-tile.is-expanded .gallery-details{opacity:1;visibility:visible;pointer-events:auto;transition:opacity 173ms ease 68ms,visibility 0s linear 0s,top 315ms cubic-bezier(.4,0,.2,1)}
 .gallery-caption{margin:0 0 9px!important;font-size:14px;line-height:1.65;color:var(--text)}
 .gallery-metadata{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;line-height:1.55}
