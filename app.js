@@ -40,19 +40,29 @@
   const monthName = d => new Intl.DateTimeFormat('en', {timeZone:'UTC', month:'long'}).format(d);
   // Content is text-only: highlight tokens never inject arbitrary HTML.
   const renderCensor = value => {
-    // Each character becomes an independent, randomly selected static dot
-    // pattern. The source characters are never emitted into the markup.
+    // Use a broad pattern pool and avoid reusing any of the last three
+    // variants, so adjacent characters never form obvious repeated tiles.
+    let recentVariants = [];
     const cells = Array.from(value, character => {
       let width = .54;
       if (/\s/u.test(character)) width = .28;
-      else if (/[ilI.,'`:;!|]/u.test(character)) width = .3;
-      else if (/[MW@#%&]/u.test(character)) width = .8;
-      else if (/[\u{1F000}-\u{1FAFF}]/u.test(character)) width = .95;
+      else if (/[ilI.,'`:;!|]/u.test(character)) width = .27;
+      else if (/[frtJ()\[\]{}]/u.test(character)) width = .38;
+      else if (/[MW@#%&]/u.test(character)) width = .82;
+      else if (/[A-Z]/u.test(character)) width = .64;
+      else if (/[\u{1F000}-\u{1FAFF}]/u.test(character)) width = .96;
+      else if (/[.,:;]/u.test(character)) width = .24;
       if (/\s/u.test(character)) {
+        recentVariants = [];
         return `<span class="entry-censor-gap" aria-hidden="true" style="width:${width}em"></span>`;
       }
-      const variant = Math.floor(Math.random() * 12) + 1;
-      return `<span class="entry-censor-dot v${variant}" aria-hidden="true" style="width:${width}em"></span>`;
+      const available = Array.from({ length: 48 }, (_, index) => index + 1)
+        .filter(variant => !recentVariants.includes(variant));
+      const variant = available[Math.floor(Math.random() * available.length)];
+      recentVariants.push(variant);
+      if (recentVariants.length > 3) recentVariants.shift();
+      const proportion = width <= .3 ? 'narrow' : width >= .8 ? 'wide' : 'regular';
+      return `<span class="entry-censor-dot v${variant} w-${proportion}" aria-hidden="true" style="width:${width}em"></span>`;
     }).join('');
     if (!cells) return '';
     return `<span class="entry-censor" role="img" aria-label="Censored text">${cells}</span>`;
