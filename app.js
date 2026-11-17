@@ -672,13 +672,13 @@
     }
     initPhotoStacks();
     initPhotoTilts();
-    // Set the mat from each image's intrinsic width, capped at 480px,
+    // Set the mat from each image's intrinsic width, capped at 360px,
     // while CSS also constrains tall photos to the visible viewport.
     for (const image of body.querySelectorAll('.journal-photo img')) {
       const sizeFrame = () => {
         if (!image.naturalWidth || !image.naturalHeight) return;
         const frame = image.closest('.journal-photo');
-        frame.style.setProperty('--photo-width', Math.min(image.naturalWidth, 480) + 18 + 'px');
+        frame.style.setProperty('--photo-width', Math.min(image.naturalWidth, 360) + 18 + 'px');
         // Adapt the decorative tarot plate to portrait, square and wide photos
         // without stretching or cropping the source image.
         const ratio = image.naturalWidth / image.naturalHeight;
