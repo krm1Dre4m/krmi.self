@@ -2110,12 +2110,13 @@ body.theme-ready .entry-closing::before{
    dimensions while the original pixels are never stretched or cropped. */
 .entry-body figure{margin:38px auto 54px;max-width:100%}
 .entry-body .journal-photo{
-  width:min(calc(100% - 50px),var(--photo-width,576px));
+  width:min(calc(100% - 50px),var(--photo-width,498px));
   position:relative;
   /* Room for the tilted tarot corners on narrow screens. */
 }
 .photo-frame{
   position:relative;isolation:isolate;
+  width:fit-content;max-width:100%;margin-inline:auto;
   /* Height comes only from the image mat, never the caption. */
 }
 /* Optional gentle 3D tilt: the photo and matching tarot backing move together.
@@ -2142,6 +2143,7 @@ body.theme-ready .entry-closing::before{
 
 .photo-mat{
   position:relative;z-index:1;
+  width:fit-content;max-width:100%;margin-inline:auto;
   padding:8px;
   background:var(--tarot-fill);
   border:1px solid var(--tarot-edge);
@@ -2151,7 +2153,7 @@ body.theme-ready .entry-closing::before{
     inset 0 0 0 5px var(--tarot-fill),
     inset 0 0 0 6px var(--tarot-rule);
 }
-.photo-mat img{display:block;width:100%;height:auto;border-radius:7px}
+.photo-mat img{display:block;width:auto;height:auto;max-width:100%;max-height:min(60vh,520px);margin-inline:auto;border-radius:7px}
 /* Exactly the same box as the front photo. Offsetting/rotating the entire
    plate preserves matching dimensions for any image aspect ratio. */
 .photo-frame::before{
@@ -2193,7 +2195,7 @@ body.theme-ready .entry-closing::before{
    matching each source photograph. They sit beneath the entire stack frame. */
 .photo-stack{
   position:relative;isolation:isolate;
-  width:min(100%,590px);padding:14px 14px 10px;
+  width:min(100%,520px);padding:14px 14px 10px;
   background:var(--active);border:1px solid var(--line);border-radius:14px;
 }
 .photo-stack::before,.photo-stack::after{
@@ -2210,7 +2212,7 @@ body.theme-ready .entry-closing::before{
 .photo-stack::before{right:17px;transform:rotate(-12deg)}
 .photo-stack::after{right:1px;bottom:-16px;transform:rotate(9deg)}
 
-.stack-stage{position:relative;width:100%;aspect-ratio:4/3;isolation:isolate;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.stack-stage{position:relative;width:min(100%,492px,82vh);margin-inline:auto;aspect-ratio:4/3;isolation:isolate;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
 .stack-stage.is-dragging{cursor:grabbing}
 .stack-card{position:absolute;inset:0;display:grid;place-items:center;z-index:calc(10 - var(--depth));padding:8px;border-radius:9px;background:var(--page);border:1px solid var(--line);box-shadow:0 5px 18px rgba(0,0,0,.17);transform:translateY(calc(var(--depth) * 5px)) translateX(calc(var(--depth) * 2px)) rotate(calc((var(--depth) - 1) * 1.5deg));transition:transform 180ms ease}
 .stack-card[data-depth="0"]{transform:rotate(-2deg);transition:transform 150ms ease}
@@ -2227,7 +2229,7 @@ body.theme-ready .entry-closing::before{
   .entry-body figure{margin-bottom:48px}
   .photo-stack{padding:10px 10px 8px}
   .photo-stack::before,.photo-stack::after{width:clamp(88px,28%,128px);bottom:-14px}
-  .stack-stage{aspect-ratio:3/4}
+  .stack-stage{width:min(100%,46vh);aspect-ratio:3/4}
   .stack-toolbar{padding-top:17px}
 }
 
