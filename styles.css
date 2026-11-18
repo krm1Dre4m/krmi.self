@@ -172,7 +172,8 @@ body.light-mode .sidebar{background:rgba(245,239,245,.38)}
 .sidebar-close:hover,.sidebar-close:focus-visible{color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
 .sidebar-close:hover span{transform:translate(-3px,-2px)}
 @media(prefers-reduced-motion:reduce){.sidebar-close span{transition:none!important}}
-details summary{cursor:pointer;list-style:none}
+details summary{cursor:pointer;list-style:none;-webkit-user-select:none;user-select:none}
+.post-links a,.gallery-toc-link{-webkit-user-select:none;user-select:none}
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:'›';display:inline-block;margin-right:9px;transition:transform .15s ease;font-size:17px;line-height:1}
 details[open]>summary::before{transform:rotate(90deg)}
