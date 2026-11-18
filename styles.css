@@ -179,16 +179,12 @@ details[open]>summary::before{transform:rotate(90deg)}
 /* JS animates the section height; keep children clipped during the motion. */
 .archive-animating>.months,.archive-animating>.post-links{overflow:hidden}
 .year>summary{padding:10px 12px;border-radius:8px;color:var(--text);font-size:15px}
-/* All TOC labels remain selectable, regardless of hierarchy or section. */
-.year>summary,.month>summary,.post-links a,.gallery-toc-link{
-  -webkit-user-select:text;
-  user-select:text;
-}
 /* Expanding a group does not mark it selected; only the current route does. */
 .year.is-current>summary{background:var(--active);color:var(--ink)}
 .months{padding:6px 0 8px 17px}
 .month>summary{color:var(--muted);font-size:14px;padding:8px 10px}
-.year>summary:hover,.month>summary:hover{color:var(--ink)}
+.year>summary:hover,.month>summary:hover{color:var(--ink);background:var(--active)}
+.gallery-toc-link:hover{color:var(--ink);background:var(--active)}
 .post-links{display:flex;flex-direction:column;gap:2px;padding:0 0 8px 23px}
 .post-links a{padding:5px 8px;text-decoration:none;font-size:13px;line-height:1.5;color:var(--muted);border-radius:6px;overflow-wrap:anywhere}
 .post-links a::before{content:'•';margin-right:7px;color:var(--muted)}
