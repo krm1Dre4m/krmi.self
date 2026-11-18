@@ -245,13 +245,6 @@
   root.addEventListener('click', event => {
     const summary = event.target.closest('summary');
     if (!summary || !root.contains(summary)) return;
-    // Dragging across a year, month, shelf, or genre heading should select
-    // its text instead of accidentally toggling the disclosure.
-    const selection = window.getSelection();
-    if (selection && !selection.isCollapsed) {
-      event.preventDefault();
-      return;
-    }
     const details = summary.parentElement;
     const content = details.classList.contains('year')
       ? details.querySelector(':scope > .months')
