@@ -13,7 +13,7 @@ window.collections = [
           { title: "LIVING DEAD", artist: "Natori", url: "https://youtu.be/Yir-3mlhchU?si=wrLFwQUO9t5WEFWl", note: "'Thinking too much about things like 'I want to live' or 'I don’t want to die' makes my head hurt—seriously, lol'" },
           { title: "Propose", artist: "Natori", url: "https://youtu.be/VDdLF1YubI0?si=hEYH2pN_Gsvuo2mw", note: "'Everything was beautiful, yet I hated them all.'" },
           { title: "Puppet", artist: "Natori", url: "https://youtu.be/jAaj1bOmWVQ?si=CYsCXicJn77WlWIj", note: "'Going in circles and leading nowhere, I'm a puppet.'"},
-          { title: "Copycat (Demo)", artist: "Natori", url: "https://youtu.be/8kiW8Ukd_ZY?si=I7vv0aVQGNStEUgP", note: "Words so cruel, they could wear even love away, Leaving scars upon the heart, Until all that's left is the shape of its sorrow."},
+          { title: "Copycat (Demo)", artist: "Natori", url: "https://youtu.be/8kiW8Ukd_ZY?si=I7vv0aVQGNStEUgP", note: "'Words so cruel, they could wear even love away, Leaving scars upon the heart, Until all that's left is the shape of its sorrow.'"},
         ]
       },
       {
