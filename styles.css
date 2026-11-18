@@ -179,11 +179,11 @@ details summary::before{content:'›';display:inline-block;margin-right:9px;tran
 details[open]>summary::before{transform:rotate(90deg)}
 /* JS animates the section height; keep children clipped during the motion. */
 .archive-animating>.months,.archive-animating>.post-links{overflow:hidden}
-.year>summary{padding:10px 12px;border-radius:8px;color:var(--text);font-size:15px}
+.year>summary{padding:10px 12px;border-radius:8px;color:var(--text);font-size:15px;-webkit-user-select:none;user-select:none}
 /* Expanding a group does not mark it selected; only the current route does. */
 .year.is-current>summary{background:var(--active);color:var(--ink)}
 .months{padding:6px 0 8px 17px}
-.month>summary{color:var(--muted);font-size:14px;padding:8px 10px}
+.month>summary{color:var(--muted);font-size:14px;padding:8px 10px;-webkit-user-select:none;user-select:none}
 .year>summary:hover,.month>summary:hover{color:var(--ink);background:var(--active)}
 .gallery-toc-link:hover{color:var(--ink);background:var(--active)}
 .post-links{display:flex;flex-direction:column;gap:2px;padding:0 0 8px 23px}
@@ -2325,7 +2325,7 @@ body.theme-ready .section-switch,body.theme-ready .section-link{transition:color
 .collection-parent:hover,.collection-parent[aria-current="page"]{background:var(--active);color:var(--accent)}
 /* Match Journal's year/month disclosure hierarchy in Collections. */
 /* Gallery sits at the same TOC depth as Listening Shelf, not its genre links. */
-.gallery-toc-link{display:block;margin:0 0 4px;padding:10px 12px;border-radius:8px;font-size:15px;color:var(--text);text-decoration:none}
+.gallery-toc-link{display:block;margin:0 0 4px;padding:10px 12px;border-radius:8px;font-size:15px;color:var(--text);text-decoration:none;-webkit-user-select:none;user-select:none}
 .gallery-toc-link::before{content:'✦';display:inline-block;margin-right:10px;font-size:11px;line-height:1;color:var(--accent);opacity:.8;vertical-align:middle}
 .gallery-toc-link:hover{color:var(--ink)}
 .gallery-toc-link[aria-current="page"]{background:var(--active);color:var(--ink)}
@@ -2333,7 +2333,7 @@ body.theme-ready .section-switch,body.theme-ready .section-link{transition:color
 .collection-year{margin:0 0 4px}
 .collection-year>.months{padding-top:4px}
 .collection-links{padding:2px 0 7px 0}
-.collection-links a{font-size:13px}
+.collection-links a{font-size:13px;-webkit-user-select:none;user-select:none}
 .genre-list{display:flex;flex-direction:column;margin-top:28px;border-top:1px solid var(--line)}
 .genre-card{display:flex;align-items:center;gap:15px;padding:19px 8px;text-decoration:none;border-bottom:1px solid var(--line);color:var(--muted)}
 .genre-card:hover{color:var(--accent);background:var(--active)}
