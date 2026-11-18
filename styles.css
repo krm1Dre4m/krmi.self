@@ -29,7 +29,7 @@ body.light-mode {
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--page);color:var(--ink);font:15px/1.65 var(--font)}
-button,a{font:inherit} button{cursor:pointer} a{color:inherit}
+button,a{font:inherit} button{cursor:pointer;-webkit-user-select:none;user-select:none} button *{-webkit-user-select:none;user-select:none} a{color:inherit}
 
 /* Faint atmospheric sky chart. One SVG; no timers or particle engine. */
 body{background-image:radial-gradient(ellipse at 81% 14%,rgba(111,77,130,.065),transparent 58%);}
